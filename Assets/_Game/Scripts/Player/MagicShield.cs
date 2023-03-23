@@ -53,7 +53,11 @@ public class MagicShield : MonoBehaviour{
                 reflect = true;
                 break;
             case ProjectileType.Slash:
-                if (!projectile.enteredMagicShield && pressedOnTime){ reflect = true; }
+                if (!projectile.enteredMagicShield && pressedOnTime){
+                    reflect = true;
+                    var playerMovement = Player.Instance.GetComponent<PlayerMovement>();
+                    playerMovement.ForceDash(Vector2.up);
+                }
                 projectile.enteredMagicShield = true;
                 break;
             default:

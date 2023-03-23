@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     [SerializeField] private MagicShield magicShield;
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
-
+    [SerializeField] private Transform mapContent;
+    [SerializeField] private Vector2 minMaxMapZoom;
     private readonly Collider2D[] contacts = new Collider2D[3];
     private bool checkGround;
     private Coroutine dashCoroutine;
@@ -24,9 +25,12 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     private GameInput gameInput;
     private bool isDashing;
     private bool jumpInput;
+
+    private int mapZoom;
     private Vector2 moveInput;
     private Transform myTransform;
     private new Rigidbody2D rigidbody2D;
+    private Coroutine zoomCoroutine;
     public static float LookAngle{ get; private set; }
 
     // UNITY METHODS
@@ -85,7 +89,7 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
 
     public void OnLook(InputAction.CallbackContext context){
         Vector3 myPosition = transform.position;
-        Vector3 targetDirection = context.ReadValue<Vector2>();;
+        Vector3 targetDirection = context.ReadValue<Vector2>();
         targetDirection.z = Mathf.Abs(gameCamera.transform.position.z - myPosition.z);
         targetDirection = gameCamera.ScreenToWorldPoint(targetDirection);
         LookAngle = Vector2.SignedAngle(Vector2.right, targetDirection - myPosition);
@@ -105,7 +109,9 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnDash(InputAction.CallbackContext context){
-        dashInput = !isDashing && context.performed;
+        if (isDashing || !context.performed){ return; }
+        dashInput = true;
+        dashDirection = moveInput;
     }
 
     public void OnSetColor1(InputAction.CallbackContext context){
@@ -120,14 +126,25 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
         magicShield.ChangeShieldColor(2);
     }
 
+    public void OnZoomOut(InputAction.CallbackContext context){
+        // Vector2 zoomPosition  = 
+        if (zoomCoroutine != null){ }
+        // zoomCoroutine = new
+    }
+
+    public void OnZoomIn(InputAction.CallbackContext context){
+        if (zoomCoroutine != null){ return; }
+        if (mapZoom > minMaxMapZoom.x && mapZoom < minMaxMapZoom.y){ }
+        zoomCoroutine = StartCoroutine(ZoomCoroutine(true));
+    }
+
     // CUSTOM METHODS
 
     private IEnumerator DashCoroutine(){
         isDashing = true;
         Vector2 dashStartPosition = myTransform.position;
-        dashDirection = moveInput;
-        if (dashDirection.sqrMagnitude == 0 ||
-            (checkGround && Vector2.Angle(moveInput, Vector2.down) < 180f - dashCancelCollisionAngleThreshold)){
+        if (dashDirection.sqrMagnitude == 0){ dashDirection.x = spriteRenderer.flipX ? -1 : 1; }
+        if (checkGround && Vector2.Angle(dashDirection, Vector2.down) < 180f - dashCancelCollisionAngleThreshold){
             dashDirection.x = spriteRenderer.flipX ? -1 : 1;
         }
         while (Vector2.Distance(dashStartPosition, myTransform.position) < dashDistance){
@@ -137,6 +154,10 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
         isDashing = false;
     }
 
+    public IEnumerator ZoomCoroutine(bool inOrOut){
+        if (inOrOut){ yield return null; }
+    }
+
     private bool CheckGround(){
         return rigidbody2D.GetContacts(groundContactFilter, contacts) > 0;
     }
@@ -144,5 +165,11 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     private void CancelDash(){
         if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
         isDashing = false;
+    }
+
+    public void ForceDash(Vector2 direction){
+        CancelDash();
+        dashDirection = direction;
+        dashInput = true;
     }
 }

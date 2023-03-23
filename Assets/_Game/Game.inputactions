@@ -76,6 +76,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Zoom Out",
+                    "type": "Value",
+                    "id": "28e4edbb-3143-40ed-ba46-e8d806a90404",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Zoom In",
+                    "type": "Value",
+                    "id": "1b324a5e-4ed7-447f-a274-b7beccc82e5f",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -345,12 +363,34 @@
                 },
                 {
                     "name": "",
+                    "id": "02065222-214d-4b64-9613-527d6bd34839",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Zoom Out",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c8dc4184-4cc2-4496-8314-96b390f3ae7f",
                     "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "SetColor3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6b0667d-d354-406f-b6f2-9f3e00ab5d11",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Zoom In",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

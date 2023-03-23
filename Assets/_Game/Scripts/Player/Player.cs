@@ -19,7 +19,7 @@ public class Player : MonoBehaviour{
     }
 
     public void ChangeHp(float value){
-        Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
-        PlayerHUD.Instance.UpdateHpBar();
+        // Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
+        // PlayerHUD.Instance.UpdateHpBar();
     }
 }

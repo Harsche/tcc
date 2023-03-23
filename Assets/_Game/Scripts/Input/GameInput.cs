@@ -98,6 +98,24 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom Out"",
+                    ""type"": ""Value"",
+                    ""id"": ""28e4edbb-3143-40ed-ba46-e8d806a90404"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Zoom In"",
+                    ""type"": ""Value"",
+                    ""id"": ""1b324a5e-4ed7-447f-a274-b7beccc82e5f"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -367,12 +385,34 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""02065222-214d-4b64-9613-527d6bd34839"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Zoom Out"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c8dc4184-4cc2-4496-8314-96b390f3ae7f"",
                     ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""SetColor3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6b0667d-d354-406f-b6f2-9f3e00ab5d11"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Zoom In"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -968,6 +1008,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_SetColor1 = m_Player.FindAction("SetColor1", throwIfNotFound: true);
         m_Player_SetColor2 = m_Player.FindAction("SetColor2", throwIfNotFound: true);
         m_Player_SetColor3 = m_Player.FindAction("SetColor3", throwIfNotFound: true);
+        m_Player_ZoomOut = m_Player.FindAction("Zoom Out", throwIfNotFound: true);
+        m_Player_ZoomIn = m_Player.FindAction("Zoom In", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1049,6 +1091,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SetColor1;
     private readonly InputAction m_Player_SetColor2;
     private readonly InputAction m_Player_SetColor3;
+    private readonly InputAction m_Player_ZoomOut;
+    private readonly InputAction m_Player_ZoomIn;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -1061,6 +1105,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @SetColor1 => m_Wrapper.m_Player_SetColor1;
         public InputAction @SetColor2 => m_Wrapper.m_Player_SetColor2;
         public InputAction @SetColor3 => m_Wrapper.m_Player_SetColor3;
+        public InputAction @ZoomOut => m_Wrapper.m_Player_ZoomOut;
+        public InputAction @ZoomIn => m_Wrapper.m_Player_ZoomIn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1094,6 +1140,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @SetColor3.started += instance.OnSetColor3;
             @SetColor3.performed += instance.OnSetColor3;
             @SetColor3.canceled += instance.OnSetColor3;
+            @ZoomOut.started += instance.OnZoomOut;
+            @ZoomOut.performed += instance.OnZoomOut;
+            @ZoomOut.canceled += instance.OnZoomOut;
+            @ZoomIn.started += instance.OnZoomIn;
+            @ZoomIn.performed += instance.OnZoomIn;
+            @ZoomIn.canceled += instance.OnZoomIn;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1122,6 +1174,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @SetColor3.started -= instance.OnSetColor3;
             @SetColor3.performed -= instance.OnSetColor3;
             @SetColor3.canceled -= instance.OnSetColor3;
+            @ZoomOut.started -= instance.OnZoomOut;
+            @ZoomOut.performed -= instance.OnZoomOut;
+            @ZoomOut.canceled -= instance.OnZoomOut;
+            @ZoomIn.started -= instance.OnZoomIn;
+            @ZoomIn.performed -= instance.OnZoomIn;
+            @ZoomIn.canceled -= instance.OnZoomIn;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1312,6 +1370,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnSetColor1(InputAction.CallbackContext context);
         void OnSetColor2(InputAction.CallbackContext context);
         void OnSetColor3(InputAction.CallbackContext context);
+        void OnZoomOut(InputAction.CallbackContext context);
+        void OnZoomIn(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

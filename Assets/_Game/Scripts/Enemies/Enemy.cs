@@ -30,7 +30,10 @@ public class Enemy : MonoBehaviour{
             Vector2 playerPosition = Player.Instance.transform.position;
             bool withinRange = Vector2.Distance(playerPosition, transform.position) <= attackDistance;
             if (withinRange){ attackCoroutine ??= StartCoroutine(AttackCoroutine()); }
-            else if (attackCoroutine != null){ StopCoroutine(attackCoroutine); }
+            else if (attackCoroutine != null){
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
+            }
         }
     }
 

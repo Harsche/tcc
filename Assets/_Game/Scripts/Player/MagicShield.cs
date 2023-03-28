@@ -6,6 +6,7 @@ public class MagicShield : MonoBehaviour{
     private static readonly int ShieldColor1 = Shader.PropertyToID("_ShieldColor");
 
     [SerializeField] private float redirectTime = 0.1f;
+    [SerializeField] private float redirectImpulseAngle = 45f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Light2D light2D;
     [SerializeField] private ShieldColor[] shieldColors;
@@ -38,12 +39,14 @@ public class MagicShield : MonoBehaviour{
 
     private void ReflectProjectile(Projectile projectile){
         bool pressedOnTime = Time.time - shieldActivateTime <= redirectTime;
+        Vector2 projectileDirection = default;
         if (pressedOnTime){
             Vector3 myPosition = transform.position;
-            Vector2 projectileDirection = projectile.transform.position - myPosition;
+            projectileDirection = projectile.transform.position - myPosition;
             Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerMovement.LookAngle) * Vector3.right;
             float angle = Vector2.SignedAngle(projectileDirection, lookAngle);
             projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
+            projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerMovement.LookAngle);
         }
 
         bool reflect = false;
@@ -51,12 +54,15 @@ public class MagicShield : MonoBehaviour{
         switch (projectile.ProjectileType){
             case ProjectileType.Circle:
                 reflect = true;
+                if(!pressedOnTime) projectile.transform.Rotate(Vector3.forward, 180f);
                 break;
             case ProjectileType.Slash:
                 if (!projectile.enteredMagicShield && pressedOnTime){
                     reflect = true;
-                    var playerMovement = Player.Instance.GetComponent<PlayerMovement>();
-                    playerMovement.ForceDash(Vector2.up);
+                    if (Vector2.Angle(Vector2.down, projectileDirection) <= redirectImpulseAngle){
+                        var playerMovement = Player.Instance.GetComponent<PlayerMovement>();
+                        playerMovement.ForceDash(Vector2.up);
+                    }
                 }
                 projectile.enteredMagicShield = true;
                 break;
@@ -65,7 +71,6 @@ public class MagicShield : MonoBehaviour{
         }
 
         if (!reflect){ return; }
-        projectile.transform.Rotate(Vector3.forward, 180f);
         projectile.reflected = true;
     }
 

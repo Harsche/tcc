@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="Title" style="background-color: rgb(0, 255, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 95%; height: 40px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; transform-origin: center; margin-left: 0; margin-right: 0; margin-top: 7px; margin-bottom: 0; left: 2.5%; align-items: stretch; -unity-font: initial; -unity-font-style: bold-and-italic; justify-content: center; overflow: hidden;">
+        <ui:Label text="PLAYER MOVEMENT" display-tooltip-when-elided="true" name="ScriptTitle" style="color: rgb(46, 46, 46); font-size: 26px; -unity-text-align: middle-center;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Parameters" style="margin-top: 11px; display: flex;">
+        <uie:FloatField label="Velocidade" value="5" name="Speed" binding-path="speed" tooltip="A velocidade em que o jogador se move em unidades/segundo." />
+        <uie:FloatField label="Força do Pulo" value="12" name="JumpForce" binding-path="jumpForce" tooltip="Força que é aplicada ao Player ao pular." />
+        <uie:FloatField label="Distância do Dash" value="4" name="DashDistance" binding-path="dashDistance" tooltip="Distância que o Player percorre até terminar o dash." />
+        <uie:FloatField label="Velocidade do Dash" value="15" name="DashSpeed" binding-path="dashSpeed" tooltip="Velocidade em que o Player se move até terminar o dash." />
+        <uie:FloatField label="Ângulo de Cancelamento do Dash" value="30" name="DashCancelCollisionAngleThreshold" binding-path="dashCancelCollisionAngleThreshold" tooltip="Ângulo máximo de uma colisão que pode cancelar o dash." />
+        <uie:IntegerField label="Pulos Máximos" value="2" name="MaxJumps" tooltip="Máximo de pulos que o Player consegue dar até resetar os pulos." binding-path="maxJumps" />
+        <uie:PropertyField binding-path="groundContactFilter" name="GroundContactFilter" label="Filtro de Contato de Chão" tooltip="Define o que é considerado uma colisão com o chão e o que não é." />
+    </ui:VisualElement>
+    <ui:Foldout text="References" name="References" value="false" style="margin-top: 9px; display: flex;">
+        <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" />
+        <uie:ObjectField label="Magic Shield" binding-path="magicShield" name="MagicShield" />
+        <uie:ObjectField label="Game Camera" binding-path="gameCamera" name="GameCamera" />
+    </ui:Foldout>
+</ui:UXML>

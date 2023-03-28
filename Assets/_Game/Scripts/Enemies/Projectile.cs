@@ -7,14 +7,18 @@ public class Projectile : MonoBehaviour{
     [SerializeField] private float speed = 3f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private bool random;
+    [SerializeField] private bool fixedDirection;
+    [SerializeField] private Vector2 direction;
     public bool enteredMagicShield;
     public bool reflected;
     [field: SerializeField] public ProjectileType ProjectileType{ get; private set; }
     [field: SerializeField] public MagicType MagicType{ get; private set; }
 
     private void Awake(){
-        Vector2 direction = Player.Instance.transform.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Vector2 targetDirection;
+        if (fixedDirection){ targetDirection = direction; }
+        else{ targetDirection = Player.Instance.transform.position - transform.position; }
+        float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         if (random){

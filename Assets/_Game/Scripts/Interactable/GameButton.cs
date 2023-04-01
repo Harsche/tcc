@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Button : MonoBehaviour{
+public class GameButton : MonoBehaviour{
     [SerializeField] private bool requireColor;
     [SerializeField] private MagicType magicType;
     [SerializeField] private UnityEvent onPress;

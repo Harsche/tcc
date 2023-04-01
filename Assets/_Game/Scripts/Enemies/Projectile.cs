@@ -44,7 +44,7 @@ public class Projectile : MonoBehaviour{
                 Destroy(gameObject);
                 return;
             case true when col.CompareTag("Button"):
-                col.GetComponent<Button>().Interact(MagicType);
+                col.GetComponent<GameButton>().Interact(MagicType);
                 Destroy(gameObject);
                 break;
         }

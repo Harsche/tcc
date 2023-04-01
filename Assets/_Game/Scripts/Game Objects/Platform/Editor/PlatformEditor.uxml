@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="Title" style="background-color: rgb(0, 255, 255); -unity-background-image-tint-color: rgb(255, 255, 255); width: 95%; height: 40px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; transform-origin: center; margin-left: 0; margin-right: 0; margin-top: 7px; margin-bottom: 0; left: 2.5%; align-items: stretch; -unity-font: initial; -unity-font-style: bold-and-italic; justify-content: center; overflow: hidden;">
+        <ui:Label text="PLATFORM" display-tooltip-when-elided="true" name="ScriptTitle" style="color: rgb(46, 46, 46); font-size: 26px; -unity-text-align: middle-center;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Parameters" style="margin-top: 10px;">
+        <ui:Toggle label="Mover" name="Move" tooltip="A plataforma pode se mover?" binding-path="move" />
+        <ui:Slider picking-mode="Ignore" label="Velocidade Máxima" value="5" high-value="10" name="Max_Speed" tooltip="Velocidade máxima da plataforma." binding-path="maxSpeed" show-input-field="true" />
+        <uie:EnumField label="Suavização" value="Linear" tooltip="Suavização do movimento." name="Ease" binding-path="ease" type="DG.Tweening.Ease, DoTween" />
+        <uie:EnumField label="Tipo de Movimento" value="Linear" type="PlatformType, Assembly-CSharp" name="Platform_Type" binding-path="platformType" />
+        <uie:PropertyField name="Contact_Filter" binding-path="playerContactFilter" label="Filtro de Contato do Player" />
+        <ui:VisualElement name="Toolbar" style="flex-direction: row; margin-top: 11px; background-color: rgba(0, 128, 128, 0.37); opacity: 1; padding-top: 5px; overflow: hidden;">
+            <ui:Toggle label="Editar" name="Edit" binding-path="showHandles" style="position: relative; -unity-font-style: bold;" />
+            <ui:Button text="Add" display-tooltip-when-elided="true" focusable="false" name="Add_Button" />
+            <ui:Button text="Remove" display-tooltip-when-elided="true" focusable="false" name="Remove_Button" />
+            <ui:Button text="Invert" display-tooltip-when-elided="true" focusable="false" name="Invert_Button" />
+        </ui:VisualElement>
+        <ui:ListView focusable="true" binding-path="waypoints" header-title="Waypoints" show-foldout-header="true" name="Waypoints" show-bound-collection-size="false" reorderable="true" reorder-mode="Animated" show-border="false" style="background-color: rgba(0, 128, 128, 0.37);" />
+    </ui:VisualElement>
+</ui:UXML>

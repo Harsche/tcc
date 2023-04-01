@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="Title" style="background-color: rgb(0, 255, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 95%; height: 40px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; transform-origin: center; margin-left: 0; margin-right: 0; margin-top: 7px; margin-bottom: 0; left: 2.5%; align-items: stretch; -unity-font: initial; -unity-font-style: bold-and-italic; justify-content: center; overflow: hidden;">
+        <ui:Label text="PLAYER MOVEMENT" display-tooltip-when-elided="true" name="ScriptTitle" style="color: rgb(46, 46, 46); font-size: 26px; -unity-text-align: middle-center;" />
+    </ui:VisualElement>
+</ui:UXML>

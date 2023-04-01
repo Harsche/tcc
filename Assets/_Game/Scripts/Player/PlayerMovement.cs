@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private Transform mapContent;
     [SerializeField] private Vector2 minMaxMapZoom;
+
     private readonly Collider2D[] contacts = new Collider2D[3];
     private bool checkGround;
     private Coroutine dashCoroutine;
@@ -25,12 +26,17 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     private GameInput gameInput;
     private bool isDashing;
     private bool jumpInput;
+    public bool onPlatform;
 
     private int mapZoom;
     private Vector2 moveInput;
     private Transform myTransform;
-    private new Rigidbody2D rigidbody2D;
+    private Transform platform;
+    private Vector3 platformLastPosition;
     private Coroutine zoomCoroutine;
+    public new Rigidbody2D rigidbody2D{ get; private set; }
+
+
     public static float LookAngle{ get; private set; }
 
     // UNITY METHODS
@@ -42,6 +48,7 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
 
     private void FixedUpdate(){
         checkGround = CheckGround();
+        CheckPlatform();
 
         if (dashInput){
             dashCoroutine = StartCoroutine(DashCoroutine());
@@ -105,7 +112,7 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnJump(InputAction.CallbackContext context){
-        jumpInput = context.performed && checkGround;
+        jumpInput = context.performed && (checkGround || onPlatform);
     }
 
     public void OnDash(InputAction.CallbackContext context){
@@ -161,6 +168,17 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     private bool CheckGround(){
         return rigidbody2D.GetContacts(groundContactFilter, contacts) > 0;
     }
+
+    private void CheckPlatform(){
+        if (!checkGround || !contacts[0].CompareTag("Platform")){
+            platform = null;
+            return;
+        }
+        if (platform != null){ return; }
+        platform = contacts[0].transform;
+        platformLastPosition = platform.position;
+    }
+
 
     private void CancelDash(){
         if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }

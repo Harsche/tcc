@@ -1,7 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement name="Title" style="background-color: rgb(0, 255, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 95%; height: 40px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; transform-origin: center; margin-left: 0; margin-right: 0; margin-top: 7px; margin-bottom: 0; left: 2.5%; align-items: stretch; -unity-font: initial; -unity-font-style: bold-and-italic; justify-content: center; overflow: hidden;">
-        <ui:Label text="PLAYER MOVEMENT" display-tooltip-when-elided="true" name="ScriptTitle" style="color: rgb(46, 46, 46); font-size: 26px; -unity-text-align: middle-center;" />
-    </ui:VisualElement>
+    <ui:Template name="Title" src="project://database/Assets/_Game/Others/Editor/Title.uxml?fileID=9197481963319205126&amp;guid=b33ceb601770920429f001d490404215&amp;type=3#Title" />
+    <ui:Instance template="Title" name="Title" />
     <ui:VisualElement name="Parameters" style="margin-top: 11px; display: flex;">
         <uie:FloatField label="Velocidade" value="5" name="Speed" binding-path="speed" tooltip="A velocidade em que o jogador se move em unidades/segundo." />
         <uie:FloatField label="Força do Pulo" value="12" name="JumpForce" binding-path="jumpForce" tooltip="Força que é aplicada ao Player ao pular." />
@@ -14,6 +13,6 @@
     <ui:Foldout text="References" name="References" value="false" style="margin-top: 9px; display: flex;">
         <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" />
         <uie:ObjectField label="Magic Shield" binding-path="magicShield" name="MagicShield" />
-        <uie:ObjectField label="Game Camera" binding-path="gameCamera" name="GameCamera" />
+        <uie:ObjectField label="Game Camera" binding-path="gameCamera" name="GameCamera" type="UnityEngine.Camera, UnityEngine.CoreModule" />
     </ui:Foldout>
 </ui:UXML>

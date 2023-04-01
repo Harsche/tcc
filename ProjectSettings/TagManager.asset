@@ -8,11 +8,12 @@ TagManager:
   - Projectile
   - Enemy
   - Button
+  - Platform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground

@@ -2,12 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour,  GameInput.IPlayerActions{
+public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     private GameInput gameInput;
+    public static event Action<bool> OnFireInput;
+    public static event Action OnJumpInput;
+    public static event Action OnDashInput;
+    public static event Action<int> OnChangeShieldColor;
 
-    public static Vector2 MoveDirection{ get; private set; }
-    public static bool DashInput{ get; private set; }
-    
+    public static Vector2 MoveInput{ get; private set; }
+    public static float LookAngle{ get; private set; }
+
     private void OnEnable(){
         if (gameInput == null){
             gameInput = new GameInput();
@@ -22,42 +26,50 @@ public class PlayerInput : MonoBehaviour,  GameInput.IPlayerActions{
 
 
     public void OnMove(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        MoveInput = context.ReadValue<Vector2>().normalized;
     }
 
     public void OnLook(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        Vector3 myPosition = transform.position;
+        Vector3 targetDirection = context.ReadValue<Vector2>();
+        Camera gameCamera = Player.Instance.playerCamera;
+        targetDirection.z = Mathf.Abs(gameCamera.transform.position.z - myPosition.z);
+        targetDirection = gameCamera.ScreenToWorldPoint(targetDirection);
+        LookAngle = Vector2.SignedAngle(Vector2.right, targetDirection - myPosition);
     }
 
     public void OnFire(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        if (context.action.WasPressedThisFrame()){ OnFireInput?.Invoke(true); }
+        else if (context.action.WasReleasedThisFrame()){ OnFireInput?.Invoke(false); }
     }
 
     public void OnJump(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        if (context.performed){ OnJumpInput?.Invoke(); }
     }
 
     public void OnDash(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        if (context.performed){ OnDashInput?.Invoke(); }
     }
 
     public void OnSetColor1(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        if(context.performed) {OnChangeShieldColor?.Invoke(0);}
     }
 
     public void OnSetColor2(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        if(context.performed) {OnChangeShieldColor?.Invoke(1);}
     }
 
     public void OnSetColor3(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        if(context.performed) {OnChangeShieldColor?.Invoke(2);}
     }
 
     public void OnZoomOut(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        // Vector2 zoomPosition  = 
+        // if (zoomCoroutine != null){ }
+        // zoomCoroutine = new
     }
 
     public void OnZoomIn(InputAction.CallbackContext context){
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 }

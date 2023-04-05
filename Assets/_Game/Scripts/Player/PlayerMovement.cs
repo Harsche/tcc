@@ -2,70 +2,101 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
+public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 3f;
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashCancelCollisionAngleThreshold = 30f;
     [SerializeField] private int maxJumps = 2;
+    [SerializeField] private float wallFallSpeed = -2f;
+    [SerializeField] private float wallJumpTime = 1f;
+    [SerializeField] private float wallJumpAngle = 30f;
+    [SerializeField] private float wallJumpForce = 5f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private MagicShield magicShield;
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
-    [SerializeField] private Transform mapContent;
-    [SerializeField] private Vector2 minMaxMapZoom;
-
-    private readonly Collider2D[] contacts = new Collider2D[3];
-    private bool checkGround;
-    private bool checkWall;
-    private Coroutine dashCoroutine;
-    private Vector2 dashDirection;
-    private bool dashInput;
-    private bool isDashing;
-    private bool jumpInput;
+    [SerializeField] private ContactFilter2D wallContactFilter;
     public bool onPlatform;
-
-    private int mapZoom;
-    private Vector2 moveInput;
-    private Transform myTransform;
-    private Transform platform;
-    private Vector3 platformLastPosition;
-    private Coroutine zoomCoroutine;
     public new Rigidbody2D rigidbody2D;
 
-
-    public static float LookAngle{ get; private set; }
-
-    // UNITY METHODS
+    private readonly Collider2D[] contacts = new Collider2D[3];
+    private readonly Collider2D[] wallContacts = new Collider2D[1];
+    private bool checkGround;
+    private WallCheck checkWall;
+    private Coroutine dashCoroutine;
+    private Vector2 dashDirection;
+    private bool executeDash;
+    private bool executeJump;
+    private float gravityScale;
+    private bool isDashing;
+    private bool isWallJumping;
+    private Transform myTransform;
 
     private void Awake(){
         myTransform = transform;
         rigidbody2D = GetComponent<Rigidbody2D>();
+        gravityScale = rigidbody2D.gravityScale;
     }
 
     private void FixedUpdate(){
         checkGround = CheckGround();
-        CheckPlatform();
+        checkWall = CheckWall();
 
-        if (dashInput){
+        if (executeDash){
             dashCoroutine = StartCoroutine(DashCoroutine());
-            dashInput = false;
+            executeDash = false;
         }
 
         if (isDashing){ return; }
 
-        if (jumpInput){
-            rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpInput = false;
+        if (executeJump){
+            Vector3 jumpDirection = Vector2.up;
+            float rotateJumpDirection = 0;
+            switch (checkWall){
+                case WallCheck.None:
+                    break;
+                case WallCheck.Left:
+                    OnWallJump();
+                    rotateJumpDirection = wallJumpAngle;
+                    break;
+                case WallCheck.Right:
+                    OnWallJump();
+                    rotateJumpDirection = -wallJumpAngle;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            float jumpFinalForce = checkWall != WallCheck.None ? wallJumpForce : jumpForce;
+            jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
+            rigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
+            executeJump = false;
+            return;
         }
 
-        Vector2 velocity = rigidbody2D.velocity;
-        velocity.x = moveInput.x * speed;
-        if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
-        rigidbody2D.velocity = velocity;
+        if (checkWall == WallCheck.None && !isWallJumping){
+            Vector2 velocity = rigidbody2D.velocity;
+            velocity.x = PlayerInput.MoveInput.x * speed;
+            if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
+            rigidbody2D.velocity = velocity;
+            return;
+        }
+
+        if (!checkGround && checkWall != WallCheck.None){
+            rigidbody2D.gravityScale = 0;
+            Vector2 velocity = rigidbody2D.velocity;
+            velocity.x = 0;
+            velocity.y = wallFallSpeed;
+            rigidbody2D.velocity = velocity;
+        }
+    }
+
+    private void OnEnable(){
+        // Subscribe to input events
+        PlayerInput.OnJumpInput += OnJump;
+        PlayerInput.OnDashInput += OnDash;
     }
 
     private void OnCollisionEnter2D(Collision2D col){
@@ -75,65 +106,6 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
             CancelDash();
         }
     }
-
-    // INPUT METHODS
-
-    public void OnMove(InputAction.CallbackContext context){
-        moveInput = context.ReadValue<Vector2>().normalized;
-    }
-
-    public void OnLook(InputAction.CallbackContext context){
-        Vector3 myPosition = transform.position;
-        Vector3 targetDirection = context.ReadValue<Vector2>();
-        targetDirection.z = Mathf.Abs(gameCamera.transform.position.z - myPosition.z);
-        targetDirection = gameCamera.ScreenToWorldPoint(targetDirection);
-        LookAngle = Vector2.SignedAngle(Vector2.right, targetDirection - myPosition);
-        magicShield.RotateShield(LookAngle);
-    }
-
-    public void OnFire(InputAction.CallbackContext context){
-        if (context.action.WasPressedThisFrame()){
-            magicShield.ToggleShield(true);
-            return;
-        }
-        if (context.action.WasReleasedThisFrame()){ magicShield.ToggleShield(false); }
-    }
-
-    public void OnJump(InputAction.CallbackContext context){
-        jumpInput = context.performed && (checkGround || onPlatform);
-    }
-
-    public void OnDash(InputAction.CallbackContext context){
-        if (isDashing || !context.performed){ return; }
-        dashInput = true;
-        dashDirection = moveInput;
-    }
-
-    public void OnSetColor1(InputAction.CallbackContext context){
-        magicShield.ChangeShieldColor(0);
-    }
-
-    public void OnSetColor2(InputAction.CallbackContext context){
-        magicShield.ChangeShieldColor(1);
-    }
-
-    public void OnSetColor3(InputAction.CallbackContext context){
-        magicShield.ChangeShieldColor(2);
-    }
-
-    public void OnZoomOut(InputAction.CallbackContext context){
-        // Vector2 zoomPosition  = 
-        if (zoomCoroutine != null){ }
-        // zoomCoroutine = new
-    }
-
-    public void OnZoomIn(InputAction.CallbackContext context){
-        if (zoomCoroutine != null){ return; }
-        if (mapZoom > minMaxMapZoom.x && mapZoom < minMaxMapZoom.y){ }
-        zoomCoroutine = StartCoroutine(ZoomCoroutine(true));
-    }
-
-    // CUSTOM METHODS
 
     private IEnumerator DashCoroutine(){
         isDashing = true;
@@ -149,22 +121,45 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
         isDashing = false;
     }
 
-    public IEnumerator ZoomCoroutine(bool inOrOut){
-        if (inOrOut){ yield return null; }
+    private void OnJump(){
+        if (!checkGround && !onPlatform && checkWall == WallCheck.None){ return; }
+        executeJump = true;
+    }
+
+    private void OnWallJump(){
+        rigidbody2D.gravityScale = gravityScale;
+        StartCoroutine(WallJumpCoroutine());
+    }
+
+    public void OnDash(){
+        if (isDashing){ return; }
+        executeDash = true;
+        dashDirection = PlayerInput.MoveInput;
     }
 
     private bool CheckGround(){
         return rigidbody2D.GetContacts(groundContactFilter, contacts) > 0;
     }
 
-    private void CheckPlatform(){
-        if (!checkGround || !contacts[0].CompareTag("Platform")){
-            platform = null;
-            return;
+    private WallCheck CheckWall(){
+        if (isWallJumping){ return WallCheck.None; }
+        if (PlayerInput.MoveInput.x < 0 && rigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
+            return WallCheck.Left;
         }
-        if (platform != null){ return; }
-        platform = contacts[0].transform;
-        platformLastPosition = platform.position;
+        ContactFilter2D leftSideFilter = wallContactFilter;
+        leftSideFilter.minNormalAngle = 180f + wallContactFilter.minNormalAngle;
+        leftSideFilter.maxNormalAngle = 180f + wallContactFilter.maxNormalAngle;
+        if (PlayerInput.MoveInput.x > 0 && rigidbody2D.GetContacts(leftSideFilter, wallContacts) > 0){
+            return WallCheck.Right;
+        }
+        rigidbody2D.gravityScale = gravityScale;
+        return WallCheck.None;
+    }
+
+    private IEnumerator WallJumpCoroutine(){
+        isWallJumping = true;
+        yield return new WaitForSeconds(wallJumpTime);
+        isWallJumping = false;
     }
 
 
@@ -176,6 +171,6 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     public void ForceDash(Vector2 direction){
         CancelDash();
         dashDirection = direction;
-        dashInput = true;
+        executeDash = true;
     }
 }

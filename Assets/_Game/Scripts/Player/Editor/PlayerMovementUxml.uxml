@@ -8,7 +8,12 @@
         <uie:FloatField label="Velocidade do Dash" value="15" name="DashSpeed" binding-path="dashSpeed" tooltip="Velocidade em que o Player se move até terminar o dash." />
         <uie:FloatField label="Ângulo de Cancelamento do Dash" value="30" name="DashCancelCollisionAngleThreshold" binding-path="dashCancelCollisionAngleThreshold" tooltip="Ângulo máximo de uma colisão que pode cancelar o dash." />
         <uie:IntegerField label="Pulos Máximos" value="2" name="MaxJumps" tooltip="Máximo de pulos que o Player consegue dar até resetar os pulos." binding-path="maxJumps" />
+        <uie:FloatField label="Força do Wall Jump" value="5" name="WallJumpForce" binding-path="wallJumpForce" tooltip="Força do pulo na parede." />
+        <uie:FloatField label="Velocidade de Queda na Parede" value="-2" name="WallFallSpeed" binding-path="wallFallSpeed" tooltip="Velocidade que o Player cai enquanto está agarrado a uma parede." />
+        <uie:FloatField label="Tempo de Wall Jump" value="0.5" name="WallJumpTime" binding-path="wallJumpTime" tooltip="Tempo que o Player leva para retomar o controle após pular da parede." />
+        <uie:FloatField label="Ângulo do Wall Jump" value="30" name="WallJumpAngle" binding-path="wallJumpAngle" tooltip="Ângulo do wall jump em relação à parede." />
         <uie:PropertyField binding-path="groundContactFilter" name="GroundContactFilter" label="Filtro de Contato de Chão" tooltip="Define o que é considerado uma colisão com o chão e o que não é." />
+        <uie:PropertyField binding-path="wallContactFilter" name="WallContactFilter" label="Filtro de Contato de Parede" tooltip="Define o que é considerado uma colisão com paredes e o que não é." />
     </ui:VisualElement>
     <ui:Foldout text="References" name="References" value="false" style="margin-top: 9px; display: flex;">
         <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" />

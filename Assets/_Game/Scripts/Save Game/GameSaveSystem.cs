@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using SG = BayatGames.SaveGameFree;
 
-public class SaveGame : MonoBehaviour{
+public class GameSaveSystem : MonoBehaviour{
     private static SaveData GameData = new();
 
     [SerializeField] private float rotateSpeed = 5f;
@@ -36,8 +36,11 @@ public class SaveGame : MonoBehaviour{
     }
 
     private void LoadFromFile(){
-        
         if (SG.SaveGame.Exists("data")){ GameData = SG.SaveGame.Load<SaveData>("data"); }
         OnLoadSave?.Invoke(GameData);
+    }
+
+    public static void DeleteSaveFile(){
+        if (SG.SaveGame.Exists("data")){ SG.SaveGame.Delete("data"); }
     }
 }

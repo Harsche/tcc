@@ -11,8 +11,24 @@ public class MagicShield : MonoBehaviour{
     [SerializeField] private Light2D light2D;
     [SerializeField] private ShieldColor[] shieldColors;
     [SerializeField] private MagicType shieldMagicType;
+    [SerializeField] private Collider2D shieldCollider;
+
 
     private float shieldActivateTime;
+
+    private void Awake(){
+        ToggleShield(false);
+    }
+
+    private void OnEnable(){
+       // Subsribe to input events
+       PlayerInput.OnFireInput += ToggleShield;
+       PlayerInput.OnChangeShieldColor += ChangeShieldColor;
+    }
+
+    private void Update(){
+        RotateShield(PlayerInput.LookAngle);
+    }
 
     private void OnTriggerEnter2D(Collider2D col){
         if (!col.CompareTag("Projectile")){ return; }
@@ -21,7 +37,7 @@ public class MagicShield : MonoBehaviour{
         ReflectProjectile(projectile);
     }
 
-    public void RotateShield(float lookAngle){
+    private void RotateShield(float lookAngle){
         transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 
@@ -32,8 +48,10 @@ public class MagicShield : MonoBehaviour{
         spriteRenderer.material.SetColor(ShieldColor1, shieldColors[colorIndex].EmissionColor);
     }
 
-    public void ToggleShield(bool value){
-        gameObject.SetActive(value);
+    private void ToggleShield(bool value){
+        shieldCollider.enabled = value;
+        spriteRenderer.enabled = value;
+        light2D.enabled = false;
         if (value){ shieldActivateTime = Time.time; }
     }
 
@@ -43,10 +61,10 @@ public class MagicShield : MonoBehaviour{
         if (pressedOnTime){
             Vector3 myPosition = transform.position;
             projectileDirection = projectile.transform.position - myPosition;
-            Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerMovement.LookAngle) * Vector3.right;
+            Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerInput.LookAngle) * Vector3.right;
             float angle = Vector2.SignedAngle(projectileDirection, lookAngle);
             projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
-            projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerMovement.LookAngle);
+            projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerInput.LookAngle);
         }
 
         bool reflect = false;

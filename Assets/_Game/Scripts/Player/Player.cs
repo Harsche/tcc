@@ -1,9 +1,9 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour{
     [field: SerializeField] public float MaxHp{ get; private set; } = 10f;
     [field: SerializeField] public float Hp{ get; private set; }
+    [field: SerializeField] public Camera playerCamera{ get; private set; }
     public static Player Instance{ get; private set; }
 
     private void Awake(){
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour{
             return;
         }
         Instance = this;
-        SaveGame.OnLoadSave += LoadPlayerData;
+        GameSaveSystem.OnLoadSave += LoadPlayerData;
     }
 
     private void Start(){

@@ -12,10 +12,15 @@ public class Player : MonoBehaviour{
             return;
         }
         Instance = this;
+        SaveGame.OnLoadSave += LoadPlayerData;
     }
 
     private void Start(){
         ChangeHp(MaxHp);
+    }
+
+    private void LoadPlayerData(SaveData saveData){
+        transform.position = saveData.playerPosition;
     }
 
     public void ChangeHp(float value){

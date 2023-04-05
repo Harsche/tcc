@@ -20,10 +20,10 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
 
     private readonly Collider2D[] contacts = new Collider2D[3];
     private bool checkGround;
+    private bool checkWall;
     private Coroutine dashCoroutine;
     private Vector2 dashDirection;
     private bool dashInput;
-    private GameInput gameInput;
     private bool isDashing;
     private bool jumpInput;
     public bool onPlatform;
@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
     private Transform platform;
     private Vector3 platformLastPosition;
     private Coroutine zoomCoroutine;
-    public new Rigidbody2D rigidbody2D{ get; private set; }
+    public new Rigidbody2D rigidbody2D;
 
 
     public static float LookAngle{ get; private set; }
@@ -66,18 +66,6 @@ public class PlayerMovement : MonoBehaviour, GameInput.IPlayerActions{
         velocity.x = moveInput.x * speed;
         if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
         rigidbody2D.velocity = velocity;
-    }
-
-    private void OnEnable(){
-        if (gameInput == null){
-            gameInput = new GameInput();
-            gameInput.Player.SetCallbacks(this);
-        }
-        gameInput.Enable();
-    }
-
-    private void OnDisable(){
-        gameInput.Disable();
     }
 
     private void OnCollisionEnter2D(Collision2D col){

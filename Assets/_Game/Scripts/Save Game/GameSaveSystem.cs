@@ -1,19 +1,13 @@
-using System;
+using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Encoders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SG = BayatGames.SaveGameFree;
 
 public class GameSaveSystem : MonoBehaviour{
-    private static SaveData GameData = new();
+    private static int SaveSlot;
 
     [SerializeField] private float rotateSpeed = 5f;
-
-    public static event Action<SaveData> OnLoadSave;
-
-    private void Start(){
-        LoadFromFile();
-    }
+    public static SaveData SaveData{ get; private set; } = new();
 
     private void Update(){
         transform.Rotate(transform.forward, rotateSpeed * Time.deltaTime);
@@ -25,22 +19,29 @@ public class GameSaveSystem : MonoBehaviour{
     }
 
     private void SaveGameState(GameObject player){
-        GameData.playerPosition = player.transform.position;
-        GameData.loadScene = SceneManager.GetActiveScene().name;
+        SaveData.playerPosition = player.transform.position;
+        SaveData.loadScene = SceneManager.GetActiveScene().name;
         SaveToFile();
     }
 
     private void SaveToFile(){
         // SG.SaveGame.Encode = true;
-        SG.SaveGame.Save("data", GameData, new SaveGameSimpleEncoder());
+        SaveData.isNewGame = false;
+        SaveGame.Save($"data{SaveSlot}", SaveData, new SaveGameSimpleEncoder());
     }
 
-    private void LoadFromFile(){
-        if (SG.SaveGame.Exists("data")){ GameData = SG.SaveGame.Load<SaveData>("data"); }
-        OnLoadSave?.Invoke(GameData);
+    public static void LoadFromFile(int slotIndex){
+        SaveSlot = slotIndex;
+        if (!SaveGame.Exists($"data{SaveSlot}")){ return; }
+        SaveData = SaveGame.Load<SaveData>($"data{SaveSlot}");
     }
 
     public static void DeleteSaveFile(){
-        if (SG.SaveGame.Exists("data")){ SG.SaveGame.Delete("data"); }
+        for (int i = 0; i < 3; i++)
+            if (SaveGame.Exists($"data{i}")){ SaveGame.Delete($"data{i}"); }
+    }
+
+    public static bool SaveFileExists(int slotIndex){
+        return SaveGame.Exists($"data{slotIndex}");
     }
 }

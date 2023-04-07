@@ -20,29 +20,32 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
     public bool onPlatform;
-    public new Rigidbody2D rigidbody2D;
 
     private readonly Collider2D[] contacts = new Collider2D[3];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
-    private bool checkGround;
     private WallCheck checkWall;
     private Coroutine dashCoroutine;
     private Vector2 dashDirection;
+    private float dashDuration;
     private bool executeDash;
     private bool executeJump;
     private float gravityScale;
     private bool isDashing;
     private bool isWallJumping;
+    private Rigidbody2D myRigidbody2D;
     private Transform myTransform;
+
+    public bool Grounded{ get; private set; }
 
     private void Awake(){
         myTransform = transform;
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        gravityScale = rigidbody2D.gravityScale;
+        myRigidbody2D = GetComponent<Rigidbody2D>();
+        gravityScale = myRigidbody2D.gravityScale;
+        dashDuration = dashDistance / dashSpeed;
     }
 
     private void FixedUpdate(){
-        checkGround = CheckGround();
+        Grounded = CheckGround();
         checkWall = CheckWall();
 
         if (executeDash){
@@ -71,25 +74,25 @@ public class PlayerMovement : MonoBehaviour{
             }
             float jumpFinalForce = checkWall != WallCheck.None ? wallJumpForce : jumpForce;
             jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
-            rigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
+            myRigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
             executeJump = false;
             return;
         }
 
         if (checkWall == WallCheck.None && !isWallJumping){
-            Vector2 velocity = rigidbody2D.velocity;
+            Vector2 velocity = myRigidbody2D.velocity;
             velocity.x = PlayerInput.MoveInput.x * speed;
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
-            rigidbody2D.velocity = velocity;
+            myRigidbody2D.velocity = velocity;
             return;
         }
 
-        if (!checkGround && checkWall != WallCheck.None){
-            rigidbody2D.gravityScale = 0;
-            Vector2 velocity = rigidbody2D.velocity;
+        if (!Grounded && checkWall != WallCheck.None){
+            myRigidbody2D.gravityScale = 0;
+            Vector2 velocity = myRigidbody2D.velocity;
             velocity.x = 0;
             velocity.y = wallFallSpeed;
-            rigidbody2D.velocity = velocity;
+            myRigidbody2D.velocity = velocity;
         }
     }
 
@@ -109,25 +112,23 @@ public class PlayerMovement : MonoBehaviour{
 
     private IEnumerator DashCoroutine(){
         isDashing = true;
-        Vector2 dashStartPosition = myTransform.position;
         if (dashDirection.sqrMagnitude == 0){ dashDirection.x = spriteRenderer.flipX ? -1 : 1; }
-        if (checkGround && Vector2.Angle(dashDirection, Vector2.down) < 180f - dashCancelCollisionAngleThreshold){
+        if (Grounded && Vector2.Angle(dashDirection, Vector2.down) < 180f - dashCancelCollisionAngleThreshold){
             dashDirection.x = spriteRenderer.flipX ? -1 : 1;
         }
-        while (Vector2.Distance(dashStartPosition, myTransform.position) < dashDistance){
-            rigidbody2D.velocity = dashDirection * dashSpeed;
-            yield return null;
-        }
-        isDashing = false;
+        myRigidbody2D.gravityScale = 0f;
+        myRigidbody2D.velocity = dashDirection * dashSpeed;
+        yield return new WaitForSeconds(dashDuration);
+        CancelDash();
     }
 
     private void OnJump(){
-        if (!checkGround && !onPlatform && checkWall == WallCheck.None){ return; }
+        if (!Grounded && !onPlatform && checkWall == WallCheck.None){ return; }
         executeJump = true;
     }
 
     private void OnWallJump(){
-        rigidbody2D.gravityScale = gravityScale;
+        myRigidbody2D.gravityScale = gravityScale;
         StartCoroutine(WallJumpCoroutine());
     }
 
@@ -138,21 +139,23 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private bool CheckGround(){
-        return rigidbody2D.GetContacts(groundContactFilter, contacts) > 0;
+        return myRigidbody2D.GetContacts(groundContactFilter, contacts) > 0;
     }
 
     private WallCheck CheckWall(){
         if (isWallJumping){ return WallCheck.None; }
-        if (PlayerInput.MoveInput.x < 0 && rigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
+        if (PlayerInput.MoveInput.x < 0 && myRigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
+            if (isDashing){ CancelDash(); }
             return WallCheck.Left;
         }
         ContactFilter2D leftSideFilter = wallContactFilter;
         leftSideFilter.minNormalAngle = 180f + wallContactFilter.minNormalAngle;
         leftSideFilter.maxNormalAngle = 180f + wallContactFilter.maxNormalAngle;
-        if (PlayerInput.MoveInput.x > 0 && rigidbody2D.GetContacts(leftSideFilter, wallContacts) > 0){
+        if (PlayerInput.MoveInput.x > 0 && myRigidbody2D.GetContacts(leftSideFilter, wallContacts) > 0){
+            if (isDashing){ CancelDash(); }
             return WallCheck.Right;
         }
-        rigidbody2D.gravityScale = gravityScale;
+        if (!isDashing){ myRigidbody2D.gravityScale = gravityScale; }
         return WallCheck.None;
     }
 
@@ -164,8 +167,9 @@ public class PlayerMovement : MonoBehaviour{
 
 
     private void CancelDash(){
-        if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
+        myRigidbody2D.gravityScale = gravityScale;
         isDashing = false;
+        if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
     }
 
     public void ForceDash(Vector2 direction){

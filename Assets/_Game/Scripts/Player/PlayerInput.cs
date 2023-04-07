@@ -32,7 +32,7 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     public void OnLook(InputAction.CallbackContext context){
         Vector3 myPosition = transform.position;
         Vector3 targetDirection = context.ReadValue<Vector2>();
-        Camera gameCamera = Player.Instance.playerCamera;
+        Camera gameCamera = Player.Instance.PlayerCamera;
         targetDirection.z = Mathf.Abs(gameCamera.transform.position.z - myPosition.z);
         targetDirection = gameCamera.ScreenToWorldPoint(targetDirection);
         LookAngle = Vector2.SignedAngle(Vector2.right, targetDirection - myPosition);

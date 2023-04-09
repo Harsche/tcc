@@ -682,13 +682,14 @@ GameObject:
   - component: {fileID: 1687233670367898732}
   - component: {fileID: 1687233670367898722}
   - component: {fileID: 1687233670367898733}
+  - component: {fileID: 4611664000818553206}
   m_Layer: 0
   m_Name: Magic Shield
-  m_TagString: Untagged
+  m_TagString: PlayerShield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1687233670367898723
 Transform:
   m_ObjectHideFlags: 0
@@ -792,7 +793,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687233670367898721}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -801,6 +802,45 @@ CapsuleCollider2D:
   m_Offset: {x: 0.3256133, y: -0.014157091}
   m_Size: {x: 0.27798784, y: 0.7734863}
   m_Direction: 0
+--- !u!60 &4611664000818553206
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687233670367898721}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.0078125}
+      - {x: -0.001953125, y: 0.005859375}
+      - {x: -0.001953125, y: -0.001953125}
+      - {x: 0.001953125, y: -0.005859375}
+      - {x: 0.14127374, y: -0.47699955}
+      - {x: 0.27364418, y: -0.42652446}
+      - {x: 0.37598976, y: -0.3264127}
+      - {x: 0.44116634, y: -0.22019753}
+      - {x: 0.48709044, y: -0.12062613}
+      - {x: 0.50218695, y: 0.013170822}
+      - {x: 0.4833864, y: 0.14581361}
+      - {x: 0.4169418, y: 0.28159314}
+      - {x: 0.3035915, y: 0.39442632}
+      - {x: 0.16261062, y: 0.46493077}
 --- !u!1 &3811206110646577068
 GameObject:
   m_ObjectHideFlags: 0

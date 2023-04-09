@@ -4,13 +4,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     private GameInput gameInput;
-    public static event Action<bool> OnFireInput;
-    public static event Action OnJumpInput;
-    public static event Action OnDashInput;
     public static event Action<int> OnChangeShieldColor;
+    public static event Action OnDashInput;
+    public static event Action<bool> OnFireInput;
+    public static event Action OnPlayerInteract;
+    public static event Action OnJumpInput;
 
     public static Vector2 MoveInput{ get; private set; }
     public static float LookAngle{ get; private set; }
+    public static Vector2 LookDirection{ get; private set; }
 
     private void OnEnable(){
         if (gameInput == null){
@@ -35,7 +37,8 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
         Camera gameCamera = Player.Instance.PlayerCamera;
         targetDirection.z = Mathf.Abs(gameCamera.transform.position.z - myPosition.z);
         targetDirection = gameCamera.ScreenToWorldPoint(targetDirection);
-        LookAngle = Vector2.SignedAngle(Vector2.right, targetDirection - myPosition);
+        LookDirection = (targetDirection - myPosition).normalized;
+        LookAngle = Vector2.SignedAngle(Vector2.right, LookDirection);
     }
 
     public void OnFire(InputAction.CallbackContext context){
@@ -52,15 +55,15 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnSetColor1(InputAction.CallbackContext context){
-        if(context.performed) {OnChangeShieldColor?.Invoke(0);}
+        if (context.performed){ OnChangeShieldColor?.Invoke(0); }
     }
 
     public void OnSetColor2(InputAction.CallbackContext context){
-        if(context.performed) {OnChangeShieldColor?.Invoke(1);}
+        if (context.performed){ OnChangeShieldColor?.Invoke(1); }
     }
 
     public void OnSetColor3(InputAction.CallbackContext context){
-        if(context.performed) {OnChangeShieldColor?.Invoke(2);}
+        if (context.performed){ OnChangeShieldColor?.Invoke(2); }
     }
 
     public void OnZoomOut(InputAction.CallbackContext context){
@@ -71,5 +74,9 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
 
     public void OnZoomIn(InputAction.CallbackContext context){
         // throw new NotImplementedException();
+    }
+
+    public void OnInteract(InputAction.CallbackContext context){
+        if (context.performed){ OnPlayerInteract?.Invoke(); }
     }
 }

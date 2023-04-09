@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour{
     private WallCheck checkWall;
     private Coroutine dashCoroutine;
     private Vector2 dashDirection;
+    private Vector2 lastGroundPosition;
     private float dashDuration;
     private bool executeDash;
     private bool executeJump;
@@ -47,6 +48,8 @@ public class PlayerMovement : MonoBehaviour{
     private void FixedUpdate(){
         Grounded = CheckGround();
         checkWall = CheckWall();
+
+        if (Grounded){ lastGroundPosition = myTransform.position;}
 
         if (executeDash){
             dashCoroutine = StartCoroutine(DashCoroutine());
@@ -110,6 +113,13 @@ public class PlayerMovement : MonoBehaviour{
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D col){
+        if (col.CompareTag("InstantDeath")){
+            myRigidbody2D.position = lastGroundPosition;
+            Player.Instance.ChangeHp(-1f);
+        }
+    }
+
     private IEnumerator DashCoroutine(){
         isDashing = true;
         if (dashDirection.sqrMagnitude == 0){ dashDirection.x = spriteRenderer.flipX ? -1 : 1; }
@@ -168,6 +178,8 @@ public class PlayerMovement : MonoBehaviour{
 
     private void CancelDash(){
         myRigidbody2D.gravityScale = gravityScale;
+        Vector2 currentVelocity = myRigidbody2D.velocity;
+        myRigidbody2D.velocity = new Vector2(0f, currentVelocity.y * 0.5f);
         isDashing = false;
         if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
     }

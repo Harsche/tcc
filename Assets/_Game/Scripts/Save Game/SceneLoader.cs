@@ -43,7 +43,6 @@ public class SceneLoader : MonoBehaviour{
     private IEnumerator LoadSceneCoroutine(string sceneName){
         yield return Fade(true)
             .WaitForCompletion();
-        // Time.timeScale = 0;
         AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(sceneName);
         while (!loadSceneAsync.isDone){
             progressBar.value = loadSceneAsync.progress;
@@ -58,9 +57,9 @@ public class SceneLoader : MonoBehaviour{
             string scene = GameSaveSystem.SaveData.loadScene;
             if (string.IsNullOrEmpty(scene)){ scene = "SampleScene"; }
             LoadScene(scene);
+            GameSaveSystem.SetLastSaveTime();
             yield break;
         }
-        // Time.timeScale = 1;
         Player.Instance.gameObject.SetActive(true);
         yield return Fade(false).WaitForCompletion();
     }

@@ -116,6 +116,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""a73c5254-79ec-4b4e-8bea-fd43f9b0266a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -413,6 +422,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Zoom In"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3512832-787f-4d1e-a9c6-6b05d32aaca1"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1010,6 +1030,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_SetColor3 = m_Player.FindAction("SetColor3", throwIfNotFound: true);
         m_Player_ZoomOut = m_Player.FindAction("Zoom Out", throwIfNotFound: true);
         m_Player_ZoomIn = m_Player.FindAction("Zoom In", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1093,6 +1114,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SetColor3;
     private readonly InputAction m_Player_ZoomOut;
     private readonly InputAction m_Player_ZoomIn;
+    private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -1107,6 +1129,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @SetColor3 => m_Wrapper.m_Player_SetColor3;
         public InputAction @ZoomOut => m_Wrapper.m_Player_ZoomOut;
         public InputAction @ZoomIn => m_Wrapper.m_Player_ZoomIn;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1146,6 +1169,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @ZoomIn.started += instance.OnZoomIn;
             @ZoomIn.performed += instance.OnZoomIn;
             @ZoomIn.canceled += instance.OnZoomIn;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1180,6 +1206,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @ZoomIn.started -= instance.OnZoomIn;
             @ZoomIn.performed -= instance.OnZoomIn;
             @ZoomIn.canceled -= instance.OnZoomIn;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1372,6 +1401,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnSetColor3(InputAction.CallbackContext context);
         void OnZoomOut(InputAction.CallbackContext context);
         void OnZoomIn(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

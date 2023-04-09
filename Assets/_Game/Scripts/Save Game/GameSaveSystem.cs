@@ -1,3 +1,4 @@
+using System;
 using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Encoders;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class GameSaveSystem : MonoBehaviour{
 
     [SerializeField] private float rotateSpeed = 5f;
     public static SaveData SaveData{ get; private set; } = new();
+
+    private static float LastSaveTime;
 
     private void Update(){
         transform.Rotate(transform.forward, rotateSpeed * Time.deltaTime);
@@ -21,6 +24,8 @@ public class GameSaveSystem : MonoBehaviour{
     private void SaveGameState(GameObject player){
         SaveData.playerPosition = player.transform.position;
         SaveData.loadScene = SceneManager.GetActiveScene().name;
+        SaveData.playTime += TimeSpan.FromSeconds(Time.unscaledTime - LastSaveTime);
+        SetLastSaveTime();
         SaveToFile();
     }
 
@@ -36,6 +41,12 @@ public class GameSaveSystem : MonoBehaviour{
         SaveData = SaveGame.Load<SaveData>($"data{SaveSlot}");
     }
 
+    public static SaveData GetSaveData(int slotIndex){
+        return !SaveGame.Exists($"data{slotIndex}")
+            ? null
+            : SaveGame.Load<SaveData>($"data{SaveSlot}");
+    }
+
     public static void DeleteSaveFile(){
         for (int i = 0; i < 3; i++)
             if (SaveGame.Exists($"data{i}")){ SaveGame.Delete($"data{i}"); }
@@ -43,5 +54,9 @@ public class GameSaveSystem : MonoBehaviour{
 
     public static bool SaveFileExists(int slotIndex){
         return SaveGame.Exists($"data{slotIndex}");
+    }
+    
+    public static void SetLastSaveTime(){
+        LastSaveTime = Time.unscaledTime;
     }
 }

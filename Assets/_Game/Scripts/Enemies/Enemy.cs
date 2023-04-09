@@ -7,21 +7,23 @@ public class Enemy : MonoBehaviour{
     [SerializeField] private float attackCooldown = 3f;
     [SerializeField] private float attackDistance = 5f;
     [SerializeField] private Transform projectilePrefab;
+    [SerializeField] private bool checkPlayerDistance = true;
     private Coroutine attackCoroutine;
-    private Coroutine checkPlayerDistance;
+    private Coroutine checkPlayerDistanceCoroutine;
+
+    public event Action<Enemy> OnDeath;
     [field: SerializeField] public float Hp{ get; private set; }
     [field: SerializeField] public float MaxHp{ get; private set; } = 3f;
 
     private void Awake(){
-        checkPlayerDistance = StartCoroutine(CheckPlayerDistance());
+        if (checkPlayerDistance){ checkPlayerDistanceCoroutine = StartCoroutine(CheckPlayerDistance()); }
+        else{ attackCoroutine = StartCoroutine(AttackCoroutine()); }
         ChangeHp(MaxHp);
     }
 
     private void OnDestroy(){
         OnDeath = null;
     }
-
-    public event Action<Enemy> OnDeath;
 
     private IEnumerator CheckPlayerDistance(){
         var waitForSeconds = new WaitForSeconds(1f);

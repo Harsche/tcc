@@ -217,10 +217,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 2
   speed: 12
+  destroyTime: 10
   spriteRenderer: {fileID: 4335819227619791471}
   random: 0
   fixedDirection: 0
-  direction: {x: 0, y: 1}
+  enemyAttackDirection: 0
   enteredMagicShield: 0
   reflected: 0
   <ProjectileType>k__BackingField: 0

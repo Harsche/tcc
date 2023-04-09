@@ -11,6 +11,8 @@ TagManager:
   - Platform
   - Item
   - Interactable
+  - PlayerShield
+  - InstantDeath
   layers:
   - Default
   - TransparentFX

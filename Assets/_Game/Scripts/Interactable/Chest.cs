@@ -1,17 +1,21 @@
+using System.Collections;
 using UnityEngine;
 
 public class Chest : Interactable{
     [SerializeField] private Rigidbody2D item;
     [SerializeField] private Vector2 minMaxAngle = new(60f, 120f);
+    [SerializeField] private float dropForce = 3f;
 
     private void OpenChest(){
-        Instantiate(item, transform.position, Quaternion.identity);
+        Rigidbody2D spawnedItem = Instantiate(item, transform.position, Quaternion.Euler(0f, 0f, -90f));
         float angle = Random.Range(minMaxAngle.x, minMaxAngle.y);
         Vector2 direction = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
-        item.AddForce(direction, ForceMode2D.Impulse);
+        spawnedItem.AddForce(direction * dropForce, ForceMode2D.Impulse);
+        Destroy(gameObject, 3f);
     }
 
     public override void Interact(){
         OpenChest();
+        IsInteractable = false;
     }
 }

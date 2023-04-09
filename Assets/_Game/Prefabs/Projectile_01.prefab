@@ -117,9 +117,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   speed: 5
+  destroyTime: 10
   spriteRenderer: {fileID: 255991289493433844}
   random: 0
+  fixedDirection: 0
+  enemyAttackDirection: 0
   enteredMagicShield: 0
+  reflected: 0
   <ProjectileType>k__BackingField: 0
   <MagicType>k__BackingField: 0
 --- !u!1 &255991289973828898

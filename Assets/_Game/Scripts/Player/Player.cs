@@ -20,19 +20,32 @@ public class Player : MonoBehaviour{
         ChangeHp(MaxHp);
     }
 
+    private void OnEnable(){
+        PlayerInput.OnPlayerInteract += Interact;
+    }
+
+    private void OnDisable(){
+        PlayerInput.OnPlayerInteract -= Interact;
+    }
+
     private void OnTriggerStay2D(Collider2D col){
         if (col.CompareTag("Interactable")){
             if (Interaction == null){
-                Interaction = col.GetComponent<Interactable>();
+                var interactable = col.GetComponent<Interactable>();
+                if (interactable.IsInteractable){ Interaction = interactable; }
                 return;
             }
             Vector3 playerPosition = transform.position;
             float distance = Vector2.Distance(playerPosition, Interaction.transform.position);
             float newDistance = Vector2.Distance(playerPosition, col.transform.position);
-            if (newDistance < distance){
-                Interaction = col.GetComponent<Interactable>();
-            }
+            if (newDistance < distance){ Interaction = col.GetComponent<Interactable>(); }
         }
+    }
+
+    private void Interact(){
+        if (Interaction == null){ return; }
+        Interaction.Interact();
+        Interaction = null;
     }
 
     private void LoadPlayerData(){
@@ -42,7 +55,7 @@ public class Player : MonoBehaviour{
     }
 
     public void ChangeHp(float value){
-        // Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
-        // PlayerHUD.Instance.UpdateHpBar();
+        Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
+        PlayerHUD.Instance.UpdateHpBar();
     }
 }

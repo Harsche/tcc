@@ -4,10 +4,12 @@ using UnityEngine;
     public class Item : Interactable{
         public override void Interact(){
             CollectItem();
+            gameObject.SetActive(false);
         }
 
         private void CollectItem(){
-            transform.DOScale(Vector3.zero, 0.5f)
-                .OnComplete(() => gameObject.SetActive(false));
+            Transform parent = transform.parent;
+            parent.DOScale(Vector3.zero, 0.5f)
+                .OnComplete(() => parent.gameObject.SetActive(false));
         }
     }

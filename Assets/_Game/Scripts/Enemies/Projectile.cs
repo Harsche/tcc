@@ -5,10 +5,11 @@ using Random = UnityEngine.Random;
 public class Projectile : MonoBehaviour{
     [SerializeField] private float damage = 1f;
     [SerializeField] private float speed = 3f;
+    [SerializeField] private float destroyTime = 10f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private bool random;
     [SerializeField] private bool fixedDirection;
-    [SerializeField] private Vector2 direction;
+    [SerializeField] private EnemyAttackDirection enemyAttackDirection;
     public bool enteredMagicShield;
     public bool reflected;
     [field: SerializeField] public ProjectileType ProjectileType{ get; private set; }
@@ -16,7 +17,10 @@ public class Projectile : MonoBehaviour{
 
     private void Awake(){
         Vector2 targetDirection;
-        if (fixedDirection){ targetDirection = direction; }
+        if (fixedDirection){
+            float fixedAngle = 90f * (int) enemyAttackDirection;
+            targetDirection = Quaternion.AngleAxis(fixedAngle, Vector3.forward) * Vector2.right;
+        }
         else{ targetDirection = Player.Instance.transform.position - transform.position; }
         float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -26,6 +30,7 @@ public class Projectile : MonoBehaviour{
             return;
         }
         ChangeColor(MagicType.Red);
+        Destroy(gameObject, destroyTime);
     }
 
     private void Update(){

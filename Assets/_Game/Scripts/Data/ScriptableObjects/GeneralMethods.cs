@@ -7,5 +7,9 @@ namespace Data.ScriptableObjects{
         public void ChangeScene(string sceneName){
             SceneManager.LoadScene(sceneName);
         }
+        
+        public void QuitGame(){
+            Application.Quit();
+        }
     }
 }

@@ -786,7 +786,7 @@ MonoBehaviour:
     <LightColor>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
     <EmissionColor>k__BackingField: {r: 2.2653365, g: 2.2653365, b: 6.867925, a: 0}
   shieldMagicType: 0
-  shieldCollider: {fileID: 0}
+  shieldCollider: {fileID: 4611664000818553206}
 --- !u!70 &1687233670367898733
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

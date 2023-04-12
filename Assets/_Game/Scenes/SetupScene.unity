@@ -1776,11 +1776,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!70 &1894350887 stripped
-CapsuleCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1687233670367898733, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
-  m_PrefabInstance: {fileID: 1687233668671070052}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1973150574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,9 +2360,5 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1687233670367898722, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
-      propertyPath: shieldCollider
-      value: 
-      objectReference: {fileID: 1894350887}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}

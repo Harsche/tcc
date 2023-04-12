@@ -44,7 +44,7 @@ public class GameSaveSystem : MonoBehaviour{
     public static SaveData GetSaveData(int slotIndex){
         return !SaveGame.Exists($"data{slotIndex}")
             ? null
-            : SaveGame.Load<SaveData>($"data{SaveSlot}");
+            : SaveGame.Load<SaveData>($"data{slotIndex}");
     }
 
     public static void DeleteSaveFile(){

@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 3f;
+    [FormerlySerializedAs("jumpForce"), SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashCancelCollisionAngleThreshold = 30f;
@@ -26,13 +27,13 @@ public class PlayerMovement : MonoBehaviour{
     private WallCheck checkWall;
     private Coroutine dashCoroutine;
     private Vector2 dashDirection;
-    private Vector2 lastGroundPosition;
     private float dashDuration;
     private bool executeDash;
     private bool executeJump;
     private float gravityScale;
     private bool isDashing;
     private bool isWallJumping;
+    private Vector2 lastGroundPosition;
     private Rigidbody2D myRigidbody2D;
     private Transform myTransform;
 
@@ -49,7 +50,7 @@ public class PlayerMovement : MonoBehaviour{
         Grounded = CheckGround();
         checkWall = CheckWall();
 
-        if (Grounded){ lastGroundPosition = myTransform.position;}
+        if (Grounded){ lastGroundPosition = myTransform.position; }
 
         if (executeDash){
             dashCoroutine = StartCoroutine(DashCoroutine());
@@ -57,6 +58,8 @@ public class PlayerMovement : MonoBehaviour{
         }
 
         if (isDashing){ return; }
+
+        Vector2 velocity;
 
         if (executeJump){
             Vector3 jumpDirection = Vector2.up;
@@ -75,15 +78,20 @@ public class PlayerMovement : MonoBehaviour{
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            float jumpFinalForce = checkWall != WallCheck.None ? wallJumpForce : jumpForce;
-            jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
-            myRigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
+            bool onWall = checkWall != WallCheck.None;
+            // jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
+            // myRigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
+            float jumpVelocity = Mathf.Sqrt(-2f * Physics.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
+            velocity = myRigidbody2D.velocity;
+            velocity.y = jumpVelocity;
+            if (onWall) velocity.x = wallJumpForce;
+            myRigidbody2D.velocity = velocity;
             executeJump = false;
             return;
         }
 
         if (checkWall == WallCheck.None && !isWallJumping){
-            Vector2 velocity = myRigidbody2D.velocity;
+            velocity = myRigidbody2D.velocity;
             velocity.x = PlayerInput.MoveInput.x * speed;
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
@@ -92,7 +100,7 @@ public class PlayerMovement : MonoBehaviour{
 
         if (!Grounded && checkWall != WallCheck.None){
             myRigidbody2D.gravityScale = 0;
-            Vector2 velocity = myRigidbody2D.velocity;
+            velocity = myRigidbody2D.velocity;
             velocity.x = 0;
             velocity.y = wallFallSpeed;
             myRigidbody2D.velocity = velocity;

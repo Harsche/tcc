@@ -14,6 +14,8 @@
         <uie:FloatField label="Ângulo do Wall Jump" value="30" name="WallJumpAngle" binding-path="wallJumpAngle" tooltip="Ângulo do wall jump em relação à parede." />
         <uie:PropertyField binding-path="groundContactFilter" name="GroundContactFilter" label="Filtro de Contato de Chão" tooltip="Define o que é considerado uma colisão com o chão e o que não é." />
         <uie:PropertyField binding-path="wallContactFilter" name="WallContactFilter" label="Filtro de Contato de Parede" tooltip="Define o que é considerado uma colisão com paredes e o que não é." />
+        <ui:Toggle label="Wall Jump" name="EnableWallJump" binding-path="enableWallJump" tooltip="Se é possível ou não usar o Wall Jump." value="true" />
+        <ui:Toggle label="Dash" name="EnableDash" binding-path="enableDash" tooltip="Se é possível ou não usar o Dash." value="true" />
     </ui:VisualElement>
     <ui:Foldout text="References" name="References" value="false" style="margin-top: 9px; display: flex;">
         <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" />

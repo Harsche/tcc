@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 12
+  jumpHeight: 12
   dashDistance: 4
   dashSpeed: 15
   dashCancelCollisionAngleThreshold: 30
@@ -414,6 +414,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  enableWallJump: 1
+  enableDash: 1
   onPlatform: 0
 --- !u!114 &1687233669814571219
 MonoBehaviour:

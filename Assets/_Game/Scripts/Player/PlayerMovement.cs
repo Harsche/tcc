@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
+    [SerializeField] private bool enableWallJump;
+    [SerializeField] private bool enableDash;
     public bool onPlatform;
 
     private readonly Collider2D[] contacts = new Collider2D[3];
@@ -81,7 +83,7 @@ public class PlayerMovement : MonoBehaviour{
             bool onWall = checkWall != WallCheck.None;
             // jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
             // myRigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
-            float jumpVelocity = Mathf.Sqrt(-2f * Physics.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
+            float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
             velocity = myRigidbody2D.velocity;
             velocity.y = jumpVelocity;
             if (onWall) velocity.x = wallJumpForce;
@@ -151,7 +153,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     public void OnDash(){
-        if (isDashing){ return; }
+        if (isDashing || !enableDash){ return; }
         executeDash = true;
         dashDirection = PlayerInput.MoveInput;
     }
@@ -161,7 +163,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private WallCheck CheckWall(){
-        if (isWallJumping){ return WallCheck.None; }
+        if (isWallJumping || !enableWallJump){ return WallCheck.None; }
         if (PlayerInput.MoveInput.x < 0 && myRigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
             if (isDashing){ CancelDash(); }
             return WallCheck.Left;

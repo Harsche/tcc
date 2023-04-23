@@ -80,14 +80,20 @@ public class PlayerMovement : MonoBehaviour{
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            bool onWall = checkWall != WallCheck.None;
+            // bool onWall = checkWall != WallCheck.None;
+            float wallJumpXVelocity = checkWall switch{
+                WallCheck.None => 0f,
+                WallCheck.Left => -1f,
+                WallCheck.Right => 1f,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             // jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
             // myRigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
             float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
             velocity = myRigidbody2D.velocity;
             velocity.y = jumpVelocity;
-            if (onWall) velocity.x = wallJumpForce;
-            myRigidbody2D.velocity = velocity;
+            velocity.x = wallJumpForce * wallJumpXVelocity;
+            myRigidbody2D.velocity = velocity ;
             executeJump = false;
             return;
         }

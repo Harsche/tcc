@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float wallJumpAngle = 30f;
     [SerializeField] private float wallJumpForce = 5f;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private MagicShield magicShield;
+    [FormerlySerializedAs("magicShield"),SerializeField] private Parry parry;
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
@@ -80,15 +80,13 @@ public class PlayerMovement : MonoBehaviour{
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            // bool onWall = checkWall != WallCheck.None;
+            
             float wallJumpXVelocity = checkWall switch{
                 WallCheck.None => 0f,
-                WallCheck.Left => -1f,
-                WallCheck.Right => 1f,
+                WallCheck.Left => 1f,
+                WallCheck.Right => -1f,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            // jumpDirection = Quaternion.AngleAxis(rotateJumpDirection, Vector3.back) * jumpDirection;
-            // myRigidbody2D.AddForce(jumpDirection * jumpFinalForce, ForceMode2D.Impulse);
             float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
             velocity = myRigidbody2D.velocity;
             velocity.y = jumpVelocity;

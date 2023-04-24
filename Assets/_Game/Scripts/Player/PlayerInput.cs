@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     public static event Action<int> OnChangeShieldColor;
     public static event Action OnDashInput;
     public static event Action<bool> OnFireInput;
+    public static event Action<bool> OnShieldToggle;
     public static event Action OnPlayerInteract;
     public static event Action OnJumpInput;
 
@@ -78,5 +79,10 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
 
     public void OnInteract(InputAction.CallbackContext context){
         if (context.performed){ OnPlayerInteract?.Invoke(); }
+    }
+
+    public void OnShield(InputAction.CallbackContext context){
+        if(context.action.WasPressedThisFrame()){OnShieldToggle?.Invoke(true);}
+        if(context.action.WasReleasedThisFrame()){OnShieldToggle?.Invoke(false);}
     }
 }

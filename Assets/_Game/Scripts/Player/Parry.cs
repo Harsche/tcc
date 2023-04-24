@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class MagicShield : MonoBehaviour{
+public class Parry : MonoBehaviour{
     private static readonly int ShieldColor1 = Shader.PropertyToID("_ShieldColor");
 
     [SerializeField] private float redirectTime = 0.1f;

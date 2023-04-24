@@ -1,5 +1,5 @@
 {
-    "name": "Game",
+    "name": "GameInput",
     "maps": [
         {
             "name": "Player",
@@ -99,6 +99,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "a73c5254-79ec-4b4e-8bea-fd43f9b0266a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shield",
+                    "type": "Button",
+                    "id": "cd863c96-5d9b-4214-b3d5-43e6736164c5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -411,6 +420,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80dede17-2bfb-4c77-b77f-f91446e6c59d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Shield",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

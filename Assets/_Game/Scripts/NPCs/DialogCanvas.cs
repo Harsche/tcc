@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -12,17 +11,22 @@ public class DialogCanvas : MonoBehaviour{
     private Canvas canvas;
     private Sequence toggleAnimation;
 
-    public void ShowDialog(string text){ }
+    public bool Active{ get; private set; }
 
     private void Awake(){
         canvas = GetComponent<Canvas>();
         canvas.enabled = false;
         dialogText.alpha = 0f;
         dialogBox.localScale = new Vector3(0f, 1f, 1f);
-        PlayerInput.OnShieldToggle += ToggleDialogCanvas;
+    }
+
+    public void ShowDialog(string text){
+        dialogText.text = text;
     }
 
     public void ToggleDialogCanvas(bool value){
+        Active = value;
+        PlayerMovement.canMove = !Active;
         toggleAnimation = DOTween.Sequence();
 
         if (value){

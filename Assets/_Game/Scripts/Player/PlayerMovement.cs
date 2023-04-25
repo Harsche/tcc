@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour{
+    public static bool canMove = true;
+    
     [SerializeField] private float speed = 5f;
     [FormerlySerializedAs("jumpForce"), SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float dashDistance = 3f;
@@ -16,14 +18,14 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float wallJumpAngle = 30f;
     [SerializeField] private float wallJumpForce = 5f;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [FormerlySerializedAs("magicShield"),SerializeField] private Parry parry;
+    [FormerlySerializedAs("magicShield"), SerializeField] private Parry parry;
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
     [SerializeField] private bool enableWallJump;
     [SerializeField] private bool enableDash;
-    public bool onPlatform;
 
+    public bool onPlatform;
     private readonly Collider2D[] contacts = new Collider2D[3];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
     private WallCheck checkWall;
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour{
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             float wallJumpXVelocity = checkWall switch{
                 WallCheck.None => 0f,
                 WallCheck.Left => 1f,
@@ -91,14 +93,14 @@ public class PlayerMovement : MonoBehaviour{
             velocity = myRigidbody2D.velocity;
             velocity.y = jumpVelocity;
             velocity.x = wallJumpForce * wallJumpXVelocity;
-            myRigidbody2D.velocity = velocity ;
+            myRigidbody2D.velocity = velocity;
             executeJump = false;
             return;
         }
 
         if (checkWall == WallCheck.None && !isWallJumping){
             velocity = myRigidbody2D.velocity;
-            velocity.x = PlayerInput.MoveInput.x * speed;
+            velocity.x = canMove ? PlayerInput.MoveInput.x * speed : 0f;
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
             return;

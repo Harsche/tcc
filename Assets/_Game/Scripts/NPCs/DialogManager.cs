@@ -1,10 +1,50 @@
-// using System.Text;
-// using UnityEngine;
-// using UnityEngine.UI;
-// using Ink.Runtime;
-// using System;
-// using System.Linq;
-//
+using Ink.Runtime;
+using UnityEngine;
+
+public class DialogManager : MonoBehaviour{
+    [SerializeField] private TextAsset storyJson;
+    [SerializeField] private DialogCanvas dialogCanvas;
+    private Story story;
+
+    public static DialogManager Instance{ get; private set; }
+
+    private void Awake(){
+        if (Instance != null){
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        SetStory();
+    }
+
+    private void SetStory(){
+        story = new Story(storyJson.ToString());
+    }
+
+    public void GetCharacterDialog(string characterName){
+        if (!dialogCanvas.Active){
+            dialogCanvas.ToggleDialogCanvas(true);
+            story.ChoosePathString(characterName);
+        }
+        if (story.canContinue){
+            dialogCanvas.ShowDialog(story.Continue());
+            return;
+        }
+        dialogCanvas.ToggleDialogCanvas(false);
+    }
+
+    private void SaveStory(){
+        GameSaveSystem.SaveData.storyJson = story.state.ToJson();
+    }
+
+    private void LoadStory(){
+        string savedStory = GameSaveSystem.SaveData.storyJson;
+        if (string.IsNullOrEmpty(savedStory)){ return; }
+        story.state.LoadJson(savedStory);
+    }
+}
+
+
 // public class DialogManager : MonoBehaviour
 // {
 //     public static int GameDay;

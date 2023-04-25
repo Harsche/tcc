@@ -43,15 +43,18 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnFire(InputAction.CallbackContext context){
+        if (!PlayerMovement.canMove) {return;}
         if (context.action.WasPressedThisFrame()){ OnFireInput?.Invoke(true); }
         else if (context.action.WasReleasedThisFrame()){ OnFireInput?.Invoke(false); }
     }
 
     public void OnJump(InputAction.CallbackContext context){
+        if (!PlayerMovement.canMove) {return;}
         if (context.performed){ OnJumpInput?.Invoke(); }
     }
 
     public void OnDash(InputAction.CallbackContext context){
+        if (!PlayerMovement.canMove) {return;}
         if (context.performed){ OnDashInput?.Invoke(); }
     }
 
@@ -82,6 +85,7 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnShield(InputAction.CallbackContext context){
+        if (!PlayerMovement.canMove) {return;}
         if(context.action.WasPressedThisFrame()){OnShieldToggle?.Invoke(true);}
         if(context.action.WasReleasedThisFrame()){OnShieldToggle?.Invoke(false);}
     }

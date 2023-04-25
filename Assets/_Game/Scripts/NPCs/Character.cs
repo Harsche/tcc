@@ -1,19 +1,9 @@
-using Ink.Runtime;
 using UnityEngine;
 
-public class Character : MonoBehaviour{
+public class Character : Interactable{
     [SerializeField] private string characterName;
-    [SerializeField] private string storyJson;
-    private Story story;
-    
-    
-    public void SetStory(){
-        story = new Story(storyJson);
-    }
 
-    private void GetStoryLine(){
-        while (story.canContinue) {
-            Debug.Log (story.Continue ());
-        }
+    public override void Interact(){
+        DialogManager.Instance.GetCharacterDialog(characterName);
     }
 }

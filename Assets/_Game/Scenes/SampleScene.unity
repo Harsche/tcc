@@ -3689,6 +3689,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1277027472}
+  - component: {fileID: 1277027473}
   - component: {fileID: 1277027471}
   - component: {fileID: 1277027470}
   - component: {fileID: 1277027469}
@@ -3814,6 +3815,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1277027473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277027468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ff8c65c5e0471981f630e5b5d63955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textIndication: {fileID: 3254595315450900841}
+  fadeTime: 0.25
+  ease: 1
+  isInteractable: 1
+  characterName: Mentor
 --- !u!1 &1348873823
 GameObject:
   m_ObjectHideFlags: 0

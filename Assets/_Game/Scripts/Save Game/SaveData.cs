@@ -6,4 +6,5 @@ public class SaveData{
     public Vector3 playerPosition;
     public string loadScene;
     public TimeSpan playTime;
+    public string storyJson;
 }

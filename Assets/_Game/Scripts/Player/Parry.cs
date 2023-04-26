@@ -15,6 +15,8 @@ public class Parry : MonoBehaviour{
     [SerializeField] private Collider2D shieldCollider;
 
     private bool isParrying;
+    private bool hasAbsorbedElement;
+    private MagicType absorbedElement;
     private Coroutine parryCoroutine;
 
 
@@ -70,6 +72,9 @@ public class Parry : MonoBehaviour{
     }
 
     private void ReflectProjectile(Projectile projectile){
+        hasAbsorbedElement = true;
+        absorbedElement = projectile.MagicType;
+        Debug.Log(absorbedElement);
         // bool pressedOnTime = Time.time - shieldActivateTime <= redirectTime;
         Vector2 projectileDirection = default;
         

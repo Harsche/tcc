@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour{
 
     [SerializeField] private float speed = 5f;
     [SerializeField] private float maxSpeedTime = 1f;
+    [SerializeField] private float maxFallSpeed = -10f;
     [FormerlySerializedAs("jumpForce"), SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
@@ -27,8 +28,9 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private bool enableDash;
 
     public bool onPlatform;
-    private readonly Collider2D[] contacts = new Collider2D[3];
+    private readonly Collider2D[] groundContacts = new Collider2D[3];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
+    private BoxCollider2D boxCollider2D;
     private WallCheck checkWall;
     private Coroutine dashCoroutine;
     private Vector2 dashDirection;
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour{
     private void Awake(){
         myTransform = transform;
         myRigidbody2D = GetComponent<Rigidbody2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
         gravityScale = myRigidbody2D.gravityScale;
         dashDuration = dashDistance / dashSpeed;
     }
@@ -55,7 +58,14 @@ public class PlayerMovement : MonoBehaviour{
         Grounded = CheckGround();
         checkWall = CheckWall();
 
-        if (Grounded){ lastGroundPosition = myTransform.position; }
+        if (Grounded){
+            int groundLayerMask = LayerMask.GetMask("Ground");
+            Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
+            origin.y -= boxCollider2D.size.y / 2f;
+            Debug.DrawRay(origin, Vector3.down * 0.2f, Color.black);
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundLayerMask);
+            if (hit.collider){ lastGroundPosition = myTransform.position; }
+        }
 
         if (executeDash){
             dashCoroutine = StartCoroutine(DashCoroutine());
@@ -88,7 +98,8 @@ public class PlayerMovement : MonoBehaviour{
 
 
         // Normal movement
-        if (checkWall == WallCheck.None && !isWallJumping){
+        if (Grounded || onPlatform || checkWall == WallCheck.None && !isWallJumping){
+            // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;
             }
@@ -97,6 +108,7 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = canMove
                     ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
                     : 0f;
+                if(velocity.y < 0f){velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f);}
             }
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
@@ -151,9 +163,9 @@ public class PlayerMovement : MonoBehaviour{
             if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
             return;
         }
-        
+
         // Cancel jump
-        if (!Grounded && (!enableWallJump || checkWall != WallCheck.None)){
+        if (!Grounded && !onPlatform && (!enableWallJump || checkWall != WallCheck.None)){
             Vector2 velocity = myRigidbody2D.velocity;
             if (!(velocity.y > 0f)){ return; }
             velocity.y *= 0.5f;
@@ -173,7 +185,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private bool CheckGround(){
-        return myRigidbody2D.GetContacts(groundContactFilter, contacts) > 0;
+        return myRigidbody2D.GetContacts(groundContactFilter, groundContacts) > 0;
     }
 
     private WallCheck CheckWall(){

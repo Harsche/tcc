@@ -146,8 +146,19 @@ public class PlayerMovement : MonoBehaviour{
         CancelDash();
     }
 
-    private void OnJump(){
-        if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
+    private void OnJump(bool value){
+        if (value){
+            if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
+            return;
+        }
+        
+        // Cancel jump
+        if (!Grounded && (!enableWallJump || checkWall != WallCheck.None)){
+            Vector2 velocity = myRigidbody2D.velocity;
+            if (!(velocity.y > 0f)){ return; }
+            velocity.y *= 0.5f;
+            myRigidbody2D.velocity = velocity;
+        }
     }
 
     private void OnWallJump(){

@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     public static event Action<bool> OnFireInput;
     public static event Action<bool> OnShieldToggle;
     public static event Action OnPlayerInteract;
-    public static event Action OnJumpInput;
+    public static event Action<bool> OnJumpInput;
 
     public static Vector2 MoveInput{ get; private set; }
     public static float LookAngle{ get; private set; }
@@ -50,7 +50,8 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
 
     public void OnJump(InputAction.CallbackContext context){
         if (!PlayerMovement.canMove) {return;}
-        if (context.performed){ OnJumpInput?.Invoke(); }
+        if(context.action.WasPressedThisFrame()){OnJumpInput?.Invoke(true);}
+        if(context.action.WasReleasedThisFrame()){OnJumpInput?.Invoke(false);}
     }
 
     public void OnDash(InputAction.CallbackContext context){

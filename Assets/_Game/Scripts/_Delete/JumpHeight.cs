@@ -10,8 +10,9 @@ public class JumpHeight : MonoBehaviour{
     private void Start(){
         // myRigidbody2D = GetComponent<Rigidbody2D>();
         playerMovement = Player.Instance.GetComponent<PlayerMovement>();
-
-        PlayerInput.OnJumpInput += () => {
+        
+        PlayerInput.OnJumpInput += value => {
+            if (!value || !playerMovement.Grounded) return;
             startHeight = playerMovement.transform.position.y;
             maxHeight = startHeight;
             StartCoroutine(CheckJumpHeight());

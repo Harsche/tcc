@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -13,6 +14,9 @@ public class Parry : MonoBehaviour{
     [SerializeField] private MagicType shieldMagicType;
     [SerializeField] private Collider2D shieldCollider;
 
+    private bool isParrying;
+    private Coroutine parryCoroutine;
+
 
     private float shieldActivateTime;
 
@@ -20,14 +24,14 @@ public class Parry : MonoBehaviour{
         ToggleShield(false);
     }
 
-    private void OnEnable(){
-       // Subsribe to input events
-       PlayerInput.OnFireInput += ToggleShield;
-       PlayerInput.OnChangeShieldColor += ChangeShieldColor;
-    }
-
     private void Update(){
         RotateShield(PlayerInput.LookAngle);
+    }
+
+    private void OnEnable(){
+        // Subsribe to input events
+        PlayerInput.OnFireInput += ToggleShield;
+        PlayerInput.OnChangeShieldColor += ChangeShieldColor;
     }
 
     private void OnTriggerEnter2D(Collider2D col){
@@ -49,34 +53,43 @@ public class Parry : MonoBehaviour{
     }
 
     private void ToggleShield(bool value){
+        if (value && isParrying){ return; }
         shieldCollider.enabled = value;
         spriteRenderer.enabled = value;
         light2D.enabled = false;
-        if (value){ shieldActivateTime = Time.time; }
+        isParrying = value;
+        if (value){
+            shieldActivateTime = Time.time;
+            parryCoroutine = StartCoroutine(ParryCoroutine());
+        }
+    }
+
+    private IEnumerator ParryCoroutine(){
+        yield return new WaitForSeconds(redirectTime);
+        ToggleShield(false);
     }
 
     private void ReflectProjectile(Projectile projectile){
-        bool pressedOnTime = Time.time - shieldActivateTime <= redirectTime;
+        // bool pressedOnTime = Time.time - shieldActivateTime <= redirectTime;
         Vector2 projectileDirection = default;
-        if (pressedOnTime){
-            Vector3 myPosition = transform.position;
-            projectileDirection = projectile.transform.position - myPosition;
-            Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerInput.LookAngle) * Vector3.right;
-            float angle = Vector2.SignedAngle(projectileDirection, lookAngle);
-            projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
-            projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerInput.LookAngle);
-        }
+        
+        // Rotates projectile around player to adjust reflect direction
+        
+        Vector3 myPosition = transform.position;
+        projectileDirection = projectile.transform.position - myPosition;
+        Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerInput.LookAngle) * Vector3.right;
+        float angle = Vector2.SignedAngle(projectileDirection, lookAngle);
+        projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
+        projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerInput.LookAngle);
+        
 
-        bool reflect = false;
 
         switch (projectile.ProjectileType){
             case ProjectileType.Circle:
-                reflect = true;
-                if(!pressedOnTime) projectile.transform.Rotate(Vector3.forward, 180f);
+                // if (!pressedOnTime){ projectile.transform.Rotate(Vector3.forward, 180f); }
                 break;
             case ProjectileType.Slash:
-                if (!projectile.enteredMagicShield && pressedOnTime){
-                    reflect = true;
+                if (!projectile.enteredMagicShield){
                     if (Vector2.Angle(Vector2.down, projectileDirection) <= redirectImpulseAngle){
                         var playerMovement = Player.Instance.GetComponent<PlayerMovement>();
                         playerMovement.ForceDash(Vector2.up);
@@ -88,7 +101,6 @@ public class Parry : MonoBehaviour{
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (!reflect){ return; }
         projectile.reflected = true;
     }
 

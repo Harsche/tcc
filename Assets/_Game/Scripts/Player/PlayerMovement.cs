@@ -66,18 +66,14 @@ public class PlayerMovement : MonoBehaviour{
         Vector2 velocity;
 
         if (executeJump){
-            Vector3 jumpDirection = Vector2.up;
-            float rotateJumpDirection = 0;
             switch (checkWall){
                 case WallCheck.None:
                     break;
                 case WallCheck.Left:
                     OnWallJump();
-                    rotateJumpDirection = wallJumpAngle;
                     break;
                 case WallCheck.Right:
                     OnWallJump();
-                    rotateJumpDirection = -wallJumpAngle;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -106,7 +102,7 @@ public class PlayerMovement : MonoBehaviour{
             return;
         }
 
-        if (!Grounded && checkWall != WallCheck.None){
+        if (enableWallJump && !Grounded && checkWall != WallCheck.None){
             myRigidbody2D.gravityScale = 0;
             velocity = myRigidbody2D.velocity;
             velocity.x = 0;
@@ -169,7 +165,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private WallCheck CheckWall(){
-        if (isWallJumping || !enableWallJump){ return WallCheck.None; }
+        if (isWallJumping){ return WallCheck.None; }
         if (PlayerInput.MoveInput.x < 0 && myRigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
             if (isDashing){ CancelDash(); }
             return WallCheck.Left;

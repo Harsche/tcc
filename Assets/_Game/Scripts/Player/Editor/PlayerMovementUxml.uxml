@@ -3,6 +3,7 @@
     <ui:Instance template="Title" name="Title" />
     <ui:VisualElement name="Parameters" style="margin-top: 11px; display: flex;">
         <uie:FloatField label="Velocidade" value="5" name="Speed" binding-path="speed" tooltip="A velocidade em que o jogador se move em unidades/segundo." />
+        <uie:FloatField label="Tempo de Aceleração" value="5" name="MaxSpeedTime" binding-path="maxSpeedTime" tooltip="O tempo que o Player leva para atingir a velocidade máxima/parar." />
         <uie:FloatField label="Altura do Pulo" value="12" name="JumHeight" binding-path="jumpHeight" tooltip="Variação vertical do Player ao pular." />
         <uie:FloatField label="Distância do Dash" value="4" name="DashDistance" binding-path="dashDistance" tooltip="Distância que o Player percorre até terminar o dash." />
         <uie:FloatField label="Velocidade do Dash" value="15" name="DashSpeed" binding-path="dashSpeed" tooltip="Velocidade em que o Player se move até terminar o dash." />

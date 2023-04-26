@@ -45,7 +45,7 @@ public class Parry : MonoBehaviour{
         transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 
-    public void ChangeShieldColor(int colorIndex){
+    private void ChangeShieldColor(int colorIndex){
         shieldMagicType = (MagicType) colorIndex;
         spriteRenderer.color = shieldColors[colorIndex].SpriteColor;
         light2D.color = shieldColors[colorIndex].LightColor;

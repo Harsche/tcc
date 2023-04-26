@@ -2840,22 +2840,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 519420031}
     - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
-      propertyPath: jumpHeight
-      value: 3.63
-      objectReference: {fileID: 0}
-    - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
-      propertyPath: wallJumpTime
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
-      propertyPath: wallFallSpeed
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
-      propertyPath: wallJumpForce
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
       propertyPath: enableWallJump
       value: 0
       objectReference: {fileID: 0}

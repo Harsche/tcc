@@ -6,8 +6,9 @@ using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour{
     public static bool canMove = true;
-    
+
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float maxSpeedTime = 1f;
     [FormerlySerializedAs("jumpForce"), SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
@@ -63,45 +64,46 @@ public class PlayerMovement : MonoBehaviour{
 
         if (isDashing){ return; }
 
-        Vector2 velocity;
+        Vector2 velocity = myRigidbody2D.velocity;
 
+        // Normal and wall jump
         if (executeJump){
-            switch (checkWall){
-                case WallCheck.None:
-                    break;
-                case WallCheck.Left:
-                    OnWallJump();
-                    break;
-                case WallCheck.Right:
-                    OnWallJump();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+            if (enableWallJump && checkWall != WallCheck.None){
+                OnWallJump();
+                float wallJumpXVelocity = checkWall switch{
+                    WallCheck.None => 0f,
+                    WallCheck.Left => 1f,
+                    WallCheck.Right => -1f,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                velocity.x = wallJumpForce * wallJumpXVelocity;
             }
 
-            float wallJumpXVelocity = checkWall switch{
-                WallCheck.None => 0f,
-                WallCheck.Left => 1f,
-                WallCheck.Right => -1f,
-                _ => throw new ArgumentOutOfRangeException()
-            };
             float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
-            velocity = myRigidbody2D.velocity;
             velocity.y = jumpVelocity;
-            velocity.x = wallJumpForce * wallJumpXVelocity;
             myRigidbody2D.velocity = velocity;
             executeJump = false;
             return;
         }
 
+
+        // Normal movement
         if (checkWall == WallCheck.None && !isWallJumping){
-            velocity = myRigidbody2D.velocity;
-            velocity.x = canMove ? PlayerInput.MoveInput.x * speed : 0f;
+            if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
+                velocity.x = 0f;
+            }
+            else{
+                float maxDeltaSpeed = maxSpeedTime != 0f ? speed / maxSpeedTime * Time.fixedDeltaTime : speed;
+                velocity.x = canMove
+                    ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
+                    : 0f;
+            }
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
             return;
         }
 
+        // Movement if Player is holding on to a wall
         if (enableWallJump && !Grounded && checkWall != WallCheck.None){
             myRigidbody2D.gravityScale = 0;
             velocity = myRigidbody2D.velocity;
@@ -145,8 +147,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void OnJump(){
-        if (!Grounded && !onPlatform && checkWall == WallCheck.None){ return; }
-        executeJump = true;
+        if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
     }
 
     private void OnWallJump(){

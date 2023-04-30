@@ -1660,6 +1660,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.35680008, y: 1.5948653}
   m_EdgeRadius: 0
+--- !u!114 &1442440857 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+  m_PrefabInstance: {fileID: 1687233668671070052}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442440841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedfb9a626e005e46bfdc2c2e8988ae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1473230364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,6 +1898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1625873633}
   - component: {fileID: 1625873632}
+  - component: {fileID: 1625873634}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -1948,6 +1960,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1625873634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625873631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BoundingShape2D: {fileID: 0}
+  m_Damping: 0.5
+  m_MaxWindowSize: -1
 --- !u!1 &1654431220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,6 +2012,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!212 &1669676515 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1953740070328852247, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+  m_PrefabInstance: {fileID: 1687233668671070052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1669676517 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7832279890600420760, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+  m_PrefabInstance: {fileID: 1687233668671070052}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04dfebd4ce74075ad0cbe02ab6cd5c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1757138700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2257,17 @@ PolygonCollider2D:
   m_CorrespondingSourceObject: {fileID: 4611664000818553206, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
   m_PrefabInstance: {fileID: 1687233668671070052}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1894350892 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1687233670367898722, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+  m_PrefabInstance: {fileID: 1687233668671070052}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99bfced2a5ecbf844841931fb5ccd849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1973150574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2816,6 +2870,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1687233669814571216, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: <playerParry>k__BackingField
+      value: 
+      objectReference: {fileID: 1894350892}
+    - target: {fileID: 1687233669814571216, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
       propertyPath: <PlayerCamera>k__BackingField
       value: 
       objectReference: {fileID: 519420031}
@@ -2823,6 +2881,18 @@ PrefabInstance:
       propertyPath: <playerCamera>k__BackingField
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 1687233669814571216, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: <playerMovement>k__BackingField
+      value: 
+      objectReference: {fileID: 1442440857}
+    - target: {fileID: 1687233669814571216, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: <playerAnimation>k__BackingField
+      value: 
+      objectReference: {fileID: 1669676517}
+    - target: {fileID: 1687233669814571216, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: <PlayerVirtualCamera>k__BackingField
+      value: 
+      objectReference: {fileID: 1625873632}
     - target: {fileID: 1687233669814571223, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2843,6 +2913,10 @@ PrefabInstance:
       propertyPath: enableWallJump
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1669676515}
     - target: {fileID: 1687233669814571228, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
       propertyPath: wallContactFilter.maxNormalAngle
       value: 330
@@ -2911,6 +2985,22 @@ PrefabInstance:
       propertyPath: shieldCollider
       value: 
       objectReference: {fileID: 1894350891}
+    - target: {fileID: 1953740070328852247, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953740070328852247, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953740070328852247, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953740070328852247, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bfdc2b2b98b2604297105f840a61472, type: 2}
     - target: {fileID: 3215132506672455596, guid: bf8684140de72be458c83c3c21df5fa6, type: 3}
       propertyPath: m_IsTrigger
       value: 1

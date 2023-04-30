@@ -14,6 +14,7 @@ public class Parry : MonoBehaviour{
     [SerializeField] private MagicType shieldMagicType;
     [SerializeField] private Collider2D shieldCollider;
 
+    public event Action OnParry;
     private bool isParrying;
     private bool hasAbsorbedElement;
     private MagicType absorbedElement;
@@ -32,8 +33,13 @@ public class Parry : MonoBehaviour{
 
     private void OnEnable(){
         // Subsribe to input events
-        PlayerInput.OnFireInput += ToggleShield;
+        PlayerInput.OnFireInput += StartParry;
         PlayerInput.OnChangeShieldColor += ChangeShieldColor;
+    }
+
+    public void CancelParry(){
+        isParrying = false;
+        ToggleShield(false);
     }
 
     private void OnTriggerEnter2D(Collider2D col){
@@ -52,6 +58,13 @@ public class Parry : MonoBehaviour{
         spriteRenderer.color = shieldColors[colorIndex].SpriteColor;
         light2D.color = shieldColors[colorIndex].LightColor;
         spriteRenderer.material.SetColor(ShieldColor1, shieldColors[colorIndex].EmissionColor);
+        Player.Instance.playerAnimation.ChangeParryColor(shieldColors[colorIndex].SpriteColor);
+    }
+
+    private void StartParry(){
+        if(isParrying){return;}
+        isParrying = true;
+        OnParry?.Invoke();
     }
 
     private void ToggleShield(bool value){
@@ -63,6 +76,7 @@ public class Parry : MonoBehaviour{
         if (value){
             shieldActivateTime = Time.time;
             parryCoroutine = StartCoroutine(ParryCoroutine());
+            
         }
     }
 

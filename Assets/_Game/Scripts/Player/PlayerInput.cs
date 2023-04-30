@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     private GameInput gameInput;
     public static event Action<int> OnChangeShieldColor;
     public static event Action OnDashInput;
-    public static event Action<bool> OnFireInput;
+    public static event Action OnFireInput;
     public static event Action<bool> OnShieldToggle;
     public static event Action OnPlayerInteract;
     public static event Action<bool> OnJumpInput;
@@ -44,8 +44,7 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
 
     public void OnFire(InputAction.CallbackContext context){
         if (!PlayerMovement.canMove) {return;}
-        if (context.action.WasPressedThisFrame()){ OnFireInput?.Invoke(true); }
-        else if (context.action.WasReleasedThisFrame()){ OnFireInput?.Invoke(false); }
+        if (context.performed){ OnFireInput?.Invoke(); }
     }
 
     public void OnJump(InputAction.CallbackContext context){

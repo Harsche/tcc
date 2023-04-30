@@ -20,8 +20,8 @@
         <ui:Toggle label="Dash" name="EnableDash" binding-path="enableDash" tooltip="Se é possível ou não usar o Dash." value="true" />
     </ui:VisualElement>
     <ui:Foldout text="References" name="References" value="false" style="margin-top: 9px; display: flex;">
-        <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" />
-        <uie:ObjectField label="Magic Shield" binding-path="magicShield" name="MagicShield" />
+        <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" type="UnityEngine.SpriteRenderer, UnityEngine.CoreModule" />
+        <uie:ObjectField label="Magic Shield" binding-path="magicShield" name="MagicShield" type="Parry, Assembly-CSharp" />
         <uie:ObjectField label="Game Camera" binding-path="gameCamera" name="GameCamera" type="UnityEngine.Camera, UnityEngine.CoreModule" />
     </ui:Foldout>
 </ui:UXML>

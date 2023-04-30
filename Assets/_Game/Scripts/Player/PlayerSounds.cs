@@ -1,14 +1,13 @@
 using UnityEngine;
 
 public class PlayerSounds : MonoBehaviour{
-    [SerializeField] private PlayerAnimation playerAnimation;
     [SerializeField] private AudioClip[] grassSteps;
 
     private AudioSource audioSource;
 
-    private void Awake(){
+    private void Start(){
         audioSource = GetComponent<AudioSource>();
-        playerAnimation.OnStep += PlayStepSound;
+        Player.Instance.playerAnimation.OnStep += PlayStepSound;
     }
 
     private void PlayStepSound(){

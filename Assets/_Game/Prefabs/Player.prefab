@@ -538,9 +538,9 @@ MonoBehaviour:
   <Hp>k__BackingField: 0
   <PlayerCamera>k__BackingField: {fileID: 0}
   <PlayerVirtualCamera>k__BackingField: {fileID: 0}
-  <playerAnimation>k__BackingField: {fileID: 0}
-  <playerMovement>k__BackingField: {fileID: 0}
-  <playerParry>k__BackingField: {fileID: 0}
+  <playerAnimation>k__BackingField: {fileID: 7832279890600420760}
+  <playerMovement>k__BackingField: {fileID: 1687233669814571228}
+  <playerParry>k__BackingField: {fileID: 1687233670367898722}
 --- !u!1 &1687233670367898721
 GameObject:
   m_ObjectHideFlags: 0

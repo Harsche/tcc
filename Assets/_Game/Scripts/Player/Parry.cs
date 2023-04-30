@@ -13,6 +13,7 @@ public class Parry : MonoBehaviour{
     [SerializeField] private ShieldColor[] shieldColors;
     [SerializeField] private MagicType shieldMagicType;
     [SerializeField] private Collider2D shieldCollider;
+    [SerializeField] private bool enableParry;
 
     public event Action OnParry;
     private bool isParrying;
@@ -67,7 +68,7 @@ public class Parry : MonoBehaviour{
     }
 
     private void StartParry(){
-        if(isParrying){return;}
+        if(!enableParry || isParrying){return;}
         isParrying = true;
         OnParry?.Invoke();
     }

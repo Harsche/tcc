@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour{
     [SerializeField] private Enemy enemyPrefab;
+    [SerializeField] private Transform projectilePrefab;
     [SerializeField] private float spawnDelay = 5f;
     [SerializeField] private int maxEnemies = 1;
     [SerializeField] private bool limitedSpawns;
@@ -36,6 +37,7 @@ public class EnemySpawner : MonoBehaviour{
         }
 
         Enemy spawnedEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        if (projectilePrefab){ enemyPrefab.projectilePrefab = projectilePrefab;}
         currentEnemies.Add(spawnedEnemy);
         spawnedEnemy.OnDeath += enemy => currentEnemies.Remove(enemy);
     }

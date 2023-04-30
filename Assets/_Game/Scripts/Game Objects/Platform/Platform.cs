@@ -88,6 +88,7 @@ public class Platform : MonoBehaviour{
         var path = new List<Vector3>(waypoints);
         while (true){
             for (int index = 0; index < path.Count; index++){
+                if (stopBetweenPoints) yield return new WaitForSeconds(stopTime);
                 Vector3 waypoint = path[index];
                 Tweener tweener = transform.DOMove(waypoint, maxSpeed)
                     .SetSpeedBased()

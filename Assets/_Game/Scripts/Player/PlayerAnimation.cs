@@ -24,13 +24,13 @@ public class PlayerAnimation : MonoBehaviour{
     }
 
     private void Start(){
-        Player.Instance.playerParry.OnParry += () => animator.SetTrigger(Parry);
+        Player.Instance.PlayerParry.OnParry += () => animator.SetTrigger(Parry);
     }
 
     private void Update(){
         animator.SetFloat(Speed, playerRigidbody2D.velocity.sqrMagnitude);
         animator.SetFloat(ParryDirectionY, PlayerInput.LookDirection.y);
-        animator.SetBool(Grounded, playerMovement.Grounded);
+        animator.SetBool(Grounded, PlayerMovement.Grounded);
     }
 
     public void OnStepEvent(){

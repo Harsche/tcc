@@ -4,6 +4,8 @@
     </ui:VisualElement>
     <ui:VisualElement name="Parameters" style="margin-top: 10px;">
         <ui:Toggle label="Mover" name="Move" tooltip="A plataforma pode se mover?" binding-path="move" />
+        <ui:Toggle label="Parar Entre Pontos" name="StopBetweenPoints" tooltip="Se a plataforma deve parar nos pontos em que passa." binding-path="stopBetweenPoints" />
+        <uie:FloatField label="Tempo de Parada" value="1" name="StopTime" binding-path="stopTime" tooltip="Tempo que a plataforma fica parada nos pontos." />
         <ui:Slider picking-mode="Ignore" label="Velocidade Máxima" value="5" high-value="10" name="Max_Speed" tooltip="Velocidade máxima da plataforma." binding-path="maxSpeed" show-input-field="true" />
         <uie:EnumField label="Suavização" value="Linear" tooltip="Suavização do movimento." name="Ease" binding-path="ease" type="DG.Tweening.Ease, DoTween" />
         <uie:EnumField label="Tipo de Movimento" value="Linear" type="PlatformType, Assembly-CSharp" name="Platform_Type" binding-path="platformType" />

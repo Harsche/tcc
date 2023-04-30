@@ -330,9 +330,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1687233669814571229}
   - component: {fileID: 1687233669814571228}
+  - component: {fileID: 1687233669814571216}
   - component: {fileID: 1687233669814571219}
   - component: {fileID: 1687233669814571218}
-  - component: {fileID: 1687233669814571216}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -358,6 +358,7 @@ Transform:
   - {fileID: 7210905010659082342}
   - {fileID: 8930289198340020437}
   - {fileID: 1089716860474505114}
+  - {fileID: 6635117512524553481}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   maxSpeedTime: 0.15
-  maxFallSpeed: -10
+  maxFallSpeed: -15
   jumpHeight: 3.64
   dashDistance: 4
   dashSpeed: 15
@@ -419,6 +420,26 @@ MonoBehaviour:
   enableWallJump: 1
   enableDash: 1
   onPlatform: 0
+--- !u!114 &1687233669814571216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687233669814571223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410ba69a127e413ea06ab051de3f0d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxHp>k__BackingField: 10
+  <Hp>k__BackingField: 0
+  <PlayerCamera>k__BackingField: {fileID: 0}
+  <PlayerVirtualCamera>k__BackingField: {fileID: 0}
+  <PlayerAnimation>k__BackingField: {fileID: 7832279890600420760}
+  <PlayerMovement>k__BackingField: {fileID: 1687233669814571228}
+  <ElementMagic>k__BackingField: {fileID: 8793311155753760254}
+  <PlayerParry>k__BackingField: {fileID: 1687233670367898722}
 --- !u!114 &1687233669814571219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,25 +543,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1687233669814571216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1687233669814571223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 410ba69a127e413ea06ab051de3f0d8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MaxHp>k__BackingField: 10
-  <Hp>k__BackingField: 0
-  <PlayerCamera>k__BackingField: {fileID: 0}
-  <PlayerVirtualCamera>k__BackingField: {fileID: 0}
-  <playerAnimation>k__BackingField: {fileID: 7832279890600420760}
-  <playerMovement>k__BackingField: {fileID: 1687233669814571228}
-  <playerParry>k__BackingField: {fileID: 1687233670367898722}
 --- !u!1 &1687233670367898721
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bfced2a5ecbf844841931fb5ccd849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redirectTime: 0.05
   redirectImpulseAngle: 45
   spriteRenderer: {fileID: 1687233670367898732}
   light2D: {fileID: 1687233668777679885}
@@ -657,6 +658,7 @@ MonoBehaviour:
     <EmissionColor>k__BackingField: {r: 2.2653365, g: 2.2653365, b: 6.867925, a: 0}
   shieldMagicType: 0
   shieldCollider: {fileID: 4611664000818553206}
+  enableParry: 0
 --- !u!70 &1687233670367898733
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -712,6 +714,53 @@ PolygonCollider2D:
       - {x: 0.4169418, y: 0.28159314}
       - {x: 0.3035915, y: 0.39442632}
       - {x: 0.16261062, y: 0.46493077}
+--- !u!1 &2088316573468287086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6635117512524553481}
+  - component: {fileID: 8793311155753760254}
+  m_Layer: 3
+  m_Name: Element Magic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6635117512524553481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088316573468287086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1687233669814571229}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8793311155753760254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088316573468287086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906d1e70662848a4bb0207a49a02f373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  greenMushroomPrefab: {fileID: 0}
+  hasAbsorbedElement: 0
+  absorbedElement: 0
 --- !u!1 &2420253122673471594
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,8 +6,8 @@ public class Enemy : MonoBehaviour{
     [SerializeField] private bool invulnerable;
     [SerializeField] private float attackCooldown = 3f;
     [SerializeField] private float attackDistance = 5f;
-    [SerializeField] private Transform projectilePrefab;
     [SerializeField] private bool checkPlayerDistance = true;
+    public Transform projectilePrefab;
     private Coroutine attackCoroutine;
     private Coroutine checkPlayerDistanceCoroutine;
 

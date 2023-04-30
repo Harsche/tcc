@@ -134,6 +134,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseElement"",
+                    ""type"": ""Button"",
+                    ""id"": ""f933d3af-8f07-42d5-a73d-73b7cb604173"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -453,6 +462,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Shield"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2edfeff4-8732-4711-8dac-5fe26eb8aa20"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""UseElement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1052,6 +1072,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_ZoomIn = m_Player.FindAction("Zoom In", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
+        m_Player_UseElement = m_Player.FindAction("UseElement", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1137,6 +1158,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ZoomIn;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Shield;
+    private readonly InputAction m_Player_UseElement;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -1153,6 +1175,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @ZoomIn => m_Wrapper.m_Player_ZoomIn;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Shield => m_Wrapper.m_Player_Shield;
+        public InputAction @UseElement => m_Wrapper.m_Player_UseElement;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1198,6 +1221,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Shield.started += instance.OnShield;
             @Shield.performed += instance.OnShield;
             @Shield.canceled += instance.OnShield;
+            @UseElement.started += instance.OnUseElement;
+            @UseElement.performed += instance.OnUseElement;
+            @UseElement.canceled += instance.OnUseElement;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1238,6 +1264,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Shield.started -= instance.OnShield;
             @Shield.performed -= instance.OnShield;
             @Shield.canceled -= instance.OnShield;
+            @UseElement.started -= instance.OnUseElement;
+            @UseElement.performed -= instance.OnUseElement;
+            @UseElement.canceled -= instance.OnUseElement;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1432,6 +1461,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnZoomIn(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnShield(InputAction.CallbackContext context);
+        void OnUseElement(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

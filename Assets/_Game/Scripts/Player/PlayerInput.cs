@@ -43,18 +43,17 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnFire(InputAction.CallbackContext context){
-        if (!PlayerMovement.canMove) {return;}
+        if (!PlayerMovement.canMove){ return; }
         if (context.performed){ OnFireInput?.Invoke(); }
     }
 
     public void OnJump(InputAction.CallbackContext context){
-        if (!PlayerMovement.canMove) {return;}
-        if(context.action.WasPressedThisFrame()){OnJumpInput?.Invoke(true);}
-        if(context.action.WasReleasedThisFrame()){OnJumpInput?.Invoke(false);}
+        if (context.action.WasPressedThisFrame()){ OnJumpInput?.Invoke(true); }
+        if (context.action.WasReleasedThisFrame()){ OnJumpInput?.Invoke(false); }
     }
 
     public void OnDash(InputAction.CallbackContext context){
-        if (!PlayerMovement.canMove) {return;}
+        if (!PlayerMovement.canMove){ return; }
         if (context.performed){ OnDashInput?.Invoke(); }
     }
 
@@ -85,8 +84,12 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnShield(InputAction.CallbackContext context){
-        if (!PlayerMovement.canMove) {return;}
-        if(context.action.WasPressedThisFrame()){OnShieldToggle?.Invoke(true);}
-        if(context.action.WasReleasedThisFrame()){OnShieldToggle?.Invoke(false);}
+        if (!PlayerMovement.canMove){ return; }
+        if (context.action.WasPressedThisFrame()){ OnShieldToggle?.Invoke(true); }
+        if (context.action.WasReleasedThisFrame()){ OnShieldToggle?.Invoke(false); }
+    }
+
+    public void OnUseElement(InputAction.CallbackContext context){
+        if (context.performed){ Player.Instance.ElementMagic.UseMagicElement(); }
     }
 }

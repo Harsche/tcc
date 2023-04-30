@@ -12,7 +12,7 @@ public class JumpHeight : MonoBehaviour{
         playerMovement = Player.Instance.GetComponent<PlayerMovement>();
         
         PlayerInput.OnJumpInput += value => {
-            if (!value || !playerMovement.Grounded) return;
+            if (!value || !PlayerMovement.Grounded) return;
             startHeight = playerMovement.transform.position.y;
             maxHeight = startHeight;
             StartCoroutine(CheckJumpHeight());
@@ -21,7 +21,7 @@ public class JumpHeight : MonoBehaviour{
 
     private IEnumerator CheckJumpHeight(){
         yield return new WaitForSeconds(1f / 3f);
-        while (!playerMovement.Grounded){
+        while (!PlayerMovement.Grounded){
             if (playerMovement.transform.position.y > maxHeight){ maxHeight = playerMovement.transform.position.y; }
             yield return null;
         }

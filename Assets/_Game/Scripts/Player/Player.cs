@@ -6,9 +6,10 @@ public class Player : MonoBehaviour{
     [field: SerializeField] public float Hp{ get; private set; }
     [field: SerializeField] public Camera PlayerCamera{ get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera PlayerVirtualCamera{ get; private set; }
-    [field: SerializeField] public PlayerAnimation playerAnimation{ get; private set; }
-    [field: SerializeField] public PlayerMovement playerMovement{ get; private set; }
-    [field: SerializeField] public Parry playerParry{ get; private set; }
+    [field: SerializeField] public PlayerAnimation PlayerAnimation{ get; private set; }
+    [field: SerializeField] public PlayerMovement PlayerMovement{ get; private set; }
+    [field: SerializeField] public ElementMagic ElementMagic{ get; private set; }
+    [field: SerializeField] public Parry PlayerParry{ get; private set; }
     public static Player Instance{ get; private set; }
     public Interactable Interaction{ get; private set; }
 

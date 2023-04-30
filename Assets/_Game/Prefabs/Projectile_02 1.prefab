@@ -224,7 +224,7 @@ MonoBehaviour:
   enemyAttackDirection: 0
   enteredMagicShield: 0
   reflected: 0
-  <ProjectileType>k__BackingField: 0
+  <ProjectileType>k__BackingField: 1
   <MagicType>k__BackingField: 0
 --- !u!60 &5521784769769130268
 PolygonCollider2D:

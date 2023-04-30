@@ -7,7 +7,7 @@ public class PlayerSounds : MonoBehaviour{
 
     private void Start(){
         audioSource = GetComponent<AudioSource>();
-        Player.Instance.playerAnimation.OnStep += PlayStepSound;
+        Player.Instance.PlayerAnimation.OnStep += PlayStepSound;
     }
 
     private void PlayStepSound(){

@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour{
             ChangeColor((MagicType) Random.Range(0, 3));
             return;
         }
-        ChangeColor(MagicType.Red);
+        ChangeColor(MagicType);
         Destroy(gameObject, destroyTime);
     }
 

@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
     [SerializeField] private bool enableWallJump;
-    [SerializeField] private bool enableDash;
+    public bool enableDash;
 
     public bool onPlatform;
     private readonly Collider2D[] groundContacts = new Collider2D[3];
@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour{
     private float dashDuration;
     private bool executeDash;
     private bool executeJump;
+    private float forcedJumpHeight;
+    private bool forceJump;
     private float gravityScale;
     private bool isDashing;
     private bool isWallJumping;
@@ -44,7 +46,10 @@ public class PlayerMovement : MonoBehaviour{
     private Rigidbody2D myRigidbody2D;
     private Transform myTransform;
 
-    public bool Grounded{ get; private set; }
+    public static bool Grounded{ get; private set; }
+    public float JumpHeight => jumpHeight;
+    public Vector2 FootPosition => (Vector2) transform.position - boxCollider2D.size * 0.5f;
+    public Vector2 Velocity => myRigidbody2D.velocity;
 
     private void Awake(){
         myTransform = transform;
@@ -62,9 +67,8 @@ public class PlayerMovement : MonoBehaviour{
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
             origin.y -= boxCollider2D.size.y / 2f;
-            Debug.DrawRay(origin, Vector3.down * 0.2f, Color.black);
             RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundLayerMask);
-            if (hit.collider){ lastGroundPosition = myTransform.position; }
+            if (hit.collider && !hit.collider.CompareTag("Platform")){ lastGroundPosition = myTransform.position; }
         }
 
         if (executeDash){
@@ -77,7 +81,7 @@ public class PlayerMovement : MonoBehaviour{
         Vector2 velocity = myRigidbody2D.velocity;
 
         // Normal and wall jump
-        if (executeJump){
+        if (executeJump || forceJump){
             if (enableWallJump && checkWall != WallCheck.None){
                 OnWallJump();
                 float wallJumpXVelocity = checkWall switch{
@@ -89,16 +93,18 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = wallJumpForce * wallJumpXVelocity;
             }
 
-            float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * jumpHeight);
+            float desiredHeight = forceJump ? forcedJumpHeight : jumpHeight;
+            float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * desiredHeight);
             velocity.y = jumpVelocity;
             myRigidbody2D.velocity = velocity;
             executeJump = false;
+            forceJump = false;
             return;
         }
 
 
         // Normal movement
-        if (Grounded || onPlatform || checkWall == WallCheck.None && !isWallJumping){
+        if (Grounded || onPlatform || (checkWall == WallCheck.None && !isWallJumping)){
             // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;
@@ -108,7 +114,7 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = canMove
                     ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
                     : 0f;
-                if(velocity.y < 0f){velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f);}
+                if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
             }
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
@@ -159,6 +165,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void OnJump(bool value){
+        if (!canMove){ return; }
         if (value){
             if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
             return;
@@ -224,5 +231,10 @@ public class PlayerMovement : MonoBehaviour{
         CancelDash();
         dashDirection = direction;
         executeDash = true;
+    }
+
+    public void ForceJump(float height){
+        forceJump = true;
+        forcedJumpHeight = height;
     }
 }

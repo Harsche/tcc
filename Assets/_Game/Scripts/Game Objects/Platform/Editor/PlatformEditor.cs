@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameEditors{
-    [CustomEditor(typeof(Platform))]
+    [CustomEditor(typeof(Platform)), CanEditMultipleObjects]
     public class PlatformEditor : Editor{
         [SerializeField] private VisualTreeAsset visualTreeAssetUxml;
 

@@ -55,7 +55,7 @@ public class SceneLoader : MonoBehaviour{
                 DontDestroyOnLoad(rootGameObject);
             }
             string scene = GameSaveSystem.SaveData.loadScene;
-            if (string.IsNullOrEmpty(scene)){ scene = "SampleScene"; }
+            if (string.IsNullOrEmpty(scene)){ scene = "A1"; }
             LoadScene(scene);
             GameSaveSystem.SetLastSaveTime();
             yield break;

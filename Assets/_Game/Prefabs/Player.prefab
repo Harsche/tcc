@@ -417,8 +417,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  enableWallJump: 1
-  enableDash: 1
+  enableWallJump: 0
+  enableDash: 0
   onPlatform: 0
 --- !u!114 &1687233669814571216
 MonoBehaviour:

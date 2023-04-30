@@ -68,6 +68,7 @@ public class Platform : MonoBehaviour{
     private void OnCollisionExit2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player")){ return; }
         col.transform.SetParent(null);
+        DontDestroyOnLoad(Player.Instance.gameObject);
         playerMovement.onPlatform = false;
     }
 

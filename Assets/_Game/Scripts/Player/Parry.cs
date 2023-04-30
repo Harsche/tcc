@@ -25,6 +25,11 @@ public class Parry : MonoBehaviour{
 
     private void Awake(){
         ToggleShield(false);
+        ChangeShieldColor(0);
+    }
+
+    private void Start(){
+        Player.Instance.playerAnimation.OnParry += () => ToggleShield(true);
     }
 
     private void Update(){
@@ -32,7 +37,7 @@ public class Parry : MonoBehaviour{
     }
 
     private void OnEnable(){
-        // Subsribe to input events
+        // Subscribe to input events
         PlayerInput.OnFireInput += StartParry;
         PlayerInput.OnChangeShieldColor += ChangeShieldColor;
     }
@@ -68,32 +73,18 @@ public class Parry : MonoBehaviour{
     }
 
     private void ToggleShield(bool value){
-        if (value && isParrying){ return; }
         shieldCollider.enabled = value;
         spriteRenderer.enabled = value;
         light2D.enabled = false;
-        isParrying = value;
-        if (value){
-            shieldActivateTime = Time.time;
-            parryCoroutine = StartCoroutine(ParryCoroutine());
-            
-        }
-    }
-
-    private IEnumerator ParryCoroutine(){
-        yield return new WaitForSeconds(redirectTime);
-        ToggleShield(false);
     }
 
     private void ReflectProjectile(Projectile projectile){
         hasAbsorbedElement = true;
         absorbedElement = projectile.MagicType;
         Debug.Log(absorbedElement);
-        // bool pressedOnTime = Time.time - shieldActivateTime <= redirectTime;
         Vector2 projectileDirection = default;
         
         // Rotates projectile around player to adjust reflect direction
-        
         Vector3 myPosition = transform.position;
         projectileDirection = projectile.transform.position - myPosition;
         Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerInput.LookAngle) * Vector3.right;

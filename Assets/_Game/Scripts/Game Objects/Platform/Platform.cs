@@ -17,6 +17,14 @@ public class Platform : MonoBehaviour{
     [SerializeField] private ContactFilter2D playerContactFilter;
     [SerializeField] private Rigidbody2D myRigidbody2D;
 
+    public bool Move{
+        get => move;
+        set{
+            move = value;
+            if (move){ moveCoroutine = StartCoroutine(MoveCoroutine()); }
+        }
+    }
+
 #if UNITY_EDITOR
     public bool showHandles = true;
 #endif
@@ -36,8 +44,7 @@ public class Platform : MonoBehaviour{
     private void Awake(){
         myRigidbody2D = GetComponent<Rigidbody2D>();
         lastPosition = transform.position;
-        if (!move){ return; }
-        moveCoroutine = StartCoroutine(MoveCoroutine());
+        if (move){ moveCoroutine = StartCoroutine(MoveCoroutine()); }
     }
 
     private void Start(){

@@ -16,6 +16,7 @@ public class PlayerAnimation : MonoBehaviour{
     private SpriteRenderer spriteRenderer;
 
     public event Action OnStep;
+    public event Action OnParry;
 
     private void Awake(){
         animator = GetComponent<Animator>();
@@ -34,6 +35,10 @@ public class PlayerAnimation : MonoBehaviour{
 
     public void OnStepEvent(){
         OnStep?.Invoke();
+    }
+    
+    public void OnParryEvent(){
+        OnParry?.Invoke();
     }
 
     public void ChangeParryColor(Color color){

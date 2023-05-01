@@ -2,10 +2,12 @@ using System;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour{
-    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int SpeedX = Animator.StringToHash("SpeedX");
+    private static readonly int SpeedY = Animator.StringToHash("SpeedY");
     private static readonly int Grounded = Animator.StringToHash("Grounded");
     private static readonly int Parry = Animator.StringToHash("Parry");
     private static readonly int ParryDirectionY = Animator.StringToHash("ParryDirectionY");
+    private static readonly int Jump = Animator.StringToHash("Jump");
 
     private static readonly int ParryColor = Shader.PropertyToID("_ParryColor");
     
@@ -25,10 +27,12 @@ public class PlayerAnimation : MonoBehaviour{
 
     private void Start(){
         Player.Instance.PlayerParry.OnParry += () => animator.SetTrigger(Parry);
+        Player.Instance.PlayerMovement.OnJump += () => animator.SetTrigger(Jump);
     }
 
     private void Update(){
-        animator.SetFloat(Speed, playerRigidbody2D.velocity.sqrMagnitude);
+        animator.SetFloat(SpeedX, Mathf.Abs(playerRigidbody2D.velocity.x));
+        animator.SetFloat(SpeedY, playerRigidbody2D.velocity.y);
         animator.SetFloat(ParryDirectionY, PlayerInput.LookDirection.y);
         animator.SetBool(Grounded, PlayerMovement.Grounded);
     }

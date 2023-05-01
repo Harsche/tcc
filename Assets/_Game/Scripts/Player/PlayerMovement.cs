@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour{
     private float dashDuration;
     private bool executeDash;
     private bool executeJump;
+    private bool jumpInput;
     private float forcedJumpHeight;
     private bool forceJump;
     private float gravityScale;
@@ -47,9 +48,10 @@ public class PlayerMovement : MonoBehaviour{
     private Transform myTransform;
 
     public static bool Grounded{ get; private set; }
-    public float JumpHeight => jumpHeight;
     public Vector2 FootPosition => (Vector2) transform.position - boxCollider2D.size * 0.5f;
     public Vector2 Velocity => myRigidbody2D.velocity;
+
+    public event Action OnJump;
 
     private void Awake(){
         myTransform = transform;
@@ -64,6 +66,7 @@ public class PlayerMovement : MonoBehaviour{
         checkWall = CheckWall();
 
         if (Grounded){
+            myRigidbody2D.gravityScale = 0f;
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
             origin.y -= boxCollider2D.size.y / 2f;
@@ -93,6 +96,7 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = wallJumpForce * wallJumpXVelocity;
             }
 
+            myRigidbody2D.gravityScale = gravityScale;
             float desiredHeight = forceJump ? forcedJumpHeight : jumpHeight;
             float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * desiredHeight);
             velocity.y = jumpVelocity;
@@ -114,6 +118,8 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = canMove
                     ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
                     : 0f;
+                
+                // Limits falling speed
                 if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
             }
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
@@ -133,7 +139,7 @@ public class PlayerMovement : MonoBehaviour{
 
     private void OnEnable(){
         // Subscribe to input events
-        PlayerInput.OnJumpInput += OnJump;
+        PlayerInput.OnJumpInput += Jump;
         PlayerInput.OnDashInput += OnDash;
     }
 
@@ -164,10 +170,14 @@ public class PlayerMovement : MonoBehaviour{
         CancelDash();
     }
 
-    private void OnJump(bool value){
+    private void Jump(bool value){
+        jumpInput = value;
         if (!canMove){ return; }
         if (value){
-            if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
+            if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){
+                executeJump = true;
+                OnJump?.Invoke();
+            }
             return;
         }
 

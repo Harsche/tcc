@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour{
     public bool enableDash;
 
     public bool onPlatform;
-    private readonly Collider2D[] groundContacts = new Collider2D[3];
     private readonly ContactPoint2D[] groundContactPoint = new ContactPoint2D[1];
+    private readonly Collider2D[] groundContacts = new Collider2D[3];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
     private BoxCollider2D boxCollider2D;
     private WallCheck checkWall;
@@ -38,7 +38,6 @@ public class PlayerMovement : MonoBehaviour{
     private float dashDuration;
     private bool executeDash;
     private bool executeJump;
-    private bool jumpInput;
     private float forcedJumpHeight;
     private bool forceJump;
     private float gravityScale;
@@ -47,12 +46,13 @@ public class PlayerMovement : MonoBehaviour{
     private Vector2 lastGroundPosition;
     private Rigidbody2D myRigidbody2D;
     private Transform myTransform;
+    private bool wasGrounded;
+
+    public event Action OnJump;
 
     public static bool Grounded{ get; private set; }
     public Vector2 FootPosition => (Vector2) transform.position - boxCollider2D.size * 0.5f;
     public Vector2 Velocity => myRigidbody2D.velocity;
-
-    public event Action OnJump;
 
     private void Awake(){
         myTransform = transform;
@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void FixedUpdate(){
+        wasGrounded = Grounded;
         Grounded = CheckGround();
         checkWall = CheckWall();
 
@@ -116,7 +117,7 @@ public class PlayerMovement : MonoBehaviour{
             }
             else{
                 float maxDeltaSpeed = maxSpeedTime != 0f ? speed / maxSpeedTime * Time.fixedDeltaTime : speed;
-                if (Grounded){
+                if (Grounded || SnapToGround()){
                     Vector2 orientedVelocity = new(PlayerInput.MoveInput.x * speed, 0f);
                     orientedVelocity = Vector2.Reflect(orientedVelocity, groundContactPoint[0].normal);
                     velocity = canMove
@@ -127,11 +128,10 @@ public class PlayerMovement : MonoBehaviour{
                     velocity.x = canMove
                         ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
                         : 0f;
-                
+
                     // Limits falling speed
                     if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
                 }
-                
             }
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
@@ -182,7 +182,6 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void Jump(bool value){
-        jumpInput = value;
         if (!canMove){ return; }
         if (value){
             if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){
@@ -248,6 +247,15 @@ public class PlayerMovement : MonoBehaviour{
         myRigidbody2D.velocity = new Vector2(0f, currentVelocity.y * 0.5f);
         isDashing = false;
         if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
+    }
+
+    private bool SnapToGround(){
+        if (Grounded || !wasGrounded){ return false; }
+        int groundLayerMask = LayerMask.GetMask("Ground");
+        Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
+        origin.y -= boxCollider2D.size.y / 2f;
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundLayerMask);
+        return true;
     }
 
     public void ForceDash(Vector2 direction){

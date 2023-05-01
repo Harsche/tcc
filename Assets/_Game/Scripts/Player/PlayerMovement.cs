@@ -26,9 +26,11 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private ContactFilter2D wallContactFilter;
     [SerializeField] private bool enableWallJump;
     public bool enableDash;
-
+    
     public bool onPlatform;
+    private Vector2 velocity;
     private readonly ContactPoint2D[] groundContactPoint = new ContactPoint2D[1];
+    private Vector2 groundNormal;
     private readonly Collider2D[] groundContacts = new Collider2D[3];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
     private BoxCollider2D boxCollider2D;
@@ -83,7 +85,7 @@ public class PlayerMovement : MonoBehaviour{
 
         if (isDashing){ return; }
 
-        Vector2 velocity = myRigidbody2D.velocity;
+        velocity = myRigidbody2D.velocity;
 
         // Normal and wall jump
         if (executeJump || forceJump){
@@ -119,7 +121,8 @@ public class PlayerMovement : MonoBehaviour{
                 float maxDeltaSpeed = maxSpeedTime != 0f ? speed / maxSpeedTime * Time.fixedDeltaTime : speed;
                 if (Grounded || SnapToGround()){
                     Vector2 orientedVelocity = new(PlayerInput.MoveInput.x * speed, 0f);
-                    orientedVelocity = Vector2.Reflect(orientedVelocity, groundContactPoint[0].normal);
+                    // orientedVelocity = Vector2.Reflect(orientedVelocity, groundContactPoint[0].normal);
+                    orientedVelocity = Vector3.ProjectOnPlane(orientedVelocity, -groundNormal);
                     velocity = canMove
                         ? Vector2.MoveTowards(velocity, orientedVelocity, maxDeltaSpeed)
                         : Vector2.zero;
@@ -193,7 +196,7 @@ public class PlayerMovement : MonoBehaviour{
 
         // Cancel jump
         if (!Grounded && !onPlatform && (!enableWallJump || checkWall != WallCheck.None)){
-            Vector2 velocity = myRigidbody2D.velocity;
+            velocity = myRigidbody2D.velocity;
             if (!(velocity.y > 0f)){ return; }
             velocity.y *= 0.5f;
             myRigidbody2D.velocity = velocity;
@@ -214,6 +217,7 @@ public class PlayerMovement : MonoBehaviour{
     private bool CheckGround(){
         if (myRigidbody2D.GetContacts(groundContactFilter, groundContacts) <= 0){ return false; }
         myRigidbody2D.GetContacts(groundContactFilter, groundContactPoint);
+        groundNormal = groundContactPoint[0].normal;
         return true;
     }
 
@@ -254,7 +258,10 @@ public class PlayerMovement : MonoBehaviour{
         int groundLayerMask = LayerMask.GetMask("Ground");
         Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
         origin.y -= boxCollider2D.size.y / 2f;
-        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.5f, groundLayerMask);
+        if (!hit.collider){ return false; }
+        groundNormal = hit.normal;
+        Grounded = true;
         return true;
     }
 

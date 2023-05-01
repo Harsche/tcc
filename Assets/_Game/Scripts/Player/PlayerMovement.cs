@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour{
 
     public bool onPlatform;
     private readonly Collider2D[] groundContacts = new Collider2D[3];
+    private readonly ContactPoint2D[] groundContactPoint = new ContactPoint2D[1];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
     private BoxCollider2D boxCollider2D;
     private WallCheck checkWall;
@@ -115,12 +116,22 @@ public class PlayerMovement : MonoBehaviour{
             }
             else{
                 float maxDeltaSpeed = maxSpeedTime != 0f ? speed / maxSpeedTime * Time.fixedDeltaTime : speed;
-                velocity.x = canMove
-                    ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
-                    : 0f;
+                if (Grounded){
+                    Vector2 orientedVelocity = new(PlayerInput.MoveInput.x * speed, 0f);
+                    orientedVelocity = Vector2.Reflect(orientedVelocity, groundContactPoint[0].normal);
+                    velocity = canMove
+                        ? Vector2.MoveTowards(velocity, orientedVelocity, maxDeltaSpeed)
+                        : Vector2.zero;
+                }
+                else{
+                    velocity.x = canMove
+                        ? Mathf.MoveTowards(velocity.x, PlayerInput.MoveInput.x * speed, maxDeltaSpeed)
+                        : 0f;
                 
-                // Limits falling speed
-                if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
+                    // Limits falling speed
+                    if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
+                }
+                
             }
             if (Math.Abs(velocity.x) > 0){ spriteRenderer.flipX = velocity.x < 0; }
             myRigidbody2D.velocity = velocity;
@@ -202,7 +213,9 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private bool CheckGround(){
-        return myRigidbody2D.GetContacts(groundContactFilter, groundContacts) > 0;
+        if (myRigidbody2D.GetContacts(groundContactFilter, groundContacts) <= 0){ return false; }
+        myRigidbody2D.GetContacts(groundContactFilter, groundContactPoint);
+        return true;
     }
 
     private WallCheck CheckWall(){

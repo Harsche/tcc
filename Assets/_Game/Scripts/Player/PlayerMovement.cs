@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour{
             myRigidbody2D.gravityScale = 0f;
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
-            origin.y -= boxCollider2D.size.y / 2f;
+            origin.y -= boxCollider2D.size.y * 0.5f;
             RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundLayerMask);
             if (hit.collider && !hit.collider.CompareTag("Platform")){ lastGroundPosition = myTransform.position; }
         }
@@ -257,7 +257,7 @@ public class PlayerMovement : MonoBehaviour{
         if (Grounded || !wasGrounded){ return false; }
         int groundLayerMask = LayerMask.GetMask("Ground");
         Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
-        origin.y -= boxCollider2D.size.y / 2f;
+        origin.y -= boxCollider2D.size.y * 0.5f;
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.5f, groundLayerMask);
         if (!hit.collider){ return false; }
         groundNormal = hit.normal;

@@ -15,12 +15,12 @@ public class ElementMagic : MonoBehaviour{
                 break;
             case MagicType.Green:
                 // Fires a raycast down and spawns mushroom if hits ground
-                if (!PlayerMovement.Grounded){ break; }
+                if (!PlayerMovement.Grounded){ return; }
                 int groundLayerMask = LayerMask.GetMask("Ground");
                 Vector2 origin = transform.position;
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 5f, groundLayerMask);
                 if (!hit.collider){ break; }
-                if (greenMushroom){ Destroy(greenMushroom); }
+                if (greenMushroom){ Destroy(greenMushroom.gameObject); }
                 greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity);
                 break;
             case MagicType.Blue:
@@ -28,6 +28,7 @@ public class ElementMagic : MonoBehaviour{
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        hasAbsorbedElement = false;
         PlayerHUD.Instance.ToggleAbsorbedElement(false);
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -27,15 +26,15 @@ public class GreenMushroom : MonoBehaviour{
         Destroy(transform.parent.gameObject, duration);
     }
 
+    private void Update(){
+        float topY = transform.position.y + boxCollider2D.bounds.extents.y;
+        boxCollider2D.enabled = Player.Instance.PlayerMovement.FootPosition.y >= topY;
+    }
+
     private void OnDestroy(){
         if (!isPlayerOn){ return; }
         Player.Instance.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
-    }
-
-    private void Update(){
-        float topY = transform.position.y + boxCollider2D.bounds.extents.y;
-        boxCollider2D.enabled = Player.Instance.PlayerMovement.FootPosition.y >= topY;
     }
 
     private void OnCollisionEnter2D(Collision2D other){

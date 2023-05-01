@@ -22,6 +22,7 @@ namespace GameEditors{
                 Vector3 waypoint = platform.Waypoints[index];
                 platform.Waypoints[index] = Handles.PositionHandle(waypoint, Quaternion.identity);
             }
+            EditorUtility.SetDirty(platform);
         }
 
         public override VisualElement CreateInspectorGUI(){

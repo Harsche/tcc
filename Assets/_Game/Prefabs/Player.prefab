@@ -647,12 +647,12 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1687233670367898732}
   light2D: {fileID: 1687233668777679885}
   shieldColors:
-  - <SpriteColor>k__BackingField: {r: 1, g: 0, b: 0.028168678, a: 1}
-    <LightColor>k__BackingField: {r: 1, g: 0.41037738, b: 0.41037738, a: 1}
-    <EmissionColor>k__BackingField: {r: 6.8679256, g: 0.30524114, b: 0, a: 0}
   - <SpriteColor>k__BackingField: {r: 0.2028302, g: 1, b: 0.2028302, a: 1}
     <LightColor>k__BackingField: {r: 0.43867922, g: 1, b: 0.43867922, a: 1}
     <EmissionColor>k__BackingField: {r: 0, g: 0.0627451, b: 0, a: 0}
+  - <SpriteColor>k__BackingField: {r: 1, g: 0, b: 0.028168678, a: 1}
+    <LightColor>k__BackingField: {r: 1, g: 0.41037738, b: 0.41037738, a: 1}
+    <EmissionColor>k__BackingField: {r: 6.8679256, g: 0.30524114, b: 0, a: 0}
   - <SpriteColor>k__BackingField: {r: 0.16000003, g: 0.16000003, b: 1, a: 1}
     <LightColor>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
     <EmissionColor>k__BackingField: {r: 2.2653365, g: 2.2653365, b: 6.867925, a: 0}

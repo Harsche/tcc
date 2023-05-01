@@ -1976,6 +1976,22 @@ PrefabInstance:
       propertyPath: unlockParry
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8394491177273820417, guid: 28802cd6b27d9ae4693196e1ba0d610d, type: 3}
+      propertyPath: m_text
+      value: Cajdado
+      objectReference: {fileID: 0}
+    - target: {fileID: 8394491177273820417, guid: 28802cd6b27d9ae4693196e1ba0d610d, type: 3}
+      propertyPath: m_fontSize
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 8394491177273820417, guid: 28802cd6b27d9ae4693196e1ba0d610d, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 8394491177273820417, guid: 28802cd6b27d9ae4693196e1ba0d610d, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28802cd6b27d9ae4693196e1ba0d610d, type: 3}
 --- !u!1001 &1507000659

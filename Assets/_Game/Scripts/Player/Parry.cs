@@ -12,6 +12,9 @@ public class Parry : MonoBehaviour{
     [SerializeField] private MagicType shieldMagicType;
     [SerializeField] private Collider2D shieldCollider;
     public bool enableParry;
+    public bool enableGreen = true;
+    public bool enableRed;
+    public bool enableBlue;
     private bool isParrying;
     private Coroutine parryCoroutine;
 
@@ -56,7 +59,18 @@ public class Parry : MonoBehaviour{
     }
 
     private void ChangeShieldColor(int colorIndex){
-        shieldMagicType = (MagicType) colorIndex;
+        switch (colorIndex){
+            case 0:
+                if(!enableGreen){return;}
+                break;
+            case 1:
+                if(!enableRed){return;}
+                break;
+            case 2:
+                if(!enableBlue){return;}
+                break;
+        }
+        shieldMagicType = shieldColors[colorIndex].MagicType;
         spriteRenderer.color = shieldColors[colorIndex].SpriteColor;
         light2D.color = shieldColors[colorIndex].LightColor;
         spriteRenderer.material.SetColor(ShieldColor1, shieldColors[colorIndex].EmissionColor);
@@ -121,6 +135,7 @@ public class Parry : MonoBehaviour{
 
     [Serializable]
     public class ShieldColor{
+        [field: SerializeField] public MagicType MagicType{ get; private set; }
         [field: SerializeField] public Color SpriteColor{ get; private set; }
         [field: SerializeField] public Color LightColor{ get; private set; }
         [field: SerializeField, ColorUsage(false, true)] public Color EmissionColor{ get; private set; }

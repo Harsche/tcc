@@ -11,7 +11,7 @@ public class DialogCanvas : MonoBehaviour{
     private Canvas canvas;
     private Sequence toggleAnimation;
 
-    public bool Active{ get; private set; }
+    public bool active{ get; private set; }
 
     private void Awake(){
         canvas = GetComponent<Canvas>();
@@ -25,8 +25,8 @@ public class DialogCanvas : MonoBehaviour{
     }
 
     public void ToggleDialogCanvas(bool value){
-        Active = value;
-        PlayerMovement.canMove = !Active;
+        active = value;
+        PlayerMovement.canMove = !active;
         toggleAnimation = DOTween.Sequence();
 
         if (value){

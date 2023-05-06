@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 4490933081999547963}
   - component: {fileID: 1106480971165064245}
   m_Layer: 0
-  m_Name: Next Scene
+  m_Name: Scene Transition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8722540234957572052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.2158, y: 2.1268, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 3.121413, y: 4.8183246, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisGateNumber: 0
-  thisGatePosition: {x: 0, y: 0}
+  thisGatePosition: {x: 1, y: 2}
   destinationSceneName: 
   destinationGateNumber: 0
   gateText: {fileID: 1850311889653089781}

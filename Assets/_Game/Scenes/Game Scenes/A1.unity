@@ -2885,6 +2885,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGateNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGatePosition.x
+      value: 52.76051
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGatePosition.y
+      value: 14.82271
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: destinationSceneName
+      value: A9
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: destinationGateNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4387194017250029976, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
       propertyPath: sceneName
       value: A6
@@ -4971,6 +4991,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGatePosition.x
+      value: -8.846116
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGatePosition.y
+      value: -20.386692
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: destinationSceneName
+      value: A2
+      objectReference: {fileID: 0}
     - target: {fileID: 4387194017250029976, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
       propertyPath: sceneName
       value: A2

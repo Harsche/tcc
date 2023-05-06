@@ -6,33 +6,33 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/_StartScreen.unity
+    path: Assets/_Game/Scenes/Game Scenes/_StartScreen.unity
     guid: 6c95a2418d5560242a33113d0a5da59c
   - enabled: 1
-    path: Assets/_Game/Scenes/SetupScene.unity
+    path: Assets/_Game/Scenes/Game Scenes/SetupScene.unity
     guid: f8349e9ad725f3d478b450c5d353acd2
   - enabled: 1
     path: Assets/_Game/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A1.unity
+    path: Assets/_Game/Scenes/Game Scenes/A1.unity
     guid: 76f390b9b25807143a5a2421044b7341
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A2.unity
+    path: Assets/_Game/Scenes/Game Scenes/A2.unity
     guid: 32d0f10b0dcfb4f46a023cba9b8b8c1d
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A3.unity
+    path: Assets/_Game/Scenes/Game Scenes/A3.unity
     guid: 154ed6a1d9f259a4096913c3718e0a8f
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A4.unity
+    path: Assets/_Game/Scenes/Game Scenes/A4.unity
     guid: b69fff6881e76874e9b8777b39663cc0
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A5.unity
+    path: Assets/_Game/Scenes/Game Scenes/A5.unity
     guid: c356f6d4d2902314f87fef03e4e489f6
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A6.unity
+    path: Assets/_Game/Scenes/Game Scenes/A6.unity
     guid: b141cd0c7fa6d6c45bc5ce2b2b866653
   - enabled: 1
-    path: Assets/_Game/Scenes/Game/A7.unity
+    path: Assets/_Game/Scenes/Game Scenes/A7.unity
     guid: 2d03a2ce8db76484cb45b22f892df2e0
   m_configObjects: {}

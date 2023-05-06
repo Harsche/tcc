@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashCancelCollisionAngleThreshold = 30f;
-    [SerializeField] private int maxJumps = 2;
     [SerializeField] private float wallFallSpeed = -2f;
     [SerializeField] private float wallJumpTime = 1f;
     [SerializeField] private float wallJumpAngle = 30f;
@@ -24,8 +23,9 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
-    [SerializeField] private bool enableWallJump;
+    public bool enableWallJump;
     public bool enableDash;
+    public bool enableDoubleJump;
     
     public bool onPlatform;
     private Vector2 velocity;
@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour{
     private bool executeJump;
     private float forcedJumpHeight;
     private bool forceJump;
+    private bool airJumped;
     private float gravityScale;
     private bool isDashing;
     private bool isWallJumping;
@@ -70,6 +71,7 @@ public class PlayerMovement : MonoBehaviour{
         checkWall = CheckWall();
 
         if (Grounded){
+            airJumped = false;
             myRigidbody2D.gravityScale = 0f;
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
@@ -100,6 +102,7 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = wallJumpForce * wallJumpXVelocity;
             }
 
+            if (!Grounded && enableDoubleJump && checkWall == WallCheck.None){ airJumped = true;}
             myRigidbody2D.gravityScale = gravityScale;
             float desiredHeight = forceJump ? forcedJumpHeight : jumpHeight;
             float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * desiredHeight);
@@ -187,7 +190,7 @@ public class PlayerMovement : MonoBehaviour{
     private void Jump(bool value){
         if (!canMove){ return; }
         if (value){
-            if (Grounded || onPlatform || (checkWall != WallCheck.None && enableWallJump)){
+            if (Grounded || (enableDoubleJump && !airJumped) || onPlatform || (checkWall != WallCheck.None && enableWallJump)){
                 executeJump = true;
                 OnJump?.Invoke();
             }

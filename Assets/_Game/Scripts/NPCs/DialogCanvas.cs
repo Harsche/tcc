@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,8 @@ public class DialogCanvas : MonoBehaviour{
     private Canvas canvas;
     private Sequence toggleAnimation;
 
-    public bool active{ get; private set; }
+    public static bool Active{ get; private set; }
+    public static bool IsToggling{ get; private set; }
 
     private void Awake(){
         canvas = GetComponent<Canvas>();
@@ -25,18 +27,24 @@ public class DialogCanvas : MonoBehaviour{
     }
 
     public void ToggleDialogCanvas(bool value){
-        active = value;
-        PlayerMovement.canMove = !active;
+        IsToggling = true;
+        PlayerMovement.canMove = !value;
         toggleAnimation = DOTween.Sequence();
 
         if (value){
+            Active = true;
             canvas.enabled = true;
             toggleAnimation.Append(dialogBox.DOScaleX(1f, scaleTime))
-                .Append(dialogText.DOFade(1f, fadeTime));
+                .Append(dialogText.DOFade(1f, fadeTime))
+                .OnComplete(() => IsToggling = false);
             return;
         }
         toggleAnimation.Append(dialogText.DOFade(0f, fadeTime))
             .Append(dialogBox.DOScaleX(0f, scaleTime))
-            .OnComplete(() => canvas.enabled = false);
+            .OnComplete(() => {
+                Active = false;
+                canvas.enabled = false;
+                IsToggling = false;
+            });
     }
 }

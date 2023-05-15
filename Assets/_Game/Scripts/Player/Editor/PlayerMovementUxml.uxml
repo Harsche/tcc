@@ -18,6 +18,7 @@
         <ui:Toggle label="Wall Jump" name="EnableWallJump" binding-path="enableWallJump" tooltip="Se é possível ou não usar o Wall Jump." value="true" />
         <ui:Toggle label="Dash" name="EnableDash" binding-path="enableDash" tooltip="Se é possível ou não usar o Dash." value="true" />
         <ui:Toggle label="Pulo no Ar" name="EnableDoubleJump" binding-path="enableDoubleJump" tooltip="Se é possível ou não dar um pulo no ar." value="true" />
+        <ui:Toggle label="Grounded" name="Grounded" binding-path="isGrounded" tooltip="Se é possível ou não dar um pulo no ar." value="true" />
     </ui:VisualElement>
     <ui:Foldout text="References" name="References" value="false" style="margin-top: 9px; display: flex;">
         <uie:ObjectField label="Sprite Renderer" binding-path="spriteRenderer" name="SpriteRenderer" type="UnityEngine.SpriteRenderer, UnityEngine.CoreModule" />

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Prague : MonoBehaviour{
+public class Enemy01 : MonoBehaviour{
     [SerializeField] private float speed = 3f;
     [SerializeField] private float rayCastDistance = 0.75f;
 
@@ -8,6 +8,13 @@ public class Prague : MonoBehaviour{
 
     private void Awake(){
         myTransform = transform;
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            Vector2.down,
+            10f,
+            LayerMask.GetMask("Ground")
+        );
+        transform.position = hit.point;
     }
 
     private void Update(){

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scripts.Editor{
     
-    public class SaveUtilities : MonoBehaviour{
+    public static class SaveUtilities{
         [MenuItem("Game Utilities/Save/Delete Save")]
         private static void DeleteSave(){
             GameSaveSystem.DeleteSaveFile();

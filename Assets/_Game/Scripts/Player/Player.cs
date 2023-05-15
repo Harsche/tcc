@@ -13,6 +13,8 @@ public class Player : MonoBehaviour{
     public static Player Instance{ get; private set; }
     public Interactable Interaction{ get; private set; }
 
+    private Interactable currentInteraction;
+
     private void Awake(){
         if (Instance != null){
             Destroy(gameObject);
@@ -49,9 +51,9 @@ public class Player : MonoBehaviour{
     }
 
     private void Interact(){
-        if (Interaction == null){ return; }
+        if (Interaction == null || !Interaction.IsInteractable){ return; }
         Interaction.Interact();
-        Interaction = null;
+        // Interaction = null;
     }
 
     private void LoadPlayerData(){

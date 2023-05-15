@@ -378,11 +378,10 @@ MonoBehaviour:
   speed: 5
   maxSpeedTime: 0.15
   maxFallSpeed: -15
-  jumpHeight: 3.64
+  jumpHeight: 4
   dashDistance: 4
   dashSpeed: 15
   dashCancelCollisionAngleThreshold: 30
-  maxJumps: 2
   wallFallSpeed: -2
   wallJumpTime: 0.2
   wallJumpAngle: 30
@@ -420,6 +419,8 @@ MonoBehaviour:
     maxNormalAngle: 0
   enableWallJump: 0
   enableDash: 0
+  enableDoubleJump: 0
+  isGrounded: 0
   onPlatform: 0
 --- !u!114 &1687233669814571216
 MonoBehaviour:

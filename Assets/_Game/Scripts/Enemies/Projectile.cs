@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour{
         }
         switch (reflected){
             case true when col.CompareTag("Enemy"):
-                col.GetComponent<Enemy>().ChangeHp(-damage);
+                col.GetComponent<Enemy03>().ChangeHp(-damage);
                 Destroy(gameObject);
                 return;
             case true when col.CompareTag("Button"):

@@ -3,56 +3,47 @@ using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour{
-    [SerializeField] private bool invulnerable;
-    [SerializeField] private float attackCooldown = 3f;
-    [SerializeField] private float attackDistance = 5f;
-    [SerializeField] private bool checkPlayerDistance = true;
-    public Transform projectilePrefab;
-    private Coroutine attackCoroutine;
-    private Coroutine checkPlayerDistanceCoroutine;
+    [SerializeField] protected bool invulnerable;
+    [SerializeField] protected bool checkPlayerInRange;
+    [SerializeField] protected float maxPlayerDistance = 10f;
+    [SerializeField] protected bool checkPlayerInSight;
+
+    private bool playerInRange;
+    private bool playerInSight;
+    private Coroutine checkPlayerInRangeCoroutine;
 
     public event Action<Enemy> OnDeath;
-    [field: SerializeField] public float Hp{ get; private set; }
-    [field: SerializeField] public float MaxHp{ get; private set; } = 3f;
+    [field: SerializeField] public float Hp{ get; protected set; }
+    [field: SerializeField] public float MaxHp{ get; protected set; } = 3f;
 
-    private void Awake(){
-        if (checkPlayerDistance){ checkPlayerDistanceCoroutine = StartCoroutine(CheckPlayerDistance()); }
-        else{ attackCoroutine = StartCoroutine(AttackCoroutine()); }
+    protected virtual void Awake(){
+        if (checkPlayerInRange){ checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine()); }
         ChangeHp(MaxHp);
     }
 
-    private void OnDestroy(){
+    protected virtual void OnDestroy(){
         OnDeath = null;
     }
-
-    private IEnumerator CheckPlayerDistance(){
-        var waitForSeconds = new WaitForSeconds(1f);
-        while (true){
-            yield return waitForSeconds;
-            Vector2 playerPosition = Player.Instance.transform.position;
-            bool withinRange = Vector2.Distance(playerPosition, transform.position) <= attackDistance;
-            if (withinRange){ attackCoroutine ??= StartCoroutine(AttackCoroutine()); }
-            else if (attackCoroutine != null){
-                StopCoroutine(attackCoroutine);
-                attackCoroutine = null;
-            }
-        }
-    }
-
-    private IEnumerator AttackCoroutine(){
-        WaitForSeconds waitForSeconds = new(attackCooldown);
-        while (true){
-            yield return waitForSeconds;
-            Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        }
-        // ReSharper disable once IteratorNeverReturns
-    }
-
+    
     public void ChangeHp(float value){
         if (invulnerable){ return; }
         Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
         if (Hp != 0){ return; }
         OnDeath?.Invoke(this);
         Destroy(gameObject);
+    }
+
+    private IEnumerator CheckPlayerInRangeCoroutine(){
+        var waitForSeconds = new WaitForSeconds(0.5f);
+        while (checkPlayerInRange){
+            yield return waitForSeconds;
+            Vector2 playerPosition = Player.Instance.transform.position;
+            Vector2 myPosition = transform.position;
+            Vector2 playerOffset = playerPosition - myPosition;
+            playerInRange = playerOffset.magnitude <= maxPlayerDistance;
+            if (!checkPlayerInSight){ continue; }
+            RaycastHit2D hit2D = Physics2D.Raycast(myPosition, playerOffset, maxPlayerDistance);
+            playerInSight = hit2D.collider && hit2D.collider.CompareTag("Player");
+        }
     }
 }

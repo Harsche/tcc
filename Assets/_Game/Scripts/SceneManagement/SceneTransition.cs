@@ -30,7 +30,9 @@ public class SceneTransition : MonoBehaviour{
     [SerializeField] private TextMeshProUGUI gateText;
 
     private void OnValidate(){
-        gateText.text = $"-> {destinationSceneName}.{destinationGateNumber}";
+        string destinationText = $"-> {destinationSceneName}.{destinationGateNumber}";
+        gateText.text = destinationText;
+        name = $"Scene Transition {thisGateNumber} {destinationText}";
         if (Destination == Vector2.zero){ Destination = transform.position + Vector3.right; }
     }
     

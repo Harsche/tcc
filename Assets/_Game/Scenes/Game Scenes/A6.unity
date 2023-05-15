@@ -1866,6 +1866,10 @@ PrefabInstance:
       propertyPath: destinationSceneName
       value: A9
       objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: destinationGateNumber
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4387194017250029976, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
       propertyPath: sceneName
       value: A1
@@ -1924,7 +1928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8722540234957572052, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
       propertyPath: m_Name
-      value: Next Scene (1)
+      value: Scene Transition 2 -> A9.0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}

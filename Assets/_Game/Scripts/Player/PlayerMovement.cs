@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -26,7 +27,8 @@ public class PlayerMovement : MonoBehaviour{
     public bool enableWallJump;
     public bool enableDash;
     public bool enableDoubleJump;
-    
+    public bool isGrounded;
+
     public bool onPlatform;
     private Vector2 velocity;
     private readonly ContactPoint2D[] groundContactPoint = new ContactPoint2D[1];
@@ -72,7 +74,7 @@ public class PlayerMovement : MonoBehaviour{
 
         if (Grounded){
             airJumped = false;
-            myRigidbody2D.gravityScale = 0f;
+            // myRigidbody2D.gravityScale = 0f;
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
             origin.y -= boxCollider2D.size.y * 0.5f;
@@ -115,7 +117,7 @@ public class PlayerMovement : MonoBehaviour{
 
 
         // Normal movement
-        if (Grounded || onPlatform || (checkWall == WallCheck.None && !isWallJumping)){
+        if (Grounded || onPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
             // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;

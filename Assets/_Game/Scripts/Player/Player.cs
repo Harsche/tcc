@@ -49,6 +49,11 @@ public class Player : MonoBehaviour{
             if (newDistance < distance){ Interaction = col.GetComponent<Interactable>(); }
         }
     }
+    
+    public void ChangeHp(float value){
+        Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
+        PlayerHUD.Instance.UpdateHpBar();
+    }
 
     private void Interact(){
         if (Interaction == null || !Interaction.IsInteractable){ return; }
@@ -60,10 +65,5 @@ public class Player : MonoBehaviour{
         SaveData saveData = GameSaveSystem.SaveData;
         if (saveData.isNewGame){ return; }
         transform.position = saveData.playerPosition;
-    }
-
-    public void ChangeHp(float value){
-        Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
-        PlayerHUD.Instance.UpdateHpBar();
     }
 }

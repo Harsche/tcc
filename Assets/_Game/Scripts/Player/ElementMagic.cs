@@ -22,6 +22,11 @@ public class ElementMagic : MonoBehaviour{
                 if (!hit.collider){ break; }
                 if (greenMushroom){ Destroy(greenMushroom.gameObject); }
                 greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity, hit.transform);
+                Vector3 correctedScale = hit.transform.localScale;
+                correctedScale.x = 1f / correctedScale.x;
+                correctedScale.y = 1f / correctedScale.y;
+                correctedScale.z = 1f / correctedScale.z;
+                greenMushroom.localScale =  correctedScale;
                 break;
             case MagicType.Blue:
                 break;

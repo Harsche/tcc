@@ -27,14 +27,17 @@ public class PlayerAnimation : MonoBehaviour{
 
     private void Start(){
         Player.Instance.PlayerParry.OnParry += () => animator.SetTrigger(Parry);
-        Player.Instance.PlayerMovement.OnJump += () => animator.SetTrigger(Jump);
+        Player.Instance.PlayerMovement.OnJump += () => {
+            animator.SetBool(Grounded, false);
+            animator.SetTrigger(Jump);
+        };
     }
 
     private void Update(){
         animator.SetFloat(SpeedX, Mathf.Abs(playerRigidbody2D.velocity.x));
         animator.SetFloat(SpeedY, playerRigidbody2D.velocity.y);
         animator.SetFloat(ParryDirectionY, PlayerInput.LookDirection.y);
-        animator.SetBool(Grounded, PlayerMovement.Grounded);
+        animator.SetBool(Grounded, PlayerMovement.Grounded || PlayerMovement.onPlatform);
     }
 
     public void OnStepEvent(){

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,6 +16,15 @@ public class Platform : MonoBehaviour{
     [SerializeField] private ContactFilter2D playerContactFilter;
     [SerializeField] private Rigidbody2D myRigidbody2D;
 
+#if UNITY_EDITOR
+    public bool showHandles = true;
+#endif
+    private readonly Collider2D[] colliders = new Collider2D[1];
+    private Vector2 currentPosition;
+    private Vector2 lastPosition;
+    private Coroutine moveCoroutine;
+    private bool reverse;
+
     public bool Move{
         get => move;
         set{
@@ -24,17 +32,6 @@ public class Platform : MonoBehaviour{
             if (move){ moveCoroutine = StartCoroutine(MoveCoroutine()); }
         }
     }
-
-#if UNITY_EDITOR
-    public bool showHandles = true;
-#endif
-    private readonly Collider2D[] colliders = new Collider2D[1];
-    private Vector2 currentPosition;
-    private Vector2 lastPosition;
-    private bool reverse;
-    private Coroutine moveCoroutine;
-
-    private PlayerMovement playerMovement;
 
     [field: SerializeField] public int Number{ get; private set; }
 
@@ -45,10 +42,6 @@ public class Platform : MonoBehaviour{
         myRigidbody2D = GetComponent<Rigidbody2D>();
         lastPosition = transform.position;
         if (move){ moveCoroutine = StartCoroutine(MoveCoroutine()); }
-    }
-
-    private void Start(){
-        playerMovement = Player.Instance.GetComponent<PlayerMovement>();
     }
 
     private void FixedUpdate(){
@@ -62,14 +55,14 @@ public class Platform : MonoBehaviour{
     private void OnCollisionEnter2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player") || !CheckPlayer()){ return; }
         col.transform.SetParent(transform);
-        playerMovement.onPlatform = true;
+        PlayerMovement.onPlatform = true;
     }
 
     private void OnCollisionExit2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player")){ return; }
         col.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
-        playerMovement.onPlatform = false;
+        PlayerMovement.onPlatform = false;
     }
 
     private void OnValidate(){
@@ -89,7 +82,7 @@ public class Platform : MonoBehaviour{
         var path = new List<Vector3>(waypoints);
         while (true){
             for (int index = 0; index < path.Count; index++){
-                if (stopBetweenPoints) yield return new WaitForSeconds(stopTime);
+                if (stopBetweenPoints){ yield return new WaitForSeconds(stopTime); }
                 Vector3 waypoint = path[index];
                 Tweener tweener = transform.DOMove(waypoint, maxSpeed)
                     .SetSpeedBased()

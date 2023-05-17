@@ -7,6 +7,7 @@ public class PlayerHUD : MonoBehaviour{
     [SerializeField] private Image[] hpPetals;
     [SerializeField] private Image[] shieldCounts;
     [SerializeField] private Image absorbedColor;
+    [SerializeField] private Image parryColor;
     public static PlayerHUD Instance{ get; private set; }
 
     private void Awake(){
@@ -27,6 +28,10 @@ public class PlayerHUD : MonoBehaviour{
         for (int i = 0; i < shieldCounts.Length; i++){
             shieldCounts[i].enabled = i + 1 <= shieldCurrentHp;
         }
+    }
+    
+    public void SetParryColor(Color color){
+        parryColor.color = color;
     }
 
     public void SetAbsorbedElement(MagicType magicType){

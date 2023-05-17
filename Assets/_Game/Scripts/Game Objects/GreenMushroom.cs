@@ -21,6 +21,7 @@ public class GreenMushroom : MonoBehaviour{
     private Coroutine jumpCoroutine;
     private Sequence pushSequence, bodySequence;
     private Vector2 startPosition;
+    public Vector2 startScale;
 
     private void Awake(){
         startPosition = transform.position;
@@ -72,39 +73,39 @@ public class GreenMushroom : MonoBehaviour{
 
         // Anticipation
         pushSequence.Append(
-            transform.DOMoveY(startPosition.y - impulseVerticalOffset, getImpulseDuration).SetEase(getImpulseEase)
+            transform.DOLocalMoveY((startPosition.y  - impulseVerticalOffset) * startScale.y, getImpulseDuration).SetEase(getImpulseEase)
         );
 
         bodySequence.Append(
-            bodyTransform.DOScaleX(squashScale.x, getImpulseDuration).SetEase(getImpulseEase)
+            bodyTransform.DOScaleX(squashScale.x * startScale.x, getImpulseDuration).SetEase(getImpulseEase)
         );
         bodySequence.Join(
-            bodyTransform.DOScaleY(squashScale.y, getImpulseDuration).SetEase(getImpulseEase)
+            bodyTransform.DOScaleY(squashScale.y * startScale.y, getImpulseDuration).SetEase(getImpulseEase)
         );
 
         // Impulse
         pushSequence.Append(
-            transform.DOMoveY(startPosition.y + impulseVerticalOffset, pushDuration)
+            transform.DOLocalMoveY((startPosition.y + impulseVerticalOffset) * startScale.y, pushDuration)
                 .SetEase(pushEase)
         );
 
         bodySequence.Append(
-            bodyTransform.DOScaleX(stretchScale.x, pushDuration).SetEase(pushEase)
+            bodyTransform.DOScaleX(stretchScale.x * startScale.x, pushDuration).SetEase(pushEase)
         );
         bodySequence.Join(
-            bodyTransform.DOScaleY(stretchScale.y, pushDuration).SetEase(pushEase)
+            bodyTransform.DOScaleY(stretchScale.y * startScale.y, pushDuration).SetEase(pushEase)
         );
 
         // Recover
         pushSequence.Append(
-            transform.DOMoveY(startPosition.y, getImpulseDuration).SetEase(getImpulseEase)
+            transform.DOLocalMoveY(startPosition.y * startScale.y, getImpulseDuration).SetEase(getImpulseEase)
         );
 
         bodySequence.Append(
-            bodyTransform.DOScaleX(1f, getImpulseDuration).SetEase(getImpulseEase)
+            bodyTransform.DOScaleX(1f * startScale.x, getImpulseDuration).SetEase(getImpulseEase)
         );
         bodySequence.Join(
-            bodyTransform.DOScaleY(1f, getImpulseDuration).SetEase(getImpulseEase)
+            bodyTransform.DOScaleY(1f * startScale.y, getImpulseDuration).SetEase(getImpulseEase)
         );
     }
 

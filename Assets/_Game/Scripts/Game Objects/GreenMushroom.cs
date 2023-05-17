@@ -12,18 +12,20 @@ public class GreenMushroom : MonoBehaviour{
     [SerializeField] private Ease getImpulseEase = Ease.Linear;
     [SerializeField] private float pushDuration = 0.2f;
     [SerializeField] private Ease pushEase = Ease.OutBack;
+    [SerializeField] private Transform bodyTransform;
+    [SerializeField] private Vector2 squashScale;
+    [SerializeField] private Vector2 stretchScale;
     private BoxCollider2D boxCollider2D;
 
-    private bool impulseJump;
-    private bool isPlayerOn;
+    private bool impulseJump, isPlayerOn;
     private Coroutine jumpCoroutine;
-    private Sequence pushSequence;
+    private Sequence pushSequence, bodySequence;
     private Vector2 startPosition;
 
     private void Awake(){
         startPosition = transform.position;
         boxCollider2D = GetComponent<BoxCollider2D>();
-        Destroy(transform.parent.gameObject, duration);
+        // Destroy(transform.parent.gameObject, duration);
     }
 
     private void Update(){
@@ -42,6 +44,7 @@ public class GreenMushroom : MonoBehaviour{
         if (Player.Instance.PlayerMovement.Velocity.y > 0f){ return; }
         if (Mathf.Abs(other.GetContact(0).normal.y) <= 0.95f){ return; }
         PlayerMovement.canMove = false;
+        PlayerMovement.OnPlatform = true;
         isPlayerOn = true;
         Player.Instance.transform.SetParent(transform);
         if (jumpCoroutine != null){
@@ -54,6 +57,7 @@ public class GreenMushroom : MonoBehaviour{
     private void OnCollisionExit2D(Collision2D other){
         if (!other.gameObject.CompareTag("Player")){ return; }
         PlayerMovement.canMove = true;
+        PlayerMovement.OnPlatform = false;
         isPlayerOn = false;
         Player.Instance.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
@@ -62,17 +66,46 @@ public class GreenMushroom : MonoBehaviour{
     private void JumpAnimation(){
         StartCoroutine(GetJumpInput());
         pushSequence = DOTween.Sequence();
+        bodySequence = DOTween.Sequence();
+        pushSequence.SetLink(gameObject);
+        bodySequence.SetLink(gameObject);
+
+        // Anticipation
         pushSequence.Append(
             transform.DOMoveY(startPosition.y - impulseVerticalOffset, getImpulseDuration).SetEase(getImpulseEase)
         );
+
+        bodySequence.Append(
+            bodyTransform.DOScaleX(squashScale.x, getImpulseDuration).SetEase(getImpulseEase)
+        );
+        bodySequence.Join(
+            bodyTransform.DOScaleY(squashScale.y, getImpulseDuration).SetEase(getImpulseEase)
+        );
+
+        // Impulse
         pushSequence.Append(
             transform.DOMoveY(startPosition.y + impulseVerticalOffset, pushDuration)
                 .SetEase(pushEase)
         );
+        
+        bodySequence.Append(
+            bodyTransform.DOScaleX(stretchScale.x, pushDuration).SetEase(pushEase)
+        );
+        bodySequence.Join(
+            bodyTransform.DOScaleY(stretchScale.y, pushDuration).SetEase(pushEase)
+        );
+
+        // Recover
         pushSequence.Append(
             transform.DOMoveY(startPosition.y, getImpulseDuration).SetEase(getImpulseEase)
         );
-        pushSequence.SetLink(gameObject);
+        
+        bodySequence.Append(
+            bodyTransform.DOScaleX(1f, getImpulseDuration).SetEase(getImpulseEase)
+        );
+        bodySequence.Join(
+            bodyTransform.DOScaleY(1f, getImpulseDuration).SetEase(getImpulseEase)
+        );
     }
 
     private void GetJumpInput(bool value){

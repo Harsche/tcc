@@ -29,7 +29,7 @@ public class Parry : MonoBehaviour{
 
     private void Start(){
         Player.Instance.PlayerAnimation.OnParry += () => ToggleShield(true);
-        ChangeShieldColor(0);
+        ChangeParryColor(0);
     }
 
     private void Update(){
@@ -39,7 +39,7 @@ public class Parry : MonoBehaviour{
     private void OnEnable(){
         // Subscribe to input events
         PlayerInput.OnFireInput += StartParry;
-        PlayerInput.OnChangeShieldColor += ChangeShieldColor;
+        PlayerInput.OnChangeShieldColor += ChangeParryColor;
     }
 
     private void OnTriggerEnter2D(Collider2D col){
@@ -58,7 +58,7 @@ public class Parry : MonoBehaviour{
         transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 
-    private void ChangeShieldColor(int colorIndex){
+    private void ChangeParryColor(int colorIndex){
         switch (colorIndex){
             case 0:
                 if(!enableGreen){return;}
@@ -75,6 +75,7 @@ public class Parry : MonoBehaviour{
         light2D.color = shieldColors[colorIndex].LightColor;
         spriteRenderer.material.SetColor(ShieldColor1, shieldColors[colorIndex].EmissionColor);
         Player.Instance.PlayerAnimation.ChangeParryColor(shieldColors[colorIndex].SpriteColor);
+        PlayerHUD.Instance.SetParryColor(shieldColors[colorIndex].SpriteColor);
     }
 
     private void StartParry(){

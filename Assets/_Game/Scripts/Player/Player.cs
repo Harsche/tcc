@@ -2,14 +2,15 @@ using Cinemachine;
 using UnityEngine;
 
 public class Player : MonoBehaviour{
-    [field: SerializeField] public float MaxHp{ get; private set; } = 10f;
-    [field: SerializeField] public float Hp{ get; private set; }
+    [field: SerializeField] public int MaxHp{ get; private set; } = 3;
+    [field: SerializeField] public int Hp{ get; private set; }
     [field: SerializeField] public Camera PlayerCamera{ get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera PlayerVirtualCamera{ get; private set; }
     [field: SerializeField] public PlayerAnimation PlayerAnimation{ get; private set; }
     [field: SerializeField] public PlayerMovement PlayerMovement{ get; private set; }
     [field: SerializeField] public ElementMagic ElementMagic{ get; private set; }
     [field: SerializeField] public Parry PlayerParry{ get; private set; }
+    [field: SerializeField] public PlayerShield PlayerShield{ get; private set; }
     public static Player Instance{ get; private set; }
     public Interactable Interaction{ get; private set; }
 
@@ -49,10 +50,10 @@ public class Player : MonoBehaviour{
             if (newDistance < distance){ Interaction = col.GetComponent<Interactable>(); }
         }
     }
-    
-    public void ChangeHp(float value){
-        Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
-        PlayerHUD.Instance.UpdateHpBar();
+
+    public void ChangeHp(int value){
+        Hp = Mathf.Clamp(Hp + value, 0, MaxHp);
+        PlayerHUD.Instance.UpdateHp(Hp);
     }
 
     private void Interact(){

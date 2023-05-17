@@ -420,8 +420,6 @@ MonoBehaviour:
   enableWallJump: 0
   enableDash: 0
   enableDoubleJump: 0
-  isGrounded: 0
-  onPlatform: 0
 --- !u!114 &1687233669814571216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +440,7 @@ MonoBehaviour:
   <PlayerMovement>k__BackingField: {fileID: 1687233669814571228}
   <ElementMagic>k__BackingField: {fileID: 8793311155753760254}
   <PlayerParry>k__BackingField: {fileID: 1687233670367898722}
+  <PlayerShield>k__BackingField: {fileID: 7037147795366089713}
 --- !u!114 &1687233669814571219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,7 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHits: 3
-  currentHp: 0
+  <CurrentHp>k__BackingField: 0
   spriteRenderer: {fileID: 814424759344201774}
   shieldCollider2D: {fileID: 3215132506672455596}
 --- !u!212 &814424759344201774

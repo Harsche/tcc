@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &2247861771496836578
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +199,9 @@ MonoBehaviour:
   getImpulseEase: 1
   pushDuration: 0.2
   pushEase: 27
+  bodyTransform: {fileID: 1121328604201976950}
+  squashScale: {x: 1.25, y: 0.75}
+  stretchScale: {x: 0.75, y: 1.25}
 --- !u!1 &4074602044672097710
 GameObject:
   m_ObjectHideFlags: 0

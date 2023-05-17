@@ -43,7 +43,7 @@ public class GreenMushroom : MonoBehaviour{
         if (!other.gameObject.CompareTag("Player")){ return; }
         if (Player.Instance.PlayerMovement.Velocity.y > 0f){ return; }
         if (Mathf.Abs(other.GetContact(0).normal.y) <= 0.95f){ return; }
-        PlayerMovement.canMove = false;
+        // PlayerMovement.canMove = false;
         PlayerMovement.OnPlatform = true;
         isPlayerOn = true;
         Player.Instance.transform.SetParent(transform);

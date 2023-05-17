@@ -27,9 +27,8 @@ public class PlayerMovement : MonoBehaviour{
     public bool enableWallJump;
     public bool enableDash;
     public bool enableDoubleJump;
-    public bool isGrounded;
 
-    public bool onPlatform;
+
     private Vector2 velocity;
     private readonly ContactPoint2D[] groundContactPoint = new ContactPoint2D[1];
     private Vector2 groundNormal;
@@ -56,6 +55,7 @@ public class PlayerMovement : MonoBehaviour{
     public event Action OnJump;
 
     public static bool Grounded{ get; private set; }
+    public static bool OnPlatform{ get; set; }
     public Vector2 FootPosition => (Vector2) transform.position - boxCollider2D.size * 0.5f;
     public Vector2 Velocity => myRigidbody2D.velocity;
 
@@ -65,6 +65,11 @@ public class PlayerMovement : MonoBehaviour{
         boxCollider2D = GetComponent<BoxCollider2D>();
         gravityScale = myRigidbody2D.gravityScale;
         dashDuration = dashDistance / dashSpeed;
+
+        OnJump += () => {
+            OnPlatform = false;
+            Grounded = false;
+        };
     }
 
     private void FixedUpdate(){
@@ -104,12 +109,13 @@ public class PlayerMovement : MonoBehaviour{
                 velocity.x = wallJumpForce * wallJumpXVelocity;
             }
 
-            if (!Grounded && enableDoubleJump && checkWall == WallCheck.None){ airJumped = true;}
+            if (!Grounded && enableDoubleJump && checkWall == WallCheck.None){ airJumped = true; }
             myRigidbody2D.gravityScale = gravityScale;
             float desiredHeight = forceJump ? forcedJumpHeight : jumpHeight;
             float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * desiredHeight);
             velocity.y = jumpVelocity;
             myRigidbody2D.velocity = velocity;
+            OnJump?.Invoke();
             executeJump = false;
             forceJump = false;
             return;
@@ -117,7 +123,7 @@ public class PlayerMovement : MonoBehaviour{
 
 
         // Normal movement
-        if (Grounded || onPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
+        if (Grounded || OnPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
             // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;
@@ -192,15 +198,13 @@ public class PlayerMovement : MonoBehaviour{
     private void Jump(bool value){
         if (!canMove){ return; }
         if (value){
-            if (Grounded || (enableDoubleJump && !airJumped) || onPlatform || (checkWall != WallCheck.None && enableWallJump)){
-                executeJump = true;
-                OnJump?.Invoke();
-            }
+            if (Grounded || (enableDoubleJump && !airJumped) || OnPlatform ||
+                (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
             return;
         }
 
         // Cancel jump
-        if (!Grounded && !onPlatform && (!enableWallJump || checkWall != WallCheck.None)){
+        if (!Grounded && !OnPlatform && (!enableWallJump || checkWall != WallCheck.None)){
             velocity = myRigidbody2D.velocity;
             if (!(velocity.y > 0f)){ return; }
             velocity.y *= 0.5f;

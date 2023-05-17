@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Shield : MonoBehaviour{
+public class PlayerShield : MonoBehaviour{
     [SerializeField] private int maxHits = 3;
-    [SerializeField] private int currentHp;
+    [field: SerializeField] public int CurrentHp{ get; private set; }
 
     [SerializeField] private SpriteRenderer spriteRenderer;
     [FormerlySerializedAs("collider2D"),SerializeField] private Collider2D shieldCollider2D;
 
     private void Awake(){
-        currentHp = maxHits;
+        ChangeShieldHp(maxHits);
         ToggleShield(false);
     }
 
@@ -23,19 +23,24 @@ public class Shield : MonoBehaviour{
 
     private void OnTriggerEnter2D(Collider2D col){
         if (!col.CompareTag("Projectile")){ return; }
-        currentHp--;
-        if(currentHp == 0){ToggleShield(false);}
+        ChangeShieldHp(-1);
         Destroy(col.gameObject);
     }
 
     private void ToggleShield(bool value){
         if (value){
-            if (currentHp <= 0){ return; }
+            if (CurrentHp <= 0){ return; }
             spriteRenderer.enabled = true;
             shieldCollider2D.enabled = true;
             return;
         }
         spriteRenderer.enabled = false;
         shieldCollider2D.enabled = false;
+    }
+
+    private void ChangeShieldHp(int value){
+        CurrentHp += value;
+        PlayerHUD.Instance.UpdateShield(CurrentHp);
+        if(CurrentHp == 0){ToggleShield(false);}
     }
 }

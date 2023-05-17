@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour{
     private void OnTriggerEnter2D(Collider2D col){
         if (col.CompareTag("InstantDeath")){
             myRigidbody2D.position = lastGroundPosition;
-            Player.Instance.ChangeHp(-1f);
+            Player.Instance.ChangeHp(-1);
         }
     }
 

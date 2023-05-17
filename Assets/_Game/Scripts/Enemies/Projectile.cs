@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Projectile : MonoBehaviour{
-    [SerializeField] private float damage = 1f;
+    [SerializeField] private int damage = 1;
     [SerializeField] private float speed = 3f;
     [SerializeField] private float destroyTime = 10f;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour{
     [SerializeField] private bool fixedDirection;
     [SerializeField] private EnemyAttackDirection enemyAttackDirection;
     public bool enteredMagicShield;
-    public bool reflected;
+    public bool reflected, hitPlayer;
     [field: SerializeField] public ProjectileType ProjectileType{ get; private set; }
     [field: SerializeField] public MagicType MagicType{ get; private set; }
 
@@ -38,8 +38,9 @@ public class Projectile : MonoBehaviour{
     }
 
     private void OnTriggerEnter2D(Collider2D col){
-        if (col.CompareTag("Player")){
+        if (col.CompareTag("Player") && !hitPlayer){
             col.GetComponent<Player>().ChangeHp(-damage);
+            hitPlayer = true;
             Destroy(gameObject);
             return;
         }

@@ -44,7 +44,7 @@ public class GreenMushroom : MonoBehaviour{
         if (Player.Instance.PlayerMovement.Velocity.y > 0f){ return; }
         if (Mathf.Abs(other.GetContact(0).normal.y) <= 0.95f){ return; }
         // PlayerMovement.canMove = false;
-        PlayerMovement.OnPlatform = true;
+        PlayerMovement.onPlatform = true;
         isPlayerOn = true;
         Player.Instance.transform.SetParent(transform);
         if (jumpCoroutine != null){
@@ -57,14 +57,14 @@ public class GreenMushroom : MonoBehaviour{
     private void OnCollisionExit2D(Collision2D other){
         if (!other.gameObject.CompareTag("Player")){ return; }
         PlayerMovement.canMove = true;
-        PlayerMovement.OnPlatform = false;
+        PlayerMovement.onPlatform = false;
         isPlayerOn = false;
         Player.Instance.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
     }
 
     private void JumpAnimation(){
-        StartCoroutine(GetJumpInput());
+        jumpCoroutine = StartCoroutine(GetJumpInput());
         pushSequence = DOTween.Sequence();
         bodySequence = DOTween.Sequence();
         pushSequence.SetLink(gameObject);
@@ -87,7 +87,7 @@ public class GreenMushroom : MonoBehaviour{
             transform.DOMoveY(startPosition.y + impulseVerticalOffset, pushDuration)
                 .SetEase(pushEase)
         );
-        
+
         bodySequence.Append(
             bodyTransform.DOScaleX(stretchScale.x, pushDuration).SetEase(pushEase)
         );
@@ -99,7 +99,7 @@ public class GreenMushroom : MonoBehaviour{
         pushSequence.Append(
             transform.DOMoveY(startPosition.y, getImpulseDuration).SetEase(getImpulseEase)
         );
-        
+
         bodySequence.Append(
             bodyTransform.DOScaleX(1f, getImpulseDuration).SetEase(getImpulseEase)
         );
@@ -115,11 +115,17 @@ public class GreenMushroom : MonoBehaviour{
     private IEnumerator GetJumpInput(){
         float startInputDelay = getImpulseDuration - jumpInputTimeWindow * 0.5f;
         yield return new WaitForSeconds(startInputDelay);
+        PlayerMovement.canJump = false;
         PlayerInput.OnJumpInput += GetJumpInput;
         yield return new WaitForSeconds(jumpInputTimeWindow);
         PlayerInput.OnJumpInput -= GetJumpInput;
+        if (!isPlayerOn){
+            PlayerMovement.canJump = true;
+            yield break;
+        }
         float desiredHeight = impulseJump ? impulsedJumpHeight : normalJumpHeight;
         impulseJump = false;
         Player.Instance.PlayerMovement.ForceJump(desiredHeight);
+        PlayerMovement.canJump = true;
     }
 }

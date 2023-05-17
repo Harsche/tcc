@@ -55,14 +55,14 @@ public class Platform : MonoBehaviour{
     private void OnCollisionEnter2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player") || !CheckPlayer()){ return; }
         col.transform.SetParent(transform);
-        PlayerMovement.OnPlatform = true;
+        PlayerMovement.onPlatform = true;
     }
 
     private void OnCollisionExit2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player")){ return; }
         col.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
-        PlayerMovement.OnPlatform = false;
+        PlayerMovement.onPlatform = false;
     }
 
     private void OnValidate(){

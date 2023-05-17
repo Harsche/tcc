@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour{
     public static bool canMove = true;
+    public static bool canJump = true;
+    public static bool onPlatform;
 
     [SerializeField] private float speed = 5f;
     [SerializeField] private float maxSpeedTime = 1f;
@@ -27,13 +28,10 @@ public class PlayerMovement : MonoBehaviour{
     public bool enableWallJump;
     public bool enableDash;
     public bool enableDoubleJump;
-
-
-    private Vector2 velocity;
     private readonly ContactPoint2D[] groundContactPoint = new ContactPoint2D[1];
-    private Vector2 groundNormal;
     private readonly Collider2D[] groundContacts = new Collider2D[3];
     private readonly Collider2D[] wallContacts = new Collider2D[1];
+    private bool airJumped;
     private BoxCollider2D boxCollider2D;
     private WallCheck checkWall;
     private Coroutine dashCoroutine;
@@ -42,20 +40,22 @@ public class PlayerMovement : MonoBehaviour{
     private bool executeDash;
     private bool executeJump;
     private float forcedJumpHeight;
-    private bool forceJump;
-    private bool airJumped;
+    private bool forceJump, wasJumpForced;
     private float gravityScale;
+    private Vector2 groundNormal;
     private bool isDashing;
     private bool isWallJumping;
     private Vector2 lastGroundPosition;
     private Rigidbody2D myRigidbody2D;
     private Transform myTransform;
+
+
+    private Vector2 velocity;
     private bool wasGrounded;
 
     public event Action OnJump;
 
     public static bool Grounded{ get; private set; }
-    public static bool OnPlatform{ get; set; }
     public Vector2 FootPosition => (Vector2) transform.position - boxCollider2D.size * 0.5f;
     public Vector2 Velocity => myRigidbody2D.velocity;
 
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour{
         dashDuration = dashDistance / dashSpeed;
 
         OnJump += () => {
-            OnPlatform = false;
+            onPlatform = false;
             Grounded = false;
         };
     }
@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour{
         checkWall = CheckWall();
 
         if (Grounded){
-            airJumped = false;
+            airJumped = wasJumpForced = false;
             // myRigidbody2D.gravityScale = 0f;
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
@@ -117,13 +117,14 @@ public class PlayerMovement : MonoBehaviour{
             myRigidbody2D.velocity = velocity;
             OnJump?.Invoke();
             executeJump = false;
+            wasJumpForced = forceJump;
             forceJump = false;
             return;
         }
 
 
         // Normal movement
-        if (Grounded || OnPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
+        if (Grounded || onPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
             // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;
@@ -196,15 +197,15 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void Jump(bool value){
-        if (!canMove){ return; }
+        if (!canMove || !canJump){ return; }
         if (value){
-            if (Grounded || (enableDoubleJump && !airJumped) || OnPlatform ||
+            if (Grounded || (enableDoubleJump && !airJumped) || onPlatform ||
                 (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
             return;
         }
 
         // Cancel jump
-        if (!Grounded && !OnPlatform && (!enableWallJump || checkWall != WallCheck.None)){
+        if (!wasJumpForced && !Grounded && !onPlatform && (!enableWallJump || checkWall != WallCheck.None)){
             velocity = myRigidbody2D.velocity;
             if (!(velocity.y > 0f)){ return; }
             velocity.y *= 0.5f;

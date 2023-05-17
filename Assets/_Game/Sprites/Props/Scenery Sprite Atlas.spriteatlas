@@ -149,6 +149,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 96e60701206d2774b8a695fe0bfe1554, type: 3}
   - {fileID: 21300000, guid: 55f3aa01f04c5fd4b84786f89b8c4986, type: 3}
   - {fileID: 21300000, guid: 209eca018b294074da262eef60a6d167, type: 3}
+  - {fileID: 21300000, guid: 0a973a115ea24924195e62f90c46fbbc, type: 3}
   - {fileID: 21300000, guid: 4c7b0d11c16841f4494b1298859b4581, type: 3}
   - {fileID: 21300000, guid: c2398f116b81f964ea52f1f47964f15a, type: 3}
   - {fileID: 21300000, guid: 0c8b20211da9ccb40a25212c06e15f30, type: 3}
@@ -221,6 +222,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b702b9d199fe1b445b01c58aa50e8d42, type: 3}
   - {fileID: 21300000, guid: c1da9bd14469a194b8ff20e21f80288d, type: 3}
   - {fileID: 21300000, guid: 5be69cd1b75c0354487f88c2a867e3ae, type: 3}
+  - {fileID: 21300000, guid: ca1fccd1a4a881c4394236e420bcc7e4, type: 3}
   - {fileID: 21300000, guid: 73ed9ed184135324c8f84b261b8b2d4e, type: 3}
   - {fileID: 21300000, guid: 9f6660e14b12b2d429d4e6088284527f, type: 3}
   - {fileID: 21300000, guid: 7c0184e1f80c5ff459be58ecf4ae1970, type: 3}
@@ -260,6 +262,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 61aa6c22b52ad534a8546167f99e7c6e, type: 3}
   - {fileID: 21300000, guid: d8d1ec22e35772c47bfbda1f3753523c, type: 3}
   - {fileID: 21300000, guid: 3aee4232193d0c046b8f16d5d2326102, type: 3}
+  - {fileID: 21300000, guid: 7054d732f57e71f42b756b1659fba195, type: 3}
   - {fileID: 21300000, guid: 667b6932e76f85c4392e63ab2b717a56, type: 3}
   - {fileID: 21300000, guid: a1920e32c710a74479192c525cace745, type: 3}
   - {fileID: 21300000, guid: 9c1d1e32bd04784498635387055d7805, type: 3}
@@ -282,6 +285,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 64089d5217c8df545a7048a29531288a, type: 3}
   - {fileID: 21300000, guid: 4cbe6f522e5cb0842a85cc04183217a8, type: 3}
   - {fileID: 21300000, guid: f76414627eaaf644badd1a5a9b66f30b, type: 3}
+  - {fileID: 21300000, guid: 302f6562fa50b0c4984ab1a67e889579, type: 3}
   - {fileID: 21300000, guid: 34266662b5c08004ca0488f9e8065c44, type: 3}
   - {fileID: 21300000, guid: 8131ea6206945354db55e3ff886c2d45, type: 3}
   - {fileID: 21300000, guid: a8b9bd6243ec5e048b24e5977fcf9d71, type: 3}
@@ -799,6 +803,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 462a0c27ee18d8649bb436332c7ac4a0, type: 3}
   - {fileID: 21300000, guid: fce73e27b0a1d794c9da10eb6a488e84, type: 3}
   - {fileID: 21300000, guid: 21d7fe273df9f6e41bdfdf744ad6caaa, type: 3}
+  - {fileID: 21300000, guid: 10571f278ca78664aa85368987a40278, type: 3}
   - {fileID: 21300000, guid: 502140371c494d246ad9e6d9965faa61, type: 3}
   - {fileID: 21300000, guid: 93c1e037ddcde4a47bb93bba6f162adc, type: 3}
   - {fileID: 21300000, guid: d6b68537c5d564a42a02404151b2f5e3, type: 3}
@@ -1279,6 +1284,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d03f2bab646581f4dba074c4f3091345, type: 3}
   - {fileID: 21300000, guid: 91db4cababbe06547a34da06af3cdaea, type: 3}
   - {fileID: 21300000, guid: 66c081bb0fe7571499bd901650c24c5b, type: 3}
+  - {fileID: 21300000, guid: 2815d3bbe8311f54eb6362af50e80b4b, type: 3}
   - {fileID: 21300000, guid: f32434bb7442e814eb6723fcec12844b, type: 3}
   - {fileID: 21300000, guid: 84d14ebb91f4ca54c8eaabd86963a79f, type: 3}
   - {fileID: 21300000, guid: 4c6a4fbb0cbfd054d81aee5a1507441a, type: 3}
@@ -1854,6 +1860,7 @@ SpriteAtlas:
   - PlantaGrupo1_00009
   - PlantaG2Shadow_00113
   - Planta3Anim_00085
+  - Casa3
   - PlantaG2Shadow_00144
   - Plantag1_00149
   - Plantag1_00000
@@ -1926,6 +1933,7 @@ SpriteAtlas:
   - Planta3Anim_00114
   - PlantaG2Shadow_00089
   - Planta2Anim_00035
+  - Casa2Fundo
   - Planta1AnimShadow_00015
   - Planta1AnimShadow_00040
   - Planta2AnimShadow_00051
@@ -1965,6 +1973,7 @@ SpriteAtlas:
   - Planta3Anim_00130
   - Planta2Anim_00123
   - Planta1AnimShadow_00087
+  - Casa1Fundo
   - Plantag1_00102
   - Planta1Anim_00064
   - Plantag1_00053
@@ -1987,6 +1996,7 @@ SpriteAtlas:
   - PlantaG2_00012
   - Planta3AnimShadow_00059
   - Planta3Anim_00036
+  - CasaLoja
   - PlantaG2_00050
   - PlantaG2_00140
   - Planta3AnimShadow_00072
@@ -2504,6 +2514,7 @@ SpriteAtlas:
   - PlantaG2_00084
   - PlantaGrupo1_00093
   - PlantaG2Shadow_00142
+  - Casa3Fundo
   - Plantag1_00092
   - Planta3Anim_00138
   - Planta3Anim_00047
@@ -2984,6 +2995,7 @@ SpriteAtlas:
   - Planta2AnimShadow_00126
   - PlantaG2_00123
   - PlantaG1Shadow_00063
+  - Casa2
   - PlantaG1Shadow_00083
   - PlantaG2Shadow_00094
   - Plantag1_00114

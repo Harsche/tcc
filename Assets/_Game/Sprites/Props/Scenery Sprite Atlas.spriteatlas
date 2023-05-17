@@ -1205,6 +1205,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0bd6feeac08afe44998d64997a5be23e, type: 3}
   - {fileID: 21300000, guid: d1184feadb393c4469bc9531295e3341, type: 3}
   - {fileID: 21300000, guid: 3923e1fa8d6959245888d161537baeb1, type: 3}
+  - {fileID: 21300000, guid: 62d083face8087d458206f4a685bd92e, type: 3}
   - {fileID: 21300000, guid: 27d4d8fa8330f2145b9758c1e0095065, type: 3}
   - {fileID: 21300000, guid: 06534afa70d25a2469df70987958352c, type: 3}
   - {fileID: 21300000, guid: f2760bfa229ac8541b7402ca3c58c67f, type: 3}
@@ -1363,6 +1364,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3e85c14c73b2d2646bdce8b29cff5c46, type: 3}
   - {fileID: 21300000, guid: 00c2624c50dda5f479d4643c51ab5450, type: 3}
   - {fileID: 21300000, guid: a429bb4c715085641a44842de2dbc348, type: 3}
+  - {fileID: 21300000, guid: 282b0c4cf6d9cec4c8d05fd2f234a29a, type: 3}
   - {fileID: 21300000, guid: 3fc0cd4cfb040544390490d29ec79d85, type: 3}
   - {fileID: 21300000, guid: a2391f4c54878b7458a1ad06c52a6a0e, type: 3}
   - {fileID: 21300000, guid: 61fb045c1addc8b44b5d9d86015a486f, type: 3}
@@ -2916,6 +2918,7 @@ SpriteAtlas:
   - PlantaG2Shadow_00068
   - Planta1AnimShadow_00110
   - Plantag1_00055
+  - Raiz2Shadow
   - Planta1Anim_00136
   - Planta3Anim_00081
   - PlantaGrupo1_00030
@@ -3074,6 +3077,7 @@ SpriteAtlas:
   - PlantaG2_00136
   - PlantaG2Shadow_00140
   - PlantaGrupo1_00124
+  - Raiz1Shadow
   - Planta2Anim_00120
   - Planta3Anim_00141
   - PlantaG2Shadow_00005

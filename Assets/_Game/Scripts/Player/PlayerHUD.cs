@@ -45,6 +45,7 @@ public class PlayerHUD : MonoBehaviour{
     }
 
     public void ToggleAbsorbedElement(bool value){
-        absorbedColor.enabled = value;
+        if(!value){absorbedColor.color = Color.white;}
+        
     }
 }

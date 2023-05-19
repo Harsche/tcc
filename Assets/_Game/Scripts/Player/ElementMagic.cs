@@ -21,12 +21,8 @@ public class ElementMagic : MonoBehaviour{
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 5f, groundLayerMask);
                 if (!hit.collider){ break; }
                 if (greenMushroom){ Destroy(greenMushroom.gameObject); }
-                greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity, hit.transform);
-                Vector3 correctedScale = hit.transform.localScale;
-                correctedScale.x = 1f / correctedScale.x;
-                correctedScale.y = 1f / correctedScale.y;
-                correctedScale.z = 1f / correctedScale.z;
-                greenMushroom.localScale =  correctedScale;
+                greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity);
+                greenMushroom.SetParent(hit.transform);
                 break;
             case MagicType.Blue:
                 break;

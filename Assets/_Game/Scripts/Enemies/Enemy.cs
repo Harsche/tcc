@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour{
     [SerializeField] protected Vector2 maxSpeed;
     [SerializeField] protected bool isSpriteFlippedX;
     [SerializeField] protected bool invulnerable;
-    [SerializeField] protected bool checkPlayerInRange;
+    [SerializeField] private bool checkPlayerInRange;
     [SerializeField] protected float maxPlayerDistance = 10f;
     [SerializeField] protected bool checkPlayerInSight;
     [SerializeField] protected bool onBattle;
@@ -17,18 +17,28 @@ public class Enemy : MonoBehaviour{
     [SerializeField] protected Animator animator;
     [SerializeField] protected Transform floorCheckOrigin;
     [SerializeField] protected Rigidbody2D myRigidbody2D;
-    private Coroutine checkPlayerInRangeCoroutine;
 
+    protected Vector2 startPosition;
     private bool playerInRange;
     private bool playerInSight;
+    private Coroutine checkPlayerInRangeCoroutine;
 
     public event Action<Enemy> OnDeath;
     [field: SerializeField] public float Hp{ get; protected set; }
     [field: SerializeField] public float MaxHp{ get; protected set; } = 3f;
 
+    protected bool CheckPlayerInRange{
+        get => checkPlayerInRange;
+        set{
+            checkPlayerInRange = value;
+            ToggleCheckPlayerInRange(value);
+        }
+    }
+
     protected virtual void Awake(){
         if (checkPlayerInRange){ checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine()); }
         ChangeHp(MaxHp);
+        startPosition = transform.position;
     }
 
     protected virtual void OnDestroy(){
@@ -43,11 +53,10 @@ public class Enemy : MonoBehaviour{
         Destroy(gameObject);
     }
 
+    protected virtual void OnCheckPlayer(bool isInSight){ }
+
     protected bool GetFloorAhead(){
-        if (!checkFloorAhead){
-            Exception exception = new("Not supposed to check for floor ahead.");
-            Debug.LogException(exception);
-        }
+        if (!checkFloorAhead){ Debug.LogException(new Exception("Not supposed to check for floor ahead.")); }
         int facingDirection = spriteRenderer.flipX ? -1 : 1;
         if (isSpriteFlippedX){ facingDirection *= -1; }
         Vector2 origin = floorCheckOrigin.localPosition;
@@ -61,7 +70,16 @@ public class Enemy : MonoBehaviour{
         return hit2D.collider;
     }
 
-    protected virtual void OnCheckPlayer(bool isInSight){ }
+    protected void ToggleCheckPlayerInRange(bool value){
+        if (value == (checkPlayerInRangeCoroutine != null)){ return; }
+        if (value){
+            checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine());
+            return;
+        }
+        
+        StopCoroutine(checkPlayerInRangeCoroutine);
+        checkPlayerInRangeCoroutine = null;
+    }
 
     private IEnumerator CheckPlayerInRangeCoroutine(){
         var waitForSeconds = new WaitForSeconds(0.5f);
@@ -85,6 +103,7 @@ public class Enemy : MonoBehaviour{
     [SerializeField] protected bool checkFloorAhead;
 
     private void OnValidate(){
+        CheckPlayerInRange = checkPlayerInRange;
         if (checkFloorAhead && !floorCheckOrigin){
             floorCheckOrigin = new GameObject("Floor Check Origin").transform;
             floorCheckOrigin.SetParent(transform);

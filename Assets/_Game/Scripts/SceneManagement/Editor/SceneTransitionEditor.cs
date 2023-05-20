@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace GameEditors{
+namespace Game.Editors{
     [CustomEditor(typeof(SceneTransition))]
     public class SceneTransitionEditor : Editor{
         private void OnSceneGUI(){

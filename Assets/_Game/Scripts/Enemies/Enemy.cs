@@ -1,17 +1,20 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using MonsterLove.StateMachine;
+using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour{
     protected static readonly int Attack = Animator.StringToHash("Attack");
 
+    [SerializeField] protected bool useAi;
+    [SerializeField] protected State currentState;
     [SerializeField] protected Vector2 maxSpeed;
     [SerializeField] protected bool isSpriteFlippedX;
     [SerializeField] protected bool invulnerable;
     [SerializeField] private bool checkPlayerInRange;
     [SerializeField] protected float maxPlayerDistance = 10f;
     [SerializeField] protected bool checkPlayerInSight;
-    [SerializeField] protected bool onBattle;
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Animator animator;
@@ -22,6 +25,7 @@ public class Enemy : MonoBehaviour{
     private bool playerInRange;
     private bool playerInSight;
     private Coroutine checkPlayerInRangeCoroutine;
+    private StateMachine<State> stateMachine;
 
     public event Action<Enemy> OnDeath;
     [field: SerializeField] public float Hp{ get; protected set; }
@@ -36,9 +40,16 @@ public class Enemy : MonoBehaviour{
     }
 
     protected virtual void Awake(){
-        if (checkPlayerInRange){ checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine()); }
         ChangeHp(MaxHp);
         startPosition = transform.position;
+        if (useAi){
+            stateMachine = new StateMachine<State>(this);
+            stateMachine.ChangeState(State.Patrol);
+        }
+    }
+
+    protected virtual void Start(){
+        if (checkPlayerInRange){ checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine()); }
     }
 
     protected virtual void OnDestroy(){
@@ -61,6 +72,26 @@ public class Enemy : MonoBehaviour{
         if (isSpriteFlippedX){ facingDirection *= -1; }
         Vector2 origin = floorCheckOrigin.localPosition;
         origin.x = Mathf.Abs(origin.x) * facingDirection;
+        floorCheckOrigin.localPosition = origin;
+        RaycastHit2D hit2D = Physics2D.Raycast(
+            floorCheckOrigin.position,
+            Vector2.down, 1.3f,
+            LayerMask.GetMask("Ground")
+        );
+        return hit2D.collider;
+    }
+
+    protected void ChangeBehaviour(State state){
+        stateMachine.ChangeState(state);
+        currentState = state;
+    }
+    
+    protected bool GetFloorAhead(float xDirection){
+        if (!checkFloorAhead){ Debug.LogException(new Exception("Not supposed to check for floor ahead.")); }
+        xDirection = (int) Mathf.Sign(xDirection);
+        if (isSpriteFlippedX){ xDirection *= -1; }
+        Vector2 origin = floorCheckOrigin.localPosition;
+        origin.x = Mathf.Abs(origin.x) * xDirection;
         floorCheckOrigin.localPosition = origin;
         RaycastHit2D hit2D = Physics2D.Raycast(
             floorCheckOrigin.position,

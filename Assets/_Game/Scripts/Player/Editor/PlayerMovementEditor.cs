@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GameEditors{
+namespace Game.Editors{
     [CustomEditor(typeof(PlayerMovement))]
     public class PlayerMovementEditor : Editor{
         [SerializeField] private VisualTreeAsset visualTreeAsset;

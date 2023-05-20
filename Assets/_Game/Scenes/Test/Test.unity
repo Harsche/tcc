@@ -662,6 +662,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &1469602046 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7864820412291249869, guid: 1b1d6c98107297e41bb4f1745a8fe816, type: 3}
+  m_PrefabInstance: {fileID: 7864820411056533047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1469602047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7864820412291249868, guid: 1b1d6c98107297e41bb4f1745a8fe816, type: 3}
@@ -679,22 +684,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad61bc6d5e947b28597e0505ed4bbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: {x: 4, y: 0}
+  useAi: 0
+  maxSpeed: {x: 3, y: 0}
   isSpriteFlippedX: 1
   invulnerable: 0
-  checkPlayerInRange: 0
+  checkPlayerInRange: 1
   maxPlayerDistance: 10
   checkPlayerInSight: 0
   onBattle: 0
-  spriteRenderer: {fileID: 0}
-  animator: {fileID: 0}
+  spriteRenderer: {fileID: 1469602046}
+  animator: {fileID: 1469602044}
   floorCheckOrigin: {fileID: 829045303}
-  myRigidbody2D: {fileID: 0}
+  myRigidbody2D: {fileID: 1469602049}
   <Hp>k__BackingField: 0
   <MaxHp>k__BackingField: 3
   checkFloorAhead: 1
   desiredAttackDistance: 4
   attackRecoverTime: 2
+--- !u!50 &1469602049
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469602041}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1476591278
 GameObject:
   m_ObjectHideFlags: 0

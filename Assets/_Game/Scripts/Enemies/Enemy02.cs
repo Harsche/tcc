@@ -1,24 +1,39 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Enemy02 : Enemy{
     [SerializeField] private float desiredAttackDistance = 4f;
     [SerializeField] private float attackRecoverTime = 2f;
-    private Coroutine behaviour;
-
-    protected override void Awake(){
-        base.Awake();
-        behaviour ??= StartCoroutine(BehaviourCoroutine());
-    }
 
     protected override void OnCheckPlayer(bool isInSight){
-        onBattle = isInSight;
-        if (!isInSight){
-            StopCoroutine(behaviour);
-            behaviour = null;
+        if(!useAi) {Debug.Log(new Exception("Enemy is not configured to use AI."));}
+        switch (isInSight){
+            case true when currentState != State.Chase:
+                ChangeBehaviour(State.Chase);
+                return;
+            case false when currentState is State.Attack or State.Chase:
+                ChangeBehaviour(State.Patrol);
+                break;
+        }
+    }
+
+    private void Chase_Update(){
+        Vector2 playerDistance = Utils.GameUtils.GetPlayerDistance(transform.position);
+        bool attack = Mathf.Abs(playerDistance.x) <= desiredAttackDistance;
+        if (attack){
+            ChangeBehaviour(State.Attack);
             return;
         }
-        
+
+        if (GetFloorAhead(playerDistance.x)){
+            myRigidbody2D.velocity = Vector2.zero;
+            return;
+        }
+
+        Vector2 velocity = myRigidbody2D.velocity;
+        velocity.x = maxSpeed.x * Mathf.Sign(playerDistance.x);
+        myRigidbody2D.velocity = velocity;
     }
 
     private IEnumerator BehaviourCoroutine(){
@@ -40,7 +55,7 @@ public class Enemy02 : Enemy{
         }
     }
 
-    private IEnumerator Patrol(){
-        
-    }
+    // private IEnumerator Patrol(){
+    //     
+    // }
 }

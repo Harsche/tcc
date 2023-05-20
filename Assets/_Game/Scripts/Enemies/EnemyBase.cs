@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
-using UnityEngine;
+using Game.AI;
 using MonsterLove.StateMachine;
-using UnityEngine.Serialization;
+using UnityEngine;
 
-public class Enemy : MonoBehaviour{
+public class EnemyBase : MonoBehaviour{
     protected static readonly int Attack = Animator.StringToHash("Attack");
 
     [SerializeField] protected bool useAi;
@@ -20,36 +19,31 @@ public class Enemy : MonoBehaviour{
     [SerializeField] protected Animator animator;
     [SerializeField] protected Transform floorCheckOrigin;
     [SerializeField] protected Rigidbody2D myRigidbody2D;
-
-    protected Vector2 startPosition;
+    private Coroutine checkPlayerInRangeCoroutine;
     private bool playerInRange;
     private bool playerInSight;
-    private Coroutine checkPlayerInRangeCoroutine;
-    private StateMachine<State> stateMachine;
 
-    public event Action<Enemy> OnDeath;
+    protected Vector2 startPosition;
+    protected bool isAttacking;
+    private StateMachine<State, EnemyDriver> stateMachine;
+
+    public event Action<EnemyBase> OnDeath;
     [field: SerializeField] public float Hp{ get; protected set; }
     [field: SerializeField] public float MaxHp{ get; protected set; } = 3f;
 
-    protected bool CheckPlayerInRange{
-        get => checkPlayerInRange;
-        set{
-            checkPlayerInRange = value;
-            ToggleCheckPlayerInRange(value);
-        }
-    }
+    protected EnemyDriver StateMachineDriver => stateMachine.Driver;
 
     protected virtual void Awake(){
         ChangeHp(MaxHp);
         startPosition = transform.position;
         if (useAi){
-            stateMachine = new StateMachine<State>(this);
+            stateMachine = new StateMachine<State, EnemyDriver>(this);
             stateMachine.ChangeState(State.Patrol);
         }
     }
 
-    protected virtual void Start(){
-        if (checkPlayerInRange){ checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine()); }
+    protected virtual void Update(){
+        StateMachineDriver.Update.Invoke();
     }
 
     protected virtual void OnDestroy(){
@@ -64,10 +58,14 @@ public class Enemy : MonoBehaviour{
         Destroy(gameObject);
     }
 
-    protected virtual void OnCheckPlayer(bool isInSight){ }
+    public void SetAttackingFinished(){
+        isAttacking = false;
+    }
 
     protected bool GetFloorAhead(){
+#if UNITY_EDITOR
         if (!checkFloorAhead){ Debug.LogException(new Exception("Not supposed to check for floor ahead.")); }
+#endif
         int facingDirection = spriteRenderer.flipX ? -1 : 1;
         if (isSpriteFlippedX){ facingDirection *= -1; }
         Vector2 origin = floorCheckOrigin.localPosition;
@@ -81,15 +79,16 @@ public class Enemy : MonoBehaviour{
         return hit2D.collider;
     }
 
-    protected void ChangeBehaviour(State state){
-        stateMachine.ChangeState(state);
+    protected void ChangeState(State state){
         currentState = state;
+        stateMachine.ChangeState(state);
     }
-    
+
     protected bool GetFloorAhead(float xDirection){
+#if UNITY_EDITOR
         if (!checkFloorAhead){ Debug.LogException(new Exception("Not supposed to check for floor ahead.")); }
+#endif
         xDirection = (int) Mathf.Sign(xDirection);
-        if (isSpriteFlippedX){ xDirection *= -1; }
         Vector2 origin = floorCheckOrigin.localPosition;
         origin.x = Mathf.Abs(origin.x) * xDirection;
         floorCheckOrigin.localPosition = origin;
@@ -101,40 +100,22 @@ public class Enemy : MonoBehaviour{
         return hit2D.collider;
     }
 
-    protected void ToggleCheckPlayerInRange(bool value){
-        if (value == (checkPlayerInRangeCoroutine != null)){ return; }
-        if (value){
-            checkPlayerInRangeCoroutine = StartCoroutine(CheckPlayerInRangeCoroutine());
-            return;
-        }
-        
-        StopCoroutine(checkPlayerInRangeCoroutine);
-        checkPlayerInRangeCoroutine = null;
+    protected bool CheckPlayerInRange(){
+        Vector2 playerPosition = Player.Instance.transform.position;
+        Vector2 myPosition = transform.position;
+        Vector2 playerOffset = playerPosition - myPosition;
+        playerInRange = playerOffset.magnitude <= maxPlayerDistance;
+        if (!checkPlayerInSight){ return playerInRange; }
+        RaycastHit2D hit2D = Physics2D.Raycast(myPosition, playerOffset, maxPlayerDistance);
+        playerInSight = hit2D.collider && hit2D.collider.CompareTag("Player");
+        return playerInSight;
     }
 
-    private IEnumerator CheckPlayerInRangeCoroutine(){
-        var waitForSeconds = new WaitForSeconds(0.5f);
-        while (checkPlayerInRange){
-            yield return waitForSeconds;
-            Vector2 playerPosition = Player.Instance.transform.position;
-            Vector2 myPosition = transform.position;
-            Vector2 playerOffset = playerPosition - myPosition;
-            playerInRange = playerOffset.magnitude <= maxPlayerDistance;
-            if (!checkPlayerInSight){
-                OnCheckPlayer(playerInRange);
-                continue;
-            }
-            RaycastHit2D hit2D = Physics2D.Raycast(myPosition, playerOffset, maxPlayerDistance);
-            playerInSight = hit2D.collider && hit2D.collider.CompareTag("Player");
-            OnCheckPlayer(playerInRange && playerInSight);
-        }
-    }
 
 #if UNITY_EDITOR
     [SerializeField] protected bool checkFloorAhead;
 
     private void OnValidate(){
-        CheckPlayerInRange = checkPlayerInRange;
         if (checkFloorAhead && !floorCheckOrigin){
             floorCheckOrigin = new GameObject("Floor Check Origin").transform;
             floorCheckOrigin.SetParent(transform);

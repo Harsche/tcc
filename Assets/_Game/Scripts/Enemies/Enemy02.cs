@@ -8,6 +8,8 @@ public class Enemy02 : EnemyBase{
     
     private Coroutine checkPlayerCoroutine;
 
+    // ReSharper disable UnusedMember.Local
+    // State Machines Methods are only called at runtime
     private void Patrol_Enter(){
         checkPlayerCoroutine = StartCoroutine(OnCheckPlayerCoroutine());
     }
@@ -42,6 +44,7 @@ public class Enemy02 : EnemyBase{
             ChangeState(State.Attack);
         }
     }
+    // ReSharper restore UnusedMember.Local
 
     private IEnumerator BehaviourCoroutine(){
         while (gameObject){

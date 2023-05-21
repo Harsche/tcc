@@ -9,7 +9,6 @@ public class EnemyBase : MonoBehaviour{
     [SerializeField] protected bool useAi;
     [SerializeField] protected State currentState;
     [SerializeField] protected Vector2 maxSpeed;
-    [SerializeField] protected bool isSpriteFlippedX;
     [SerializeField] protected bool invulnerable;
     [SerializeField] private bool checkPlayerInRange;
     [SerializeField] protected float maxPlayerDistance = 10f;
@@ -32,6 +31,7 @@ public class EnemyBase : MonoBehaviour{
     [field: SerializeField] public float MaxHp{ get; protected set; } = 3f;
 
     protected EnemyDriver StateMachineDriver => stateMachine.Driver;
+    protected int FacingDirection => (int) Mathf.Sign(transform.localScale.x);
 
     protected virtual void Awake(){
         ChangeHp(MaxHp);
@@ -66,11 +66,6 @@ public class EnemyBase : MonoBehaviour{
 #if UNITY_EDITOR
         if (!checkFloorAhead){ Debug.LogException(new Exception("Not supposed to check for floor ahead.")); }
 #endif
-        int facingDirection = spriteRenderer.flipX ? -1 : 1;
-        if (isSpriteFlippedX){ facingDirection *= -1; }
-        Vector2 origin = floorCheckOrigin.localPosition;
-        origin.x = Mathf.Abs(origin.x) * facingDirection;
-        floorCheckOrigin.localPosition = origin;
         RaycastHit2D hit2D = Physics2D.Raycast(
             floorCheckOrigin.position,
             Vector2.down, 1.3f,
@@ -90,10 +85,10 @@ public class EnemyBase : MonoBehaviour{
 #endif
         xDirection = (int) Mathf.Sign(xDirection);
         Vector2 origin = floorCheckOrigin.localPosition;
-        origin.x = Mathf.Abs(origin.x) * xDirection;
-        floorCheckOrigin.localPosition = origin;
+        origin.x = Mathf.Abs(origin.x) * xDirection * Mathf.Sign(transform.localScale.x);
+        origin = transform.TransformPoint(origin);
         RaycastHit2D hit2D = Physics2D.Raycast(
-            floorCheckOrigin.position,
+            origin,
             Vector2.down, 1.3f,
             LayerMask.GetMask("Ground")
         );

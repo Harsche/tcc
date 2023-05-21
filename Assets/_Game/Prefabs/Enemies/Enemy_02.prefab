@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &153803880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153803881}
+  m_Layer: 0
+  m_Name: Attack Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &153803881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153803880}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.314, y: 1.379, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7864820412291249868}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &829045302
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829045302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.88, y: 1, z: 0}
+  m_LocalPosition: {x: 0.88, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,6 +77,7 @@ GameObject:
   - component: {fileID: -4112211585463560770}
   - component: {fileID: 1469602049}
   - component: {fileID: 1469602044}
+  - component: {fileID: 4016630811144004015}
   m_Layer: 0
   m_Name: Enemy_02
   m_TagString: Untagged
@@ -66,6 +98,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 829045303}
+  - {fileID: 153803881}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,7 +117,6 @@ MonoBehaviour:
   useAi: 1
   currentState: 0
   maxSpeed: {x: 3, y: 0}
-  isSpriteFlippedX: 1
   invulnerable: 0
   checkPlayerInRange: 1
   maxPlayerDistance: 10
@@ -98,6 +130,10 @@ MonoBehaviour:
   checkFloorAhead: 1
   desiredAttackDistance: 4
   attackRecoverTime: 2
+  attackSpawnPosition: {fileID: 153803881}
+  attackPrefab: {fileID: 4486734034373821781, guid: 135c7b7afb7823b4ab7c67f65202d788, type: 3}
+  timeToReachImpact: 2
+  throwMaxHeight: 6
 --- !u!114 &1469602051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +149,6 @@ MonoBehaviour:
   animator: {fileID: 1469602044}
   spriteRenderer: {fileID: 7864820412291249869}
   myRigidbody2d: {fileID: 1469602049}
-  isSpriteFlipped: 1
 --- !u!212 &7864820412291249869
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -157,7 +192,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 17399034, guid: e914e0afab8acd0478a8e857244ba1c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.5464551, y: 2.35}
@@ -179,7 +214,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: 0.52}
+  m_Offset: {x: -0.03, y: 0.52}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.08}
@@ -234,3 +269,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4016630811144004015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7864820412291249870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a4af6324a43499eacae9f34c6c65be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1469602044}
+  spriteRenderer: {fileID: 7864820412291249869}
+  myRigidbody2d: {fileID: 1469602049}

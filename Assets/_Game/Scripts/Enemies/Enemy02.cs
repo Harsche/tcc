@@ -16,9 +16,8 @@ public class Enemy02 : EnemyBase{
         Rigidbody2D projectile = Instantiate(attackPrefab, attackSpawnPosition.transform.position, Quaternion.identity);
         // Calculating velocity
         Vector2 playerDistance = GameUtils.GetPlayerDistance(transform.position);
-        float xDistance = playerDistance.x;
+        float xDistance = playerDistance.x  + 0.5f * Mathf.Sign(playerDistance.x);
         float xVelocity = xDistance / timeToReachImpact;
-        float halfTime = timeToReachImpact * 0.5f;
         float yVelocity = -2f * Physics2D.gravity.y * Mathf.Max(throwMaxHeight, playerDistance.y + throwMaxHeight);
         yVelocity = Mathf.Sqrt(yVelocity);
         projectile.velocity = new Vector2(xVelocity, yVelocity);
@@ -42,6 +41,7 @@ public class Enemy02 : EnemyBase{
     }
 
     private void Attack_OnCheckPlayer(bool isPlayerInSight){
+        if(!isPlayerInSight){ChangeState(State.Patrol);}
         if (isAttacking){ return; }
         bool attack = GameUtils.GetPlayerDistance(transform.position).magnitude <= desiredAttackDistance;
         if (attack){

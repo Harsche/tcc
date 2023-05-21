@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
 
-    public class Enemy02Projectile : MonoBehaviour{
-        private void OnTriggerEnter2D(Collider2D other){
-            if (other.CompareTag("Player")){
-                Player.Instance.ChangeHp(-1);
-            }
-            Destroy(gameObject);
+    public class Enemy02Projectile : ProjectileBase{
+        protected override void Awake(){
+            ChangeColor(MagicType);
         }
+
+        protected override void Update(){
+            Rigidbody.rotation = Vector2.Angle(Vector2.right, Rigidbody.velocity);
+        }
+        
     }

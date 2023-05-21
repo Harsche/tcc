@@ -115,15 +115,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4b1722ecbc462c81c7ed6c6600af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnHitAnything: 1
   damage: 1
   speed: 5
   destroyTime: 10
-  spriteRenderer: {fileID: 255991289493433844}
   random: 0
   fixedDirection: 0
   enemyAttackDirection: 0
+  trailRenderer: {fileID: 0}
+  myRigidbody: {fileID: 0}
   enteredMagicShield: 0
   reflected: 0
+  hitPlayer: 0
   <ProjectileType>k__BackingField: 0
   <MagicType>k__BackingField: 1
 --- !u!1 &255991289973828898

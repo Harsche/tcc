@@ -2,20 +2,24 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Projectile : MonoBehaviour{
+public class ProjectileBase : MonoBehaviour{
+    [SerializeField] private bool destroyOnHitAnything = true;
     [SerializeField] private int damage = 1;
     [SerializeField] private float speed = 3f;
     [SerializeField] private float destroyTime = 10f;
-    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private bool random;
     [SerializeField] private bool fixedDirection;
     [SerializeField] private EnemyAttackDirection enemyAttackDirection;
+    [SerializeField] private TrailRenderer trailRenderer;
+    [SerializeField] private Rigidbody2D myRigidbody;
     public bool enteredMagicShield;
     public bool reflected, hitPlayer;
     [field: SerializeField] public ProjectileType ProjectileType{ get; private set; }
     [field: SerializeField] public MagicType MagicType{ get; private set; }
 
-    private void Awake(){
+    public Rigidbody2D Rigidbody => myRigidbody;
+
+    protected virtual void Awake(){
         Vector2 targetDirection;
         if (fixedDirection){
             float fixedAngle = 90f * (int) enemyAttackDirection;
@@ -33,11 +37,16 @@ public class Projectile : MonoBehaviour{
         Destroy(gameObject, destroyTime);
     }
 
-    private void Update(){
+    protected virtual void Start(){
+        tag = "Projectile";
+    }
+
+    protected virtual void Update(){
         transform.Translate(Vector2.right * (speed * Time.deltaTime), Space.Self);
     }
 
-    private void OnTriggerEnter2D(Collider2D col){
+    protected virtual void OnTriggerEnter2D(Collider2D col){
+        if(destroyOnHitAnything && !col.CompareTag("PlayerShield")){Destroy(gameObject);}
         if (col.CompareTag("Player") && !hitPlayer){
             col.GetComponent<Player>().ChangeHp(-damage);
             hitPlayer = true;
@@ -46,13 +55,13 @@ public class Projectile : MonoBehaviour{
         }
         switch (reflected){
             case true when col.CompareTag("Enemy"):
-                col.GetComponent<Enemy03>().ChangeHp(-damage);
+                col.GetComponent<EnemyBase>().ChangeHp(-damage);
                 Destroy(gameObject);
                 return;
             case true when col.CompareTag("Button"):
                 col.GetComponent<GameButton>().Interact(MagicType);
                 Destroy(gameObject);
-                break;
+                return;
         }
     }
 
@@ -64,6 +73,6 @@ public class Projectile : MonoBehaviour{
             MagicType.Blue => Color.blue,
             _ => throw new ArgumentOutOfRangeException(nameof(magicType), magicType, null)
         };
-        spriteRenderer.color = projectileColor;
+        trailRenderer.material.color = projectileColor;
     }
 }

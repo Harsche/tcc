@@ -6,6 +6,7 @@ public class Parry : MonoBehaviour{
     private static readonly int ShieldColor1 = Shader.PropertyToID("_ShieldColor");
 
     [SerializeField] private float redirectImpulseAngle = 45f;
+    [SerializeField] private float reflectImpulse = 2f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Light2D light2D;
     [SerializeField] private ShieldColor[] shieldColors;
@@ -44,7 +45,7 @@ public class Parry : MonoBehaviour{
 
     private void OnTriggerEnter2D(Collider2D col){
         if (!col.CompareTag("Projectile")){ return; }
-        var projectile = col.GetComponent<Projectile>();
+        var projectile = col.GetComponent<ProjectileBase>();
         if (projectile.MagicType != shieldMagicType){ return; }
         ReflectProjectile(projectile);
     }
@@ -90,19 +91,22 @@ public class Parry : MonoBehaviour{
         light2D.enabled = false;
     }
 
-    private void ReflectProjectile(Projectile projectile){
+    private void ReflectProjectile(ProjectileBase projectile){
         Player.Instance.ElementMagic.hasAbsorbedElement = true;
         PlayerHUD.Instance.ToggleAbsorbedElement(true);
         Player.Instance.ElementMagic.absorbedElement = projectile.MagicType;
         PlayerHUD.Instance.SetAbsorbedElement(projectile.MagicType);
 
         // Rotates projectile around player to adjust reflect direction
-        Vector3 myPosition = transform.position;
-        Vector2 projectileDirection = projectile.transform.position - myPosition;
-        Vector2 lookAngle = Quaternion.Euler(0f, 0f, PlayerInput.LookAngle) * Vector3.right;
+        Vector2 myPosition = transform.position;
+        Vector2 projectileDirection = projectile.Rigidbody.position - myPosition;
+        Vector2 lookAngle = PlayerInput.LookDirection;
         float angle = Vector2.SignedAngle(projectileDirection, lookAngle);
-        projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
-        projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerInput.LookAngle);
+        // projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
+        Vector2 reflectedPosition = myPosition + lookAngle * projectileDirection.magnitude;
+        projectile.Rigidbody.MovePosition(reflectedPosition);
+        projectile.Rigidbody.velocity = lookAngle * projectile.Rigidbody.velocity.magnitude * reflectImpulse;
+        // projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerInput.LookAngle);
         
         if (!projectile.enteredMagicShield){
             if (Vector2.Angle(Vector2.down, projectileDirection) <= redirectImpulseAngle){

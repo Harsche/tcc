@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,8 +10,11 @@ public class PlayerShield : MonoBehaviour{
     [FormerlySerializedAs("collider2D"),SerializeField] private Collider2D shieldCollider2D;
 
     private void Awake(){
-        ChangeShieldHp(maxHits);
         ToggleShield(false);
+    }
+
+    private void Start(){
+        ChangeShieldHp(maxHits);
     }
 
     private void OnEnable(){

@@ -1,9 +1,10 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Interactable : MonoBehaviour, IInteractable{
-    [SerializeField] private TextMeshProUGUI textIndication;
+    [SerializeField] private CanvasGroup interactionIndication;
     [SerializeField] private float fadeTime = 0.25f;
     [SerializeField] private Ease ease = Ease.Linear;
     [SerializeField] private bool isInteractable = true;
@@ -36,7 +37,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable{
     public void ToggleIndication(bool value){
         float endValue = value ? 1f : 0f;
         indicationFade?.Kill();
-        indicationFade = textIndication.DOFade(endValue, fadeTime)
+        indicationFade = interactionIndication.DOFade(endValue, fadeTime)
             .SetEase(ease);
     }
 }

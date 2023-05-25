@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour{
         canvas.enabled = false;
         canvasGroup.alpha = 0f;
         canvasGroup2.alpha = 0f;
+        canvasGroup2.interactable = false;
     }
 
     public void ToggleMenu(bool active){
@@ -21,6 +22,7 @@ public class PauseMenu : MonoBehaviour{
         if (active){
             canvas.enabled = true;
             canvasGroup.DOFade(1f, fadeTime)
+                .SetUpdate(true)
                 .OnComplete(() => AnimateMenu(true));
             IsToggling = false;
             return;
@@ -28,6 +30,7 @@ public class PauseMenu : MonoBehaviour{
 
         AnimateMenu(false);
         canvasGroup.DOFade(1f, fadeTime)
+            .SetUpdate(true)
             .OnComplete(() => {
                 canvas.enabled = false;
                 IsToggling = true;
@@ -35,6 +38,9 @@ public class PauseMenu : MonoBehaviour{
     }
 
     private void AnimateMenu(bool inOrOut){
-        canvasGroup2.alpha = inOrOut ? 1f : 0f;
+        float alpha = inOrOut ? 1f : 0f;
+        canvasGroup2.DOFade(alpha, fadeTime)
+            .SetUpdate(true)
+            .OnComplete(() => canvasGroup2.interactable = inOrOut);
     }
 }

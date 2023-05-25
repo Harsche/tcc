@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour{
     public static void TogglePauseGame(bool value){
         if (PauseMenu.IsToggling){ return; }
         Time.timeScale = value ? 1f : 0f;
+        GameCamera.ToggleBackgroundBlur(value);
         PauseMenu.ToggleMenu(value);
     }
 

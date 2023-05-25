@@ -1,11 +1,12 @@
 using System;
 using Game.AI;
 using MonsterLove.StateMachine;
+using Scripts.Enemies;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour{
-    protected static readonly int Attack = Animator.StringToHash("Attack");
-
+[RequireComponent(typeof(EnemyAnimation))]
+public abstract class EnemyBase : MonoBehaviour{
+    [Label("Enemy Base", skinStyle: SkinStyle.Round, Alignment = TextAnchor.MiddleCenter)]
     [SerializeField] protected bool useAi;
     [SerializeField] protected State currentState;
     [SerializeField] protected Vector2 maxSpeed;
@@ -13,9 +14,6 @@ public class EnemyBase : MonoBehaviour{
     [SerializeField] private bool checkPlayerInRange;
     [SerializeField] protected float maxPlayerDistance = 10f;
     [SerializeField] protected bool checkPlayerInSight;
-
-    [SerializeField] protected SpriteRenderer spriteRenderer;
-    [SerializeField] protected Animator animator;
     [SerializeField] protected Transform floorCheckOrigin;
     [SerializeField] protected Rigidbody2D myRigidbody2D;
     private Coroutine checkPlayerInRangeCoroutine;
@@ -27,10 +25,12 @@ public class EnemyBase : MonoBehaviour{
     private StateMachine<State, EnemyDriver> stateMachine;
 
     public event Action<EnemyBase> OnDeath;
+    public event Action OnAttack;
     [field: SerializeField] public float Hp{ get; protected set; }
     [field: SerializeField] public float MaxHp{ get; protected set; } = 3f;
 
     protected EnemyDriver StateMachineDriver => stateMachine.Driver;
+    public Rigidbody2D Rigidbody2D => myRigidbody2D;
     protected int FacingDirection => (int) Mathf.Sign(transform.localScale.x);
 
     protected virtual void Awake(){
@@ -49,6 +49,7 @@ public class EnemyBase : MonoBehaviour{
     protected virtual void OnDestroy(){
         OnDeath = null;
     }
+    
 
     public void ChangeHp(float value){
         if (invulnerable){ return; }
@@ -60,6 +61,10 @@ public class EnemyBase : MonoBehaviour{
 
     public void SetAttackingFinished(){
         isAttacking = false;
+    }
+
+    protected void TriggerOnAttacking(){
+        OnAttack?.Invoke();
     }
 
     protected bool GetFloorAhead(){

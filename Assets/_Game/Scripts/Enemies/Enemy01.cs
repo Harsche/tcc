@@ -1,33 +1,42 @@
+using System.Collections;
 using UnityEngine;
 
-public class Enemy01 : MonoBehaviour{
-    [SerializeField] private float speed = 3f;
-    [SerializeField] private float rayCastDistance = 0.75f;
+public class Enemy01 : EnemyBase{
+    [Label("Enemy", skinStyle: SkinStyle.Round, Alignment = TextAnchor.MiddleCenter)]
+    [SerializeField] private float rayDistance = 0.25f;
 
-    private Transform myTransform;
+    [SerializeField] private Vector2 rayOffset;
 
-    private void Awake(){
-        myTransform = transform;
-        RaycastHit2D hit = Physics2D.Raycast(
-            transform.position,
-            Vector2.down,
-            10f,
-            LayerMask.GetMask("Ground")
-        );
-        transform.position = hit.point;
+    protected override void Awake(){
+        base.Awake();
+        StartCoroutine(OnCheckPlayerCoroutine());
     }
 
-    private void Update(){
-        Vector3 position = myTransform.position;
-        Vector3 right = myTransform.right;
-        myTransform.Translate(speed * Time.deltaTime * myTransform.TransformVector(right));
-        Debug.DrawRay(position, right * rayCastDistance, Color.black);
+
+    private IEnumerator OnCheckPlayerCoroutine(){
+        WaitForSeconds waitTime = new(0.1f);
+        while (gameObject){
+            yield return waitTime;
+            StateMachineDriver.OnCheckPlayer.Invoke(CheckPlayerInRange());
+        }
+    }
+
+
+    // ReSharper disable UnusedMember.Local
+    private void Patrol_Enter(){
+        myRigidbody2D.velocity = maxSpeed;
+    }
+
+    private void Patrol_OnCheckPlayer(bool isPlayerInSight){
+        Vector2 origin = myRigidbody2D.position + new Vector2(rayOffset.x * FacingDirection, rayOffset.y);
         RaycastHit2D hit = Physics2D.Raycast(
-            position,
-            right,
-            rayCastDistance,
+            origin,
+            Vector2.right * FacingDirection,
+            rayDistance,
             LayerMask.GetMask("Ground")
         );
-        if (hit.collider){ myTransform.Rotate(Vector3.up, 180f); }
+        if (hit.collider){ myRigidbody2D.velocity *= -1f; }
     }
+
+    // ReSharper restore UnusedMember.Local
 }

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &451087513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 451087514}
+  m_Layer: 0
+  m_Name: Floor Check Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &451087514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451087513}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6982483122083503183}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6982483122083503186
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,14 +40,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6982483122083503183}
+  - component: {fileID: 6982483122083503187}
+  - component: {fileID: 8627890228219887963}
   - component: {fileID: 6982483122083503182}
   - component: {fileID: 6982483122083503185}
   - component: {fileID: 6982483122083503184}
-  - component: {fileID: 6982483122083503187}
+  - component: {fileID: 769244201}
   m_Layer: 0
   m_Name: Enemy_01
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -31,10 +64,52 @@ Transform:
   m_LocalPosition: {x: 14.94, y: -1.13, z: 0.027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 451087514}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6982483122083503187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982483122083503186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c91473649f5893a4981164e9cd3aedcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useAi: 1
+  currentState: 0
+  maxSpeed: {x: 2, y: 0}
+  invulnerable: 0
+  checkPlayerInRange: 0
+  maxPlayerDistance: 10
+  checkPlayerInSight: 0
+  floorCheckOrigin: {fileID: 451087514}
+  myRigidbody2D: {fileID: 769244201}
+  <Hp>k__BackingField: 0
+  <MaxHp>k__BackingField: 3
+  checkFloorAhead: 1
+  rayDistance: 0.3
+  rayOffset: {x: 0.255, y: 0.226}
+--- !u!114 &8627890228219887963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982483122083503186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a4af6324a43499eacae9f34c6c65be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBase: {fileID: 6982483122083503187}
+  spriteRenderer: {fileID: 6982483122083503182}
+  animator: {fileID: 6982483122083503184}
 --- !u!212 &6982483122083503182
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -134,17 +209,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6982483122083503187
-MonoBehaviour:
+--- !u!50 &769244201
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6982483122083503186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c91473649f5893a4981164e9cd3aedcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1.2
-  rayCastDistance: 0.5
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

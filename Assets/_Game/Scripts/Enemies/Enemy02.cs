@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Utils;
 
 public class Enemy02 : EnemyBase{
+    [Label("Enemy", skinStyle: SkinStyle.Round, Alignment = TextAnchor.MiddleCenter)]
     [SerializeField] private float desiredAttackDistance = 4f;
+
     [SerializeField] private float attackRecoverTime = 2f;
     [SerializeField] private Transform attackSpawnPosition;
     [SerializeField] private Rigidbody2D attackPrefab;
@@ -12,15 +15,44 @@ public class Enemy02 : EnemyBase{
 
     private Coroutine checkPlayerCoroutine;
 
+
     public void SpawnAttack(){
         Rigidbody2D projectile = Instantiate(attackPrefab, attackSpawnPosition.transform.position, Quaternion.identity);
         // Calculating velocity
         Vector2 playerDistance = GameUtils.GetPlayerDistance(transform.position);
-        float xDistance = playerDistance.x  + 0.5f * Mathf.Sign(playerDistance.x);
+        float xDistance = playerDistance.x + 0.5f * Mathf.Sign(playerDistance.x);
         float xVelocity = xDistance / timeToReachImpact;
         float yVelocity = -2f * Physics2D.gravity.y * Mathf.Max(throwMaxHeight, playerDistance.y + throwMaxHeight);
         yVelocity = Mathf.Sqrt(yVelocity);
         projectile.velocity = new Vector2(xVelocity, yVelocity);
+    }
+
+    private IEnumerator BehaviourCoroutine(){
+        while (gameObject){
+            Vector2 playerDistance = GameUtils.GetPlayerDistance(transform.position);
+            bool attack = Mathf.Abs(playerDistance.x) <= desiredAttackDistance;
+
+            while (attack){
+                TriggerOnAttacking();
+                myRigidbody2D.velocity = Vector2.zero;
+                yield return new WaitForSeconds(attackRecoverTime);
+                playerDistance = GameUtils.GetPlayerDistance(transform.position);
+                attack = Mathf.Abs(playerDistance.x) <= desiredAttackDistance;
+            }
+
+            Vector2 followPlayerSpeed = maxSpeed;
+            followPlayerSpeed.x *= Mathf.Sign(playerDistance.x);
+            // myRigidbody2D.velocity = Utils.GameUtils.OrientVelocityToGround(followPlayerSpeed, );
+        }
+    }
+
+    // TODO - Put this feature on EnemyBase
+    private IEnumerator OnCheckPlayerCoroutine(){
+        WaitForSeconds waitTime = new(0.25f);
+        while (gameObject){
+            yield return waitTime;
+            StateMachineDriver.OnCheckPlayer.Invoke(CheckPlayerInRange());
+        }
     }
 
     // ReSharper disable UnusedMember.Local
@@ -35,18 +67,18 @@ public class Enemy02 : EnemyBase{
 
     private IEnumerator Attack_Enter(){
         isAttacking = true;
-        animator.SetTrigger(Attack);
+        TriggerOnAttacking();
         myRigidbody2D.velocity = Vector2.zero;
         yield return new WaitUntil(() => !isAttacking);
     }
 
     private void Attack_OnCheckPlayer(bool isPlayerInSight){
-        if(!isPlayerInSight){ChangeState(State.Patrol);}
+        if (!isPlayerInSight){ ChangeState(State.Patrol); }
         if (isAttacking){ return; }
         bool attack = GameUtils.GetPlayerDistance(transform.position).magnitude <= desiredAttackDistance;
         if (attack){
             isAttacking = true;
-            animator.SetTrigger(Attack);
+            TriggerOnAttacking();
             myRigidbody2D.velocity = Vector2.zero;
         }
         else{ ChangeState(State.Chase); }
@@ -71,35 +103,4 @@ public class Enemy02 : EnemyBase{
         }
     }
     // ReSharper restore UnusedMember.Local
-
-    private IEnumerator BehaviourCoroutine(){
-        while (gameObject){
-            Vector2 playerDistance = GameUtils.GetPlayerDistance(transform.position);
-            bool attack = Mathf.Abs(playerDistance.x) <= desiredAttackDistance;
-
-            while (attack){
-                animator.SetTrigger(Attack);
-                myRigidbody2D.velocity = Vector2.zero;
-                yield return new WaitForSeconds(attackRecoverTime);
-                playerDistance = GameUtils.GetPlayerDistance(transform.position);
-                attack = Mathf.Abs(playerDistance.x) <= desiredAttackDistance;
-            }
-
-            Vector2 followPlayerSpeed = maxSpeed;
-            followPlayerSpeed.x *= Mathf.Sign(playerDistance.x);
-            // myRigidbody2D.velocity = Utils.GameUtils.OrientVelocityToGround(followPlayerSpeed, );
-        }
-    }
-
-    private IEnumerator OnCheckPlayerCoroutine(){
-        WaitForSeconds waitTime = new(0.25f);
-        while (gameObject){
-            yield return waitTime;
-            StateMachineDriver.OnCheckPlayer.Invoke(CheckPlayerInRange());
-        }
-    }
-
-    // private IEnumerator Patrol(){
-    //     
-    // }
 }

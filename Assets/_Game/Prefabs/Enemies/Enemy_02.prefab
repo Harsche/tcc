@@ -77,7 +77,6 @@ GameObject:
   - component: {fileID: -4112211585463560770}
   - component: {fileID: 1469602049}
   - component: {fileID: 1469602044}
-  - component: {fileID: 4016630811144004015}
   m_Layer: 0
   m_Name: Enemy_02
   m_TagString: Enemy
@@ -121,8 +120,6 @@ MonoBehaviour:
   checkPlayerInRange: 1
   maxPlayerDistance: 10
   checkPlayerInSight: 0
-  spriteRenderer: {fileID: 7864820412291249869}
-  animator: {fileID: 1469602044}
   floorCheckOrigin: {fileID: 829045303}
   myRigidbody2D: {fileID: 1469602049}
   <Hp>k__BackingField: 0
@@ -146,9 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4af6324a43499eacae9f34c6c65be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1469602044}
+  enemyBase: {fileID: 1469602048}
   spriteRenderer: {fileID: 7864820412291249869}
-  myRigidbody2d: {fileID: 1469602049}
+  animator: {fileID: 1469602044}
 --- !u!212 &7864820412291249869
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -269,18 +266,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4016630811144004015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7864820412291249870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a4af6324a43499eacae9f34c6c65be8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1469602044}
-  spriteRenderer: {fileID: 7864820412291249869}
-  myRigidbody2d: {fileID: 1469602049}

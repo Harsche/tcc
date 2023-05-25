@@ -1,5 +1,6 @@
 using Ink.Runtime;
 using UnityEngine;
+using Game.SaveSystem;
 
 public class DialogManager : MonoBehaviour{
     [SerializeField] private TextAsset storyJson;
@@ -35,11 +36,11 @@ public class DialogManager : MonoBehaviour{
     }
 
     private void SaveStory(){
-        GameSaveSystem.SaveData.storyJson = story.state.ToJson();
+        SaveSystem.SaveData.storyJson = story.state.ToJson();
     }
 
     private void LoadStory(){
-        string savedStory = GameSaveSystem.SaveData.storyJson;
+        string savedStory = SaveSystem.SaveData.storyJson;
         if (string.IsNullOrEmpty(savedStory)){ return; }
         story.state.LoadJson(savedStory);
     }

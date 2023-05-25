@@ -3,6 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Game.SaveSystem;
 
 public class SceneLoader : MonoBehaviour{
     [SerializeField] private float fadeTime = 1f;
@@ -54,10 +55,10 @@ public class SceneLoader : MonoBehaviour{
                 Player.Instance.gameObject.SetActive(false);
                 DontDestroyOnLoad(rootGameObject);
             }
-            string scene = GameSaveSystem.SaveData.loadScene;
+            string scene = SaveSystem.SaveData.loadScene;
             if (string.IsNullOrEmpty(scene)){ scene = "A1"; }
             LoadScene(scene);
-            GameSaveSystem.SetLastSaveTime();
+            SaveSystem.SetLastSaveTime();
             yield break;
         }
         Player.Instance.gameObject.SetActive(true);

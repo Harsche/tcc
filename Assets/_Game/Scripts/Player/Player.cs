@@ -1,5 +1,6 @@
 using Cinemachine;
 using UnityEngine;
+using Game.SaveSystem;
 
 public class Player : MonoBehaviour{
     [field: SerializeField] public int MaxHp{ get; private set; } = 3;
@@ -63,8 +64,10 @@ public class Player : MonoBehaviour{
     }
 
     private void LoadPlayerData(){
-        SaveData saveData = GameSaveSystem.SaveData;
+        SaveData saveData = SaveSystem.SaveData;
         if (saveData.isNewGame){ return; }
         transform.position = saveData.playerPosition;
+        PlayerParry.enableParry = saveData.unlockParry;
+        PlayerMovement.enableDash = saveData.unlockDash;
     }
 }

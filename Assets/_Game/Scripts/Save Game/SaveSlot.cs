@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.SaveSystem;
 
 public class SaveSlot : MonoBehaviour{
     [SerializeField] private int saveIndex;
@@ -14,12 +15,12 @@ public class SaveSlot : MonoBehaviour{
 
     private void Awake(){
         button = GetComponent<Button>();
-        hasSave = GameSaveSystem.SaveFileExists(saveIndex);
+        hasSave = SaveSystem.SaveFileExists(saveIndex);
         DisplaySlotInfo();
     }
 
     public void SelectSaveSlot(){
-        GameSaveSystem.LoadFromFile(saveIndex);
+        SaveSystem.LoadFromFile(saveIndex);
         SceneLoader.Instance.LoadSetupScene();
     }
 
@@ -27,7 +28,7 @@ public class SaveSlot : MonoBehaviour{
         saveInfo.SetActive(hasSave);
         newSave.SetActive(!hasSave);
         if (!hasSave){return; }
-        SaveData slotSaveData = GameSaveSystem.GetSaveData(saveIndex);
+        SaveData slotSaveData = SaveSystem.GetSaveData(saveIndex);
         playTimeText.text = slotSaveData.playTime.ToString(@"hh\:mm\:ss");
         locationText.text = slotSaveData.loadScene;
     }

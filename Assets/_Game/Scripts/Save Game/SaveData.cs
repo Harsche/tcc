@@ -7,4 +7,10 @@ public class SaveData{
     public string loadScene;
     public TimeSpan playTime;
     public string storyJson;
+    
+    // Skills
+
+    public bool unlockParry;
+    public bool unlockDash;
+    public bool unlockWallJump;
 }

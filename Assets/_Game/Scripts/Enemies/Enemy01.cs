@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class Enemy01 : EnemyBase{
     [SerializeField] private float rayDistance = 0.25f;
 
     [SerializeField] private Vector2 rayOffset;
+
+    public override event Action OnAttack;
 
     protected override void Awake(){
         base.Awake();

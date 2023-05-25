@@ -15,6 +15,8 @@ public class Enemy02 : EnemyBase{
 
     private Coroutine checkPlayerCoroutine;
 
+    public override event Action OnAttack;
+
 
     public void SpawnAttack(){
         Rigidbody2D projectile = Instantiate(attackPrefab, attackSpawnPosition.transform.position, Quaternion.identity);
@@ -33,7 +35,7 @@ public class Enemy02 : EnemyBase{
             bool attack = Mathf.Abs(playerDistance.x) <= desiredAttackDistance;
 
             while (attack){
-                TriggerOnAttacking();
+                OnAttack?.Invoke();
                 myRigidbody2D.velocity = Vector2.zero;
                 yield return new WaitForSeconds(attackRecoverTime);
                 playerDistance = GameUtils.GetPlayerDistance(transform.position);
@@ -67,7 +69,7 @@ public class Enemy02 : EnemyBase{
 
     private IEnumerator Attack_Enter(){
         isAttacking = true;
-        TriggerOnAttacking();
+        OnAttack?.Invoke();
         myRigidbody2D.velocity = Vector2.zero;
         yield return new WaitUntil(() => !isAttacking);
     }
@@ -78,7 +80,7 @@ public class Enemy02 : EnemyBase{
         bool attack = GameUtils.GetPlayerDistance(transform.position).magnitude <= desiredAttackDistance;
         if (attack){
             isAttacking = true;
-            TriggerOnAttacking();
+            OnAttack?.Invoke();
             myRigidbody2D.velocity = Vector2.zero;
         }
         else{ ChangeState(State.Chase); }

@@ -25,7 +25,7 @@ public abstract class EnemyBase : MonoBehaviour{
     private StateMachine<State, EnemyDriver> stateMachine;
 
     public event Action<EnemyBase> OnDeath;
-    public event Action OnAttack;
+    public abstract event Action OnAttack;
     [field: SerializeField] public float Hp{ get; protected set; }
     [field: SerializeField] public float MaxHp{ get; protected set; } = 3f;
 
@@ -61,10 +61,6 @@ public abstract class EnemyBase : MonoBehaviour{
 
     public void SetAttackingFinished(){
         isAttacking = false;
-    }
-
-    protected void TriggerOnAttacking(){
-        OnAttack?.Invoke();
     }
 
     protected bool GetFloorAhead(){

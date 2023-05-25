@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBase: {fileID: 1469602048}
-  spriteRenderer: {fileID: 7864820412291249869}
+  spriteRenderer: {fileID: 0}
   animator: {fileID: 1469602044}
 --- !u!212 &7864820412291249869
 SpriteRenderer:

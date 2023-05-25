@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour{
     public static PauseMenu PauseMenu{ get; private set; }
     public static GameCamera GameCamera{ get; private set; }
 
+    private static bool GamePaused;
+
 
     private void Awake(){
         if (Instance != null){
@@ -18,11 +20,12 @@ public class GameManager : MonoBehaviour{
         SetupStaticFields();
     }
 
-    public static void TogglePauseGame(bool value){
+    public static void TogglePause(){
         if (PauseMenu.IsToggling){ return; }
-        Time.timeScale = value ? 1f : 0f;
-        GameCamera.ToggleBackgroundBlur(value);
-        PauseMenu.ToggleMenu(value);
+        GamePaused = !GamePaused;
+        Time.timeScale = GamePaused ? 0f : 1f;
+        GameCamera.ToggleBackgroundBlur(GamePaused);
+        PauseMenu.ToggleMenu(GamePaused);
     }
 
     private void SetupStaticFields(){

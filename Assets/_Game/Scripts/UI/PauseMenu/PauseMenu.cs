@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour{
             .SetUpdate(true)
             .OnComplete(() => {
                 canvas.enabled = false;
-                IsToggling = true;
+                IsToggling = false;
             });
     }
 

@@ -92,4 +92,8 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     public void OnUseElement(InputAction.CallbackContext context){
         if (context.performed){ Player.Instance.ElementMagic.UseMagicElement(); }
     }
+
+    public void OnPause(InputAction.CallbackContext context){
+        if (context.performed){ GameManager.TogglePause(); }
+    }
 }

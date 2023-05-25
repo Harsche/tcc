@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ToolboxEditorSettings
   m_EditorClassIdentifier: 
   useToolboxHierarchy: 1
-  drawHorizontalLines: 1
-  showSelectionsCount: 1
-  rowDataTypes: 0000000001000000020000000300000004000000
-  useToolboxFolders: 1
+  drawHorizontalLines: 0
+  showSelectionsCount: 0
+  rowDataTypes: 020000000000000001000000
+  useToolboxFolders: 0
   largeIconScale: 0.8
   smallIconScale: 0.7
   largeIconPadding: {x: 0, y: 0.15}

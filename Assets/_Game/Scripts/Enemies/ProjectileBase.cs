@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(TrailRenderer))]
 public class ProjectileBase : MonoBehaviour{
     [SerializeField] private bool destroyOnHitAnything = true;
     [SerializeField] private int damage = 1;
@@ -75,4 +76,10 @@ public class ProjectileBase : MonoBehaviour{
         };
         trailRenderer.material.color = projectileColor;
     }
+
+#if UNITY_EDITOR
+    private void OnValidate(){
+        if (!trailRenderer){ trailRenderer = GetComponent<TrailRenderer>(); }
+    }
+#endif
 }

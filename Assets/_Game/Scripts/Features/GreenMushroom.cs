@@ -25,7 +25,7 @@ public class GreenMushroom : MonoBehaviour{
     private void Awake(){
         startPosition = transform.position;
         boxCollider2D = GetComponent<BoxCollider2D>();
-        // Destroy(transform.parent.gameObject, duration);
+        Destroy(transform.parent.gameObject, duration);
     }
 
     private void Update(){

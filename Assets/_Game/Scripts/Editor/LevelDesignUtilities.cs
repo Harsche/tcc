@@ -5,7 +5,12 @@ using UnityEngine.SceneManagement;
 
 namespace Scripts.Editor{
     public static class LevelDesignUtilities{
-        [MenuItem("Game Utilities/Level/Organize Props")]
+        private const string OrganizeProps = "Game Utilities/Level/Organize Props";
+        private const string SnapCharactersToGroundPath = "Game Utilities/Level/Snap Characters To Ground";
+        private static bool SnapCharactersToGround;
+        
+
+        [MenuItem(OrganizeProps)]
         private static void DeleteSave(){
             List<Transform> props = new();
             Transform propsParent = null;
@@ -18,6 +23,11 @@ namespace Scripts.Editor{
             }
             if (!propsParent){ propsParent = new GameObject("Props").transform; }
             foreach (Transform prop in props){ prop.SetParent(propsParent); }
+        }
+
+        [MenuItem(SnapCharactersToGroundPath)]
+        private static void ToggleSnapCharactersToGround(){
+            Menu.SetChecked(SnapCharactersToGroundPath, !SnapCharactersToGround);
         }
     }
 }

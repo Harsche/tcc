@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1815849392607093517}
   - component: {fileID: 1815849392607093506}
   - component: {fileID: 1815849392607093507}
+  - component: {fileID: 1572759903}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -101,6 +102,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &1572759903
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815849392607093505}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1815849393199490767
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,12 +375,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ff8c65c5e0471981f630e5b5d63955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textIndication: {fileID: 1815849393199490766}
+  interactionIndication: {fileID: 1572759903}
   fadeTime: 0.25
   ease: 1
   isInteractable: 1
   characterName: Mentor
-  dialog: 
+  dialog: J2_2
 --- !u!212 &3754194855342355240
 SpriteRenderer:
   m_ObjectHideFlags: 0

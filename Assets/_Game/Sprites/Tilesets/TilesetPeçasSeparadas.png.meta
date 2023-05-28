@@ -495,16 +495,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "TilesetPe\xE7asSeparadas_18"
+      name: Water Top
       rect:
         serializedVersion: 2
-        x: 578
+        x: 580
         y: 96
-        width: 445
-        height: 266
+        width: 441
+        height: 271
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 0, z: 2, w: 5}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -516,7 +516,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "TilesetPe\xE7asSeparadas_19"
+      name: Water Bottom
       rect:
         serializedVersion: 2
         x: 1034
@@ -525,7 +525,7 @@ TextureImporter:
         height: 445
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 4, y: 0, z: 2, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -599,8 +599,6 @@ TextureImporter:
       "TilesetPe\xE7asSeparadas_15": -1033491755
       "TilesetPe\xE7asSeparadas_16": -1203731438
       "TilesetPe\xE7asSeparadas_17": 199867717
-      "TilesetPe\xE7asSeparadas_18": 1769118544
-      "TilesetPe\xE7asSeparadas_19": -231582049
       "TilesetPe\xE7asSeparadas_2": -741720639
       "TilesetPe\xE7asSeparadas_20": 1028906939
       "TilesetPe\xE7asSeparadas_21": 1954739687
@@ -611,6 +609,8 @@ TextureImporter:
       "TilesetPe\xE7asSeparadas_7": 563922956
       "TilesetPe\xE7asSeparadas_8": 1582088075
       "TilesetPe\xE7asSeparadas_9": 1086775100
+      Water Bottom: -231582049
+      Water Top: 1769118544
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

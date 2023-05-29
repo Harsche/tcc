@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Enemy03 : MonoBehaviour{
+public class Enemy_03 : MonoBehaviour{
     [SerializeField] private bool invulnerable;
     [SerializeField] private float attackCooldown = 3f;
     [SerializeField] private float attackDistance = 5f;
@@ -11,7 +11,7 @@ public class Enemy03 : MonoBehaviour{
     private Coroutine attackCoroutine;
     private Coroutine checkPlayerDistanceCoroutine;
 
-    public event Action<Enemy03> OnDeath;
+    public event Action<Enemy_03> OnDeath;
     [field: SerializeField] public float Hp{ get; private set; }
     [field: SerializeField] public float MaxHp{ get; private set; } = 3f;
 

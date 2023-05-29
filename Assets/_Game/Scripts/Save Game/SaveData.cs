@@ -20,9 +20,9 @@ public class SaveData{
 
     // Unique objects 
 
-    [JsonProperty] private Dictionary<string, SavableData> uniqueObjectsData = new();
+    [JsonProperty] private Dictionary<string, object> uniqueObjectsData = new();
 
-    public void AddUniqueObjectData(string key, SavableData value){
+    public void AddUniqueObjectData(string key, object value){
         if (uniqueObjectsData.ContainsKey(key)){
             uniqueObjectsData[key] = value;
             return;
@@ -30,8 +30,8 @@ public class SaveData{
         uniqueObjectsData.Add(key, value);
     }
 
-    public bool TryGetUniqueObjectData<T>(string key, out T data) where T : SavableData{
-        if (uniqueObjectsData.TryGetValue(key, out SavableData value)){
+    public bool TryGetUniqueObjectData<T>(string key, out T data){
+        if (uniqueObjectsData.TryGetValue(key, out object value)){
             data = (T) value;
             return true;
         }
@@ -39,5 +39,3 @@ public class SaveData{
         return false;
     }
 }
-
-public class SavableData{ }

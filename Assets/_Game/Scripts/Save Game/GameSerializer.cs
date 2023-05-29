@@ -7,8 +7,8 @@ namespace Game.SaveSystem{
     public class GameSerializer : JsonSerializer, ISaveGameSerializer{
         private static readonly JsonSerializerSettings SerializerSettings = new()
         {
-            TypeNameHandling = TypeNameHandling.Auto
-            // PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            TypeNameHandling = TypeNameHandling.Auto,
+            PreserveReferencesHandling = PreserveReferencesHandling.None
         };
         
         public void Serialize<T>(T obj, Stream stream, Encoding encoding){

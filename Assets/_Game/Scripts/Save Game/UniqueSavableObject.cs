@@ -16,10 +16,7 @@ namespace Game.SaveSystem{
 
         private void Start(){
             (this as ISavable).LoadState();
-        }
-
-        private void OnDestroy(){
-            SaveObject();
+            (this as ISavable).SubscribeToSave();
         }
 
 #if UNITY_EDITOR
@@ -43,12 +40,16 @@ namespace Game.SaveSystem{
             if (savePosition){ transform.localPosition = data.position; }
         }
 
+        void ISavable.SubscribeToSave(){
+            SceneTransition.OnSceneTransition += SaveObject;
+        }
+
         public void SaveObject(){
             (this as ISavable).SaveState();
         }
 
         [Serializable]
-        public class UniqueSavableObjectData : SavableData{
+        public class UniqueSavableObjectData{
             public bool active;
             public Vector3 position;
         }

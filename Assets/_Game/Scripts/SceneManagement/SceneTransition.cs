@@ -11,6 +11,7 @@ public class SceneTransition : MonoBehaviour{
     [SerializeField, Range(0, 20)] private int destinationGateNumber;
 
     private static string DestinationGate;
+    public static event Action OnSceneTransition;
 
     private void Awake(){
         if (DestinationGate == $"{SceneManager.GetActiveScene().name}.{thisGateNumber}"){
@@ -20,6 +21,8 @@ public class SceneTransition : MonoBehaviour{
 
     private void OnTriggerEnter2D(Collider2D col){
         if (!col.CompareTag("Player")){ return; }
+        OnSceneTransition?.Invoke();
+        OnSceneTransition = null;
         DestinationGate = $"{destinationSceneName}.{destinationGateNumber}";
         SceneLoader.Instance.LoadScene(destinationSceneName);
         Player.Instance.gameObject.SetActive(false);

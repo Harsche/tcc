@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour{
         Instance = this;
         SetupStaticFields();
         SaveSystem.SetupSaveSystem();
-        // TODO - Delete this after testing
-        SaveSystem.LoadFromFile(0);
+        // // TODO - Delete this after testing
+        // SaveSystem.LoadFromFile(0);
     }
 
     public static void TogglePause(){

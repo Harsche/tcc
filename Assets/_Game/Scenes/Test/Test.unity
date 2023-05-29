@@ -501,14 +501,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3482691736149903196, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
-      propertyPath: enemyBase
-      value: 
-      objectReference: {fileID: 901466790}
-    - target: {fileID: 7882003245599948101, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
-      propertyPath: attackDistance
-      value: 8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
 --- !u!1 &792512502
@@ -683,17 +675,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
---- !u!114 &901466790 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7882003245599948101, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
-  m_PrefabInstance: {fileID: 658414490}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9838fe53d692c4081b69cf754b0a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1440791872
 GameObject:
   m_ObjectHideFlags: 0

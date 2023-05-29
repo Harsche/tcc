@@ -19,7 +19,7 @@ namespace Game.SaveSystem{
         }
 
         private void OnDestroy(){
-            (this as ISavable).SaveState();
+            SaveObject();
         }
 
 #if UNITY_EDITOR
@@ -31,20 +31,26 @@ namespace Game.SaveSystem{
 #endif
 
         void ISavable.SaveState(){
-            Dictionary<string, object> data = new();
-            if (saveActive){ data.Add("active", gameObject.activeSelf); }
-            if (savePosition){ data.Add("position", transform.localPosition); }
+            UniqueSavableObjectData data = new();
+            if (saveActive) data.active = gameObject.activeSelf;
+            if (savePosition) data.position = transform.localPosition;
             SaveSystem.SaveData.AddUniqueObjectData(saveKey, data);
         }
 
         void ISavable.LoadState(){
-            if (!SaveSystem.SaveData.TryGetUniqueObjectData(saveKey, out Dictionary<string, object> data)){ return; }
-            if (saveActive){ gameObject.SetActive((bool) data["active"]); }
-            if (savePosition){ transform.localPosition =  data["position"]; }
+            if (!SaveSystem.SaveData.TryGetUniqueObjectData(saveKey, out UniqueSavableObjectData data)){ return; }
+            if (saveActive){ gameObject.SetActive(data.active); }
+            if (savePosition){ transform.localPosition = data.position; }
         }
 
         public void SaveObject(){
             (this as ISavable).SaveState();
+        }
+
+        [Serializable]
+        public class UniqueSavableObjectData : SavableData{
+            public bool active;
+            public Vector3 position;
         }
     }
 }

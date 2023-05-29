@@ -13,6 +13,7 @@ namespace Game.SaveSystem{
 
         [SerializeField] private float rotateSpeed = 5f;
         public static SaveData SaveData{ get; private set; } = new();
+        
 
         private void Update(){
             transform.Rotate(transform.forward, rotateSpeed * Time.deltaTime);

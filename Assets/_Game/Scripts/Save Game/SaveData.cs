@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
-using Game.SaveSystem.CustomConverters;
 
 public class SaveData{
     // Important variables
@@ -21,10 +20,9 @@ public class SaveData{
 
     // Unique objects 
 
-    [JsonProperty]
-    private Dictionary<string, Dictionary<string, object>> uniqueObjectsData = new();
+    [JsonProperty] private Dictionary<string, SavableData> uniqueObjectsData = new();
 
-    public void AddUniqueObjectData(string key, Dictionary<string, object> value){
+    public void AddUniqueObjectData(string key, SavableData value){
         if (uniqueObjectsData.ContainsKey(key)){
             uniqueObjectsData[key] = value;
             return;
@@ -32,12 +30,14 @@ public class SaveData{
         uniqueObjectsData.Add(key, value);
     }
 
-    public bool TryGetUniqueObjectData(string key, out Dictionary<string, object> data){
-        if (uniqueObjectsData.TryGetValue(key, out Dictionary<string, object> value)){
-            data = value;
+    public bool TryGetUniqueObjectData<T>(string key, out T data) where T : SavableData{
+        if (uniqueObjectsData.TryGetValue(key, out SavableData value)){
+            data = (T) value;
             return true;
         }
-        data = null;
+        data = default;
         return false;
     }
 }
+
+public class SavableData{ }

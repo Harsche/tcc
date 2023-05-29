@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.brogrammist.jsam": {
+      "version": "https://github.com/jackyyang09/Simple-Unity-Audio-Manager.git#master",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "c5b43752c2c889141ce9925045cdd374fdececa8"
+    },
     "com.browar.editor-toolbox": {
       "version": "https://github.com/arimger/Unity-Editor-Toolbox.git#upm",
       "depth": 0,

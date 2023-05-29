@@ -1,16 +1,16 @@
-using System;
 using System.Collections;
 using DG.Tweening;
+using Game.SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Game.SaveSystem;
 
 public class SceneLoader : MonoBehaviour{
     [SerializeField] private float fadeTime = 1f;
     [SerializeField] private Ease fadeEase = Ease.Linear;
     [SerializeField] private Slider progressBar;
     [SerializeField] private string setupSceneName = "SetupScene";
+    [SerializeField] private SerializedScene newGameScene;
 
     private CanvasGroup canvasGroup;
     private Coroutine loadCoroutine;
@@ -27,12 +27,12 @@ public class SceneLoader : MonoBehaviour{
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public void LoadSetupScene(){
-        loadCoroutine = StartCoroutine(LoadSceneCoroutine(setupSceneName));
-    }
-
     public void LoadScene(string sceneName){
         loadCoroutine = StartCoroutine(LoadSceneCoroutine(sceneName));
+    }
+
+    public void LoadSetupScene(){
+        loadCoroutine = StartCoroutine(LoadSceneCoroutine(setupSceneName));
     }
 
     private Tweener Fade(bool inOrOut){
@@ -57,12 +57,12 @@ public class SceneLoader : MonoBehaviour{
                 DontDestroyOnLoad(rootGameObject);
             }
             string scene = SaveSystem.SaveData.loadScene;
-            if (string.IsNullOrEmpty(scene)){ scene = "A1"; }
+            if (string.IsNullOrEmpty(scene)){ scene = newGameScene.SceneName; }
             LoadScene(scene);
             SaveSystem.SetLastSaveTime();
             yield break;
         }
-        Player.Instance.gameObject.SetActive(true);
+        if (!sceneName.Contains("Cutscene")){ Player.Instance.gameObject.SetActive(true); }
         yield return Fade(false).WaitForCompletion();
     }
 }

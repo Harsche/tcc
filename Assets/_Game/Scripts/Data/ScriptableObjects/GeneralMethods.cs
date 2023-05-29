@@ -19,6 +19,10 @@ namespace Data.ScriptableObjects{
         public void ChangeScene(string sceneName){
             SceneManager.LoadScene(sceneName);
         }
+        
+        public void LoadScene(string sceneName){
+            SceneLoader.Instance.LoadScene(sceneName);
+        }
 
         public void TogglePause(){
             GameManager.TogglePause();

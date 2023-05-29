@@ -48,7 +48,7 @@ public class Enemy02 : EnemyBase{
         }
     }
 
-    // TODO - Put this feature on EnemyBase
+    // TODO - Put this feature on EnemyBase or make a manager
     private IEnumerator OnCheckPlayerCoroutine(){
         WaitForSeconds waitTime = new(0.25f);
         while (gameObject){
@@ -58,7 +58,7 @@ public class Enemy02 : EnemyBase{
     }
 
     // ReSharper disable UnusedMember.Local
-    // State Machines Methods are only called at runtime
+    // State Machines Methods are called only at runtime
     private void Patrol_Enter(){
         checkPlayerCoroutine = StartCoroutine(OnCheckPlayerCoroutine());
     }
@@ -100,7 +100,9 @@ public class Enemy02 : EnemyBase{
     }
 
     private void Chase_OnCheckPlayer(bool isPlayerInSight){
-        if (GameUtils.GetPlayerDistance(transform.position).magnitude <= desiredAttackDistance){
+        bool isPlayerWithinAttackDistance =
+            GameUtils.GetPlayerDistance(transform.position).magnitude <= desiredAttackDistance;
+        if (isPlayerInSight && isPlayerWithinAttackDistance){
             ChangeState(State.Attack);
         }
     }

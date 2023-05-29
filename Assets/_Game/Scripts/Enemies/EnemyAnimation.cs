@@ -29,5 +29,11 @@ namespace Scripts.Enemies{
                 transform.localScale = new Vector3(flipX ? -1f : 1, 1f, 1f);
             }
         }
+
+#if UNITY_EDITOR
+        private void OnValidate(){
+            if (!enemyBase){ enemyBase = GetComponent<EnemyBase>(); }
+        }
+#endif
     }
 }

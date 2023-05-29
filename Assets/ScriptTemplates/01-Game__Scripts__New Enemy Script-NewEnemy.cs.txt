@@ -1,0 +1,17 @@
+using System;
+using UnityEngine;
+
+public class #SCRIPTNAME# : EnemyBase
+{
+    [Label("Enemy", skinStyle: SkinStyle.Round, Alignment = TextAnchor.MiddleCenter)] [SerializeField]
+    private EnemyType enemyType;
+    
+    public override event Action OnAttack;
+
+    // ReSharper disable UnusedMember.Local
+    // State Machines Methods are called only at runtime
+    
+    private void Patrol_Enter(){ }
+    
+    // ReSharper restore UnusedMember.Local
+}

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(TrailRenderer))]
+[RequireComponent(typeof(TrailRenderer), typeof(Rigidbody2D))]
 public class ProjectileBase : MonoBehaviour{
     [SerializeField] private bool destroyOnHitAnything = true;
     [SerializeField] private int damage = 1;
@@ -40,14 +40,16 @@ public class ProjectileBase : MonoBehaviour{
 
     protected virtual void Start(){
         tag = "Projectile";
+        Vector2 velocity = Utils.GameUtils.GetPlayerDistance(transform.position).normalized * speed;
+        myRigidbody.velocity = velocity;
     }
 
     protected virtual void Update(){
-        transform.Translate(Vector2.right * (speed * Time.deltaTime), Space.Self);
+        // transform.Translate(Vector2.right * (speed * Time.deltaTime), Space.Self);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D col){
-        if(destroyOnHitAnything && !col.CompareTag("PlayerShield")){Destroy(gameObject);}
+        if(destroyOnHitAnything && !col.CompareTag("PlayerShield") && !col.CompareTag("Enemy")){Destroy(gameObject);}
         if (col.CompareTag("Player") && !hitPlayer){
             col.GetComponent<Player>().ChangeHp(-damage);
             hitPlayer = true;
@@ -80,6 +82,7 @@ public class ProjectileBase : MonoBehaviour{
 #if UNITY_EDITOR
     private void OnValidate(){
         if (!trailRenderer){ trailRenderer = GetComponent<TrailRenderer>(); }
+        if (!myRigidbody){ myRigidbody = GetComponent<Rigidbody2D>(); }
     }
 #endif
 }

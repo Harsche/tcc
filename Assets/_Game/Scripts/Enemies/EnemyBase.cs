@@ -102,7 +102,12 @@ public abstract class EnemyBase : MonoBehaviour{
         Vector2 playerOffset = playerPosition - myPosition;
         playerInRange = playerOffset.magnitude <= maxPlayerDistance;
         if (!checkPlayerInSight){ return playerInRange; }
-        RaycastHit2D hit2D = Physics2D.Raycast(myPosition, playerOffset, maxPlayerDistance);
+        RaycastHit2D hit2D = Physics2D.Raycast(
+            myPosition, 
+            playerOffset, 
+            maxPlayerDistance,
+            LayerMask.GetMask("Player", "Ground")
+            );
         playerInSight = hit2D.collider && hit2D.collider.CompareTag("Player");
         return playerInSight;
     }

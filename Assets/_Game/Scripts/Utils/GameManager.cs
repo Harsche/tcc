@@ -1,3 +1,4 @@
+using Game.SaveSystem;
 using Scripts.Camera;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour{
         }
         Instance = this;
         SetupStaticFields();
+        SaveSystem.SetupSaveSystem();
+        SaveSystem.LoadFromFile(0);
     }
 
     public static void TogglePause(){

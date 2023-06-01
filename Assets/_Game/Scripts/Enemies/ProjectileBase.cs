@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 public class ProjectileBase : MonoBehaviour{
     [SerializeField] private bool destroyOnHitAnything = true;
     [SerializeField] private int damage = 1;
-    [SerializeField] private float speed = 3f;
+    [SerializeField] protected float speed = 3f;
     [SerializeField] private float destroyTime = 10f;
     [SerializeField] private bool random;
     [SerializeField] private bool fixedDirection;
@@ -40,8 +40,6 @@ public class ProjectileBase : MonoBehaviour{
 
     protected virtual void Start(){
         tag = "Projectile";
-        Vector2 velocity = Utils.GameUtils.GetPlayerDistance(transform.position).normalized * speed;
-        myRigidbody.velocity = velocity;
     }
 
     protected virtual void Update(){

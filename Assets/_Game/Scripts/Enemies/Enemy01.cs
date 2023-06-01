@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine;
 
 public class Enemy01 : EnemyBase{
-    [Label("Enemy", skinStyle: SkinStyle.Round, Alignment = TextAnchor.MiddleCenter)]
-    [SerializeField] private float rayDistance = 0.25f;
+    [Label("Enemy", skinStyle: SkinStyle.Round, Alignment = TextAnchor.MiddleCenter)] [SerializeField]
+    private float rayDistance = 0.25f;
 
     [SerializeField] private Vector2 rayOffset;
 

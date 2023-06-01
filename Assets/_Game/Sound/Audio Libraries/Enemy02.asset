@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2204bf128383ced4f8a374a536984a4c, type: 3}
+  m_Name: Enemy02
+  m_EditorClassIdentifier: 
+  soundCategories:
+  - Oquira
+  - Enemy02
+  musicCategories:
+  - 
+  Sounds:
+  - {fileID: 11400000, guid: bee1ccfe86e8a1c4cb33a00b3c42d3d3, type: 2}
+  - {fileID: 11400000, guid: 2680f504d62e09f4d98e22e152ce028e, type: 2}
+  - {fileID: 11400000, guid: 0b6ed90158846b14e9efccb8485e7f1d, type: 2}
+  - {fileID: 11400000, guid: 876bc451885430145b067e5b529a021e, type: 2}
+  Music:
+  - {fileID: 11400000, guid: a130577586631f54a91893a298f607ec, type: 2}
+  useCustomNames: 0
+  generatedName: Enemy02
+  musicEnum: Enemy02Music
+  musicEnumGenerated: Enemy02Music
+  musicNamespace: 
+  musicNamespaceGenerated: 
+  soundEnum: Enemy02Sounds
+  soundEnumGenerated: Enemy02Sounds
+  soundNamespace: 
+  soundNamespaceGenerated: 
+  soundCategoriesToList:
+  - name: Oquira
+    files:
+    - {fileID: 11400000, guid: 876bc451885430145b067e5b529a021e, type: 2}
+    foldout: 1
+  - name: Enemy02
+    files:
+    - {fileID: 11400000, guid: 0b6ed90158846b14e9efccb8485e7f1d, type: 2}
+    - {fileID: 11400000, guid: bee1ccfe86e8a1c4cb33a00b3c42d3d3, type: 2}
+    - {fileID: 11400000, guid: 2680f504d62e09f4d98e22e152ce028e, type: 2}
+    foldout: 1
+  musicCategoriesToList:
+  - name: 
+    files:
+    - {fileID: 11400000, guid: a130577586631f54a91893a298f607ec, type: 2}
+    foldout: 1

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using JSAM;
 
 public class PlayerAnimation : MonoBehaviour{
     private static readonly int SpeedX = Animator.StringToHash("SpeedX");
@@ -42,6 +43,7 @@ public class PlayerAnimation : MonoBehaviour{
 
     public void OnStepEvent(){
         OnStep?.Invoke();
+        AudioManager.PlaySound(Enemy02Sounds.Oquira_Walk);
     }
     
     public void OnParryEvent(){

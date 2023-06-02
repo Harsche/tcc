@@ -8,15 +8,20 @@ public class Enemy03 : EnemyBase{
 
     [SerializeField] private float attackCooldown = 3f;
     [SerializeField] private float attackDistance = 5f;
+    [SerializeField] private Transform attackSpawn;
     public Transform projectilePrefab;
     private Coroutine checkPlayerDistanceCoroutine;
     private float lastAttackTime;
 
     public override event Action OnAttack;
 
+    public void SpawnAttack(){
+        Instantiate(projectilePrefab, attackSpawn.position, Quaternion.identity);
+    }
+
     // TODO - Put this feature on EnemyBase or make a manager
     private IEnumerator OnCheckPlayerCoroutine(){
-        WaitForSeconds waitTime = new(0.25f);
+        WaitForSeconds waitTime = new(0.1f);
         while (gameObject){
             yield return waitTime;
             StateMachineDriver.OnCheckPlayer.Invoke(CheckPlayerInRange());
@@ -35,14 +40,16 @@ public class Enemy03 : EnemyBase{
         if (isWithinSight && canAttack){ ChangeState(State.Attack); }
     }
 
-    private void Attack_Update(){
-        if (!(Time.time >= lastAttackTime + attackCooldown)){ return; }
-        Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        lastAttackTime = Time.time;
-    }
-
     private void Attack_OnCheckPlayer(bool isWithinSight){
-        if (!isWithinSight){ ChangeState(State.Patrol); }
+        if (!isWithinSight){
+            ChangeState(State.Patrol);
+            return;
+        }
+        
+        enemyAnimation.FacePlayerDirection();
+        if (!(Time.time >= lastAttackTime + attackCooldown)){ return; }
+        OnAttack?.Invoke();
+        lastAttackTime = Time.time;
     }
 
     // ReSharper restore UnusedMember.Local

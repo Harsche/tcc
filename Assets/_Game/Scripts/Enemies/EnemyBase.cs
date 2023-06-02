@@ -16,6 +16,7 @@ public abstract class EnemyBase : MonoBehaviour{
     [SerializeField] protected bool checkPlayerInSight;
     [SerializeField] protected Transform floorCheckOrigin;
     [SerializeField] protected Rigidbody2D myRigidbody2D;
+    [SerializeField] protected EnemyAnimation enemyAnimation;
     private Coroutine checkPlayerInRangeCoroutine;
     private bool playerInRange;
     private bool playerInSight;
@@ -122,6 +123,7 @@ public abstract class EnemyBase : MonoBehaviour{
             floorCheckOrigin.SetParent(transform);
             floorCheckOrigin.localPosition = Vector2.one;
         }
+        if (!enemyAnimation){ enemyAnimation = GetComponent<EnemyAnimation>(); }
     }
 #endif
 }

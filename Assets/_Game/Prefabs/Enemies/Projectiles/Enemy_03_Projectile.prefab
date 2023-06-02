@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 255991289493433611}
-  - component: {fileID: 5319404027204944737}
+  - component: {fileID: 7339214794702475729}
   - component: {fileID: 255991289493433844}
   - component: {fileID: -2741214173477969963}
   - component: {fileID: 2257127398043068387}
   - component: {fileID: 9055847568117608173}
   m_Layer: 0
-  m_Name: Projectile_Circle_Green
+  m_Name: Enemy_03_Projectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5319404027204944737
+--- !u!114 &7339214794702475729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 255991289493433845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f4b1722ecbc462c81c7ed6c6600af4b, type: 3}
+  m_Script: {fileID: 11500000, guid: d6f56269f06a431da2d0368d3643b456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnHitAnything: 1

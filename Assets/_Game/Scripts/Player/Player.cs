@@ -68,6 +68,7 @@ public class Player : MonoBehaviour{
         if (saveData.isNewGame){ return; }
         transform.position = saveData.playerPosition;
         PlayerParry.enableParry = saveData.unlockParry;
+        PlayerShield.unlocked = saveData.unlockShield;
         PlayerMovement.enableDash = saveData.unlockDash;
     }
 }

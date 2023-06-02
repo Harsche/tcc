@@ -170,17 +170,14 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void OnCollisionEnter2D(Collision2D col){
+        if (col.gameObject.CompareTag("InstantDeath")){
+            myRigidbody2D.position = lastGroundPosition;
+            Player.Instance.ChangeHp(-1);
+        }
         if (!isDashing){ return; }
         if (col.contacts.Any(contact =>
                 Vector2.Angle(contact.normal, dashDirection) > 180f - dashCancelCollisionAngleThreshold)){
             CancelDash();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D col){
-        if (col.CompareTag("InstantDeath")){
-            myRigidbody2D.position = lastGroundPosition;
-            Player.Instance.ChangeHp(-1);
         }
     }
 

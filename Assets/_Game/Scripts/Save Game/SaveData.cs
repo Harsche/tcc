@@ -15,6 +15,7 @@ public class SaveData{
     // Skills
 
     public bool unlockParry;
+    public bool unlockShield;
     public bool unlockDash;
     public bool unlockWallJump;
 

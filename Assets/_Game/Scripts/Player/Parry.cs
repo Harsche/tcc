@@ -26,11 +26,11 @@ public class Parry : MonoBehaviour{
     public event Action OnParry;
 
     private void Awake(){
-        ToggleShield(false);
+        ToggleParry(false);
     }
 
     private void Start(){
-        Player.Instance.PlayerAnimation.OnParry += () => ToggleShield(true);
+        Player.Instance.PlayerAnimation.OnParry += () => ToggleParry(true);
         ChangeParryColor(Element.Nature);
     }
 
@@ -53,7 +53,7 @@ public class Parry : MonoBehaviour{
 
     public void CancelParry(){
         isParrying = false;
-        ToggleShield(false);
+        ToggleParry(false);
     }
 
     private void RotateShield(float lookAngle){
@@ -87,7 +87,7 @@ public class Parry : MonoBehaviour{
         OnParry?.Invoke();
     }
 
-    private void ToggleShield(bool value){
+    private void ToggleParry(bool value){
         shieldCollider.enabled = value;
         light2D.enabled = false;
     }

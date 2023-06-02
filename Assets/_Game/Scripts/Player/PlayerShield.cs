@@ -7,7 +7,8 @@ public class PlayerShield : MonoBehaviour{
     [field: SerializeField] public int CurrentHp{ get; private set; }
 
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [FormerlySerializedAs("collider2D"),SerializeField] private Collider2D shieldCollider2D;
+    [FormerlySerializedAs("collider2D"), SerializeField] private Collider2D shieldCollider2D;
+    public bool unlocked;
 
     private void Awake(){
         ToggleShield(false);
@@ -32,6 +33,8 @@ public class PlayerShield : MonoBehaviour{
     }
 
     private void ToggleShield(bool value){
+        if (value && !unlocked){ return; }
+        
         if (value){
             if (CurrentHp <= 0){ return; }
             spriteRenderer.enabled = true;
@@ -45,6 +48,6 @@ public class PlayerShield : MonoBehaviour{
     private void ChangeShieldHp(int value){
         CurrentHp += value;
         PlayerHUD.Instance.UpdateShield(CurrentHp);
-        if(CurrentHp == 0){ToggleShield(false);}
+        if (CurrentHp == 0){ ToggleShield(false); }
     }
 }

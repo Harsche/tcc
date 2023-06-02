@@ -11,6 +11,11 @@ namespace Data.ScriptableObjects{
             SaveSystem.SaveData.unlockParry = true;
         }
         
+        public void UnlockShield(){
+            Player.Instance.PlayerShield.unlocked = true;
+            SaveSystem.SaveData.unlockShield = true;
+        }
+        
         public void UnlockDash(){
             Player.Instance.PlayerMovement.enableDash = true;
             SaveSystem.SaveData.unlockDash = true;

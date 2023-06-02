@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class GameButton : MonoBehaviour{
     [SerializeField] private bool requireColor;
-    [SerializeField] private MagicType magicType;
+    [FormerlySerializedAs("magicType")] [SerializeField] private Element element;
     [SerializeField] private UnityEvent onPress;
 
 
-    public void Interact(MagicType projectileColor){
-        if (requireColor && projectileColor == magicType){
+    public void Interact(Element projectileColor){
+        if (requireColor && projectileColor == element){
             onPress?.Invoke();
             return;
         }

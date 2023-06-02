@@ -51,14 +51,14 @@ public class PlayerHUD : MonoBehaviour{
     /// Updates the image on the HUD that represents the color of the
     /// currently absorbed element.
     /// </summary>
-    /// <param name="magicType"></param>
+    /// <param name="element"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public void SetAbsorbedElement(MagicType magicType){
-        Color color = magicType switch{
-            MagicType.Blue => Color.blue,
-            MagicType.Red => Color.red,
-            MagicType.Green => Color.green,
-            _ => throw new ArgumentOutOfRangeException(nameof(magicType), magicType, null)
+    public void SetAbsorbedElement(Element element){
+        Color color = element switch{
+            Element.Blue => Color.blue,
+            Element.Red => Color.red,
+            Element.Green => Color.green,
+            _ => throw new ArgumentOutOfRangeException(nameof(element), element, null)
         };
         absorbedColor.color = color;
     }

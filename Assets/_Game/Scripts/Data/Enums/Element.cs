@@ -1,4 +1,4 @@
-public enum MagicType{
+public enum Element{
     Red,
     Green,
     Blue

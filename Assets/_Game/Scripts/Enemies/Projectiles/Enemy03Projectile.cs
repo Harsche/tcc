@@ -3,7 +3,7 @@ using Utils;
 
 public class Enemy03Projectile : ProjectileBase{
     protected override void Awake(){
-        ChangeColor(MagicType);
+        ChangeColor(Element);
     }
 
     protected override void Start(){

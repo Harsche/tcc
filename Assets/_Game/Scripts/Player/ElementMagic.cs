@@ -4,16 +4,16 @@ using UnityEngine;
 public class ElementMagic : MonoBehaviour{
     [SerializeField] private Transform greenMushroomPrefab;
     public bool hasAbsorbedElement;
-    public MagicType absorbedElement;
+    public Element absorbedElement;
 
     private Transform greenMushroom;
 
     public void UseMagicElement(){
         if (!hasAbsorbedElement){ return; }
         switch (absorbedElement){
-            case MagicType.Red:
+            case Element.Red:
                 break;
-            case MagicType.Green:
+            case Element.Green:
                 // Fires a raycast down and spawns mushroom if hits ground
                 if (!PlayerMovement.Grounded){ return; }
                 int groundLayerMask = LayerMask.GetMask("Ground");
@@ -24,7 +24,7 @@ public class ElementMagic : MonoBehaviour{
                 greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity);
                 greenMushroom.SetParent(hit.transform);
                 break;
-            case MagicType.Blue:
+            case Element.Blue:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

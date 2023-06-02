@@ -16,7 +16,7 @@ public class ProjectileBase : MonoBehaviour{
     public bool enteredMagicShield;
     public bool reflected, hitPlayer;
     [field: SerializeField] public ProjectileType ProjectileType{ get; private set; }
-    [field: SerializeField] public MagicType MagicType{ get; private set; }
+    [field: SerializeField] public Element Element{ get; private set; }
 
     public Rigidbody2D Rigidbody => myRigidbody;
 
@@ -31,10 +31,10 @@ public class ProjectileBase : MonoBehaviour{
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         if (random){
-            ChangeColor((MagicType) Random.Range(0, 3));
+            ChangeColor((Element) Random.Range(0, 3));
             return;
         }
-        ChangeColor(MagicType);
+        ChangeColor(Element);
         Destroy(gameObject, destroyTime);
     }
 
@@ -60,19 +60,19 @@ public class ProjectileBase : MonoBehaviour{
                 Destroy(gameObject);
                 return;
             case true when col.CompareTag("Button"):
-                col.GetComponent<GameButton>().Interact(MagicType);
+                col.GetComponent<GameButton>().Interact(Element);
                 Destroy(gameObject);
                 return;
         }
     }
 
-    public void ChangeColor(MagicType magicType){
-        MagicType = magicType;
-        Color projectileColor = magicType switch{
-            MagicType.Red => Color.red,
-            MagicType.Green => Color.green,
-            MagicType.Blue => Color.blue,
-            _ => throw new ArgumentOutOfRangeException(nameof(magicType), magicType, null)
+    public void ChangeColor(Element element){
+        Element = element;
+        Color projectileColor = element switch{
+            Element.Red => Color.red,
+            Element.Green => Color.green,
+            Element.Blue => Color.blue,
+            _ => throw new ArgumentOutOfRangeException(nameof(element), element, null)
         };
         trailRenderer.material.color = projectileColor;
     }

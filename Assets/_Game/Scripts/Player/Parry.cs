@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 public class Parry : MonoBehaviour{
     private static readonly int ShieldColor1 = Shader.PropertyToID("_ShieldColor");
@@ -10,7 +11,7 @@ public class Parry : MonoBehaviour{
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Light2D light2D;
     [SerializeField] private ShieldColor[] shieldColors;
-    [SerializeField] private MagicType shieldMagicType;
+    [FormerlySerializedAs("shieldMagicType")] [SerializeField] private Element shieldElement;
     [SerializeField] private Collider2D shieldCollider;
     public bool enableParry;
     public bool enableGreen = true;
@@ -46,7 +47,7 @@ public class Parry : MonoBehaviour{
     private void OnTriggerEnter2D(Collider2D col){
         if (!col.CompareTag("Projectile")){ return; }
         var projectile = col.GetComponent<ProjectileBase>();
-        if (projectile.MagicType != shieldMagicType){ return; }
+        if (projectile.Element != shieldElement){ return; }
         ReflectProjectile(projectile);
     }
 
@@ -71,7 +72,7 @@ public class Parry : MonoBehaviour{
                 if(!enableBlue){return;}
                 break;
         }
-        shieldMagicType = shieldColors[colorIndex].MagicType;
+        shieldElement = shieldColors[colorIndex].Element;
         spriteRenderer.color = shieldColors[colorIndex].SpriteColor;
         light2D.color = shieldColors[colorIndex].LightColor;
         spriteRenderer.material.SetColor(ShieldColor1, shieldColors[colorIndex].EmissionColor);
@@ -94,8 +95,8 @@ public class Parry : MonoBehaviour{
     private void ReflectProjectile(ProjectileBase projectile){
         Player.Instance.ElementMagic.hasAbsorbedElement = true;
         PlayerHUD.Instance.ToggleAbsorbedElement(true);
-        Player.Instance.ElementMagic.absorbedElement = projectile.MagicType;
-        PlayerHUD.Instance.SetAbsorbedElement(projectile.MagicType);
+        Player.Instance.ElementMagic.absorbedElement = projectile.Element;
+        PlayerHUD.Instance.SetAbsorbedElement(projectile.Element);
 
         // Rotates projectile around player to adjust reflect direction
         Vector2 myPosition = transform.position;
@@ -140,7 +141,7 @@ public class Parry : MonoBehaviour{
 
     [Serializable]
     public class ShieldColor{
-        [field: SerializeField] public MagicType MagicType{ get; private set; }
+        [field: SerializeField] public Element Element{ get; private set; }
         [field: SerializeField] public Color SpriteColor{ get; private set; }
         [field: SerializeField] public Color LightColor{ get; private set; }
         [field: SerializeField, ColorUsage(false, true)] public Color EmissionColor{ get; private set; }

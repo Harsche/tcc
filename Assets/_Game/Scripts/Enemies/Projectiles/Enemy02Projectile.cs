@@ -3,7 +3,7 @@ using UnityEngine;
 
     public class Enemy02Projectile : ProjectileBase{
         protected override void Awake(){
-            ChangeColor(MagicType);
+            ChangeColor(Element);
         }
 
         protected override void Update(){

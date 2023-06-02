@@ -11,9 +11,9 @@ public class ElementMagic : MonoBehaviour{
     public void UseMagicElement(){
         if (!hasAbsorbedElement){ return; }
         switch (absorbedElement){
-            case Element.Red:
+            case Element.Fire:
                 break;
-            case Element.Green:
+            case Element.Nature:
                 // Fires a raycast down and spawns mushroom if hits ground
                 if (!PlayerMovement.Grounded){ return; }
                 int groundLayerMask = LayerMask.GetMask("Ground");
@@ -24,7 +24,7 @@ public class ElementMagic : MonoBehaviour{
                 greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity);
                 greenMushroom.SetParent(hit.transform);
                 break;
-            case Element.Blue:
+            case Element.Water:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

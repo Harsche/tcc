@@ -55,9 +55,9 @@ public class PlayerHUD : MonoBehaviour{
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void SetAbsorbedElement(Element element){
         Color color = element switch{
-            Element.Blue => Color.blue,
-            Element.Red => Color.red,
-            Element.Green => Color.green,
+            Element.Water => Color.blue,
+            Element.Fire => Color.red,
+            Element.Nature => Color.green,
             _ => throw new ArgumentOutOfRangeException(nameof(element), element, null)
         };
         absorbedColor.color = color;

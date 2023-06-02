@@ -1,5 +1,6 @@
 public enum Element{
-    Red,
-    Green,
-    Blue
+    None,
+    Nature,
+    Fire,
+    Water
 }

@@ -1,4 +1,5 @@
 using System;
+using Data.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
@@ -10,7 +11,6 @@ public class Parry : MonoBehaviour{
     [SerializeField] private float reflectImpulse = 2f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Light2D light2D;
-    [SerializeField] private ShieldColor[] shieldColors;
     [FormerlySerializedAs("shieldMagicType")] [SerializeField] private Element shieldElement;
     [SerializeField] private Collider2D shieldCollider;
     public bool enableParry;
@@ -31,7 +31,7 @@ public class Parry : MonoBehaviour{
 
     private void Start(){
         Player.Instance.PlayerAnimation.OnParry += () => ToggleShield(true);
-        ChangeParryColor(0);
+        ChangeParryColor(Element.None);
     }
 
     private void Update(){
@@ -60,24 +60,25 @@ public class Parry : MonoBehaviour{
         transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 
-    private void ChangeParryColor(int colorIndex){
-        switch (colorIndex){
-            case 0:
+    private void ChangeParryColor(Element element){
+        switch (element){
+            case (Element) 1:
                 if(!enableGreen){return;}
                 break;
-            case 1:
+            case (Element) 2:
                 if(!enableRed){return;}
                 break;
-            case 2:
+            case (Element) 3:
                 if(!enableBlue){return;}
                 break;
         }
-        shieldElement = shieldColors[colorIndex].Element;
-        spriteRenderer.color = shieldColors[colorIndex].SpriteColor;
-        light2D.color = shieldColors[colorIndex].LightColor;
-        spriteRenderer.material.SetColor(ShieldColor1, shieldColors[colorIndex].EmissionColor);
-        Player.Instance.PlayerAnimation.ChangeParryColor(shieldColors[colorIndex].SpriteColor);
-        PlayerHUD.Instance.SetParryColor(shieldColors[colorIndex].SpriteColor);
+        GameData.ElementData elementData = GameManager.GameData.elementsData[element];
+        shieldElement = element;
+        spriteRenderer.color = elementData.SpriteColor;
+        light2D.color = elementData.LightColor;
+        spriteRenderer.material.SetColor(ShieldColor1, elementData.EmissionColor);
+        Player.Instance.PlayerAnimation.ChangeParryColor(elementData.SpriteColor);
+        PlayerHUD.Instance.SetParryColor(elementData.SpriteColor);
     }
 
     private void StartParry(){

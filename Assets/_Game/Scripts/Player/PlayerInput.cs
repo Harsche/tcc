@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     private GameInput gameInput;
-    public static event Action<int> OnChangeShieldColor;
+    public static event Action<Element> OnChangeShieldColor;
     public static event Action OnDashInput;
     public static event Action OnFireInput;
     public static event Action<bool> OnShieldToggle;
@@ -58,15 +58,15 @@ public class PlayerInput : MonoBehaviour, GameInput.IPlayerActions{
     }
 
     public void OnSetColor1(InputAction.CallbackContext context){
-        if (context.performed){ OnChangeShieldColor?.Invoke(0); }
+        if (context.performed){ OnChangeShieldColor?.Invoke(Element.Nature); }
     }
 
     public void OnSetColor2(InputAction.CallbackContext context){
-        if (context.performed){ OnChangeShieldColor?.Invoke(1); }
+        if (context.performed){ OnChangeShieldColor?.Invoke(Element.Fire); }
     }
 
     public void OnSetColor3(InputAction.CallbackContext context){
-        if (context.performed){ OnChangeShieldColor?.Invoke(2); }
+        if (context.performed){ OnChangeShieldColor?.Invoke(Element.Water); }
     }
 
     public void OnZoomOut(InputAction.CallbackContext context){

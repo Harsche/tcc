@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7856c5bcf64cfabf5a283e162b67b2, type: 3}
+  m_Name: Game Data
+  m_EditorClassIdentifier: 
+  elementsData:
+    pairs:
+    - key: 0
+      value:
+        <SpriteColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
+        <LightColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
+        <EmissionColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
+    - key: 1
+      value:
+        <SpriteColor>k__BackingField: {r: 0, g: 0.8862745, b: 0.02745098, a: 1}
+        <LightColor>k__BackingField: {r: 0.4392157, g: 1, b: 0.4392157, a: 1}
+        <EmissionColor>k__BackingField: {r: 0, g: 0.0627451, b: 0, a: 0}
+    - key: 2
+      value:
+        <SpriteColor>k__BackingField: {r: 0.8039216, g: 0.003921569, b: 0.007843138, a: 1}
+        <LightColor>k__BackingField: {r: 1, g: 0.4117647, b: 0.4117647, a: 1}
+        <EmissionColor>k__BackingField: {r: 6.8679256, g: 0.30524114, b: 0, a: 0}
+    - key: 3
+      value:
+        <SpriteColor>k__BackingField: {r: 0, g: 0.6627451, b: 0.9529412, a: 1}
+        <LightColor>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
+        <EmissionColor>k__BackingField: {r: 2.2653365, g: 2.2653365, b: 6.867925, a: 0}
+    error: 0

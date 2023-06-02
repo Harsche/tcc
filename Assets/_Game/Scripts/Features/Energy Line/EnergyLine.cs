@@ -15,9 +15,9 @@ public class EnergyLine : MonoBehaviour{
     private void Awake(){
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.colorGradient = energyType switch{
-            Element.Red => gradientRed,
-            Element.Green => gradientGreen,
-            Element.Blue => gradientBlue,
+            Element.Fire => gradientRed,
+            Element.Nature => gradientGreen,
+            Element.Water => gradientBlue,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
@@ -54,6 +54,6 @@ public class EnergyLine : MonoBehaviour{
         }
         lineRenderer.SetPosition(2, transform.InverseTransformPoint(hit[0].point));
         if(!hit[0].collider.CompareTag("Button")){return;}
-        hit[0].collider.GetComponent<GameButton>().Interact(Element.Blue);
+        hit[0].collider.GetComponent<GameButton>().Interact(Element.Water);
     }
 }

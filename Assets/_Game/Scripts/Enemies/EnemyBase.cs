@@ -12,6 +12,7 @@ public abstract class EnemyBase : MonoBehaviour{
     [SerializeField] protected Vector2 maxSpeed;
     [SerializeField] protected bool invulnerable;
     [SerializeField] private bool checkPlayerInRange;
+    [SerializeField] private Vector2 playerRaycastOffset;
     [SerializeField] protected float maxPlayerDistance = 10f;
     [SerializeField] protected bool checkPlayerInSight;
     [SerializeField] protected Transform floorCheckOrigin;
@@ -99,7 +100,7 @@ public abstract class EnemyBase : MonoBehaviour{
 
     protected bool CheckPlayerInRange(){
         Vector2 playerPosition = Player.Instance.transform.position;
-        Vector2 myPosition = transform.position;
+        Vector2 myPosition = (Vector2) transform.position + playerRaycastOffset;
         Vector2 playerOffset = playerPosition - myPosition;
         playerInRange = playerOffset.magnitude <= maxPlayerDistance;
         if (!checkPlayerInSight){ return playerInRange; }

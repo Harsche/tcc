@@ -66,14 +66,8 @@ public class ProjectileBase : MonoBehaviour{
         }
     }
 
-    public void ChangeColor(Element element){
-        Element = element;
-        Color projectileColor = element switch{
-            Element.Red => Color.red,
-            Element.Green => Color.green,
-            Element.Blue => Color.blue,
-            _ => throw new ArgumentOutOfRangeException(nameof(element), element, null)
-        };
+    protected void ChangeColor(Element element){
+        Color projectileColor = GameManager.GameData.elementsData[element].SpriteColor;
         trailRenderer.material.color = projectileColor;
     }
 

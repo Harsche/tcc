@@ -1,3 +1,4 @@
+using Data.ScriptableObjects;
 using Game.SaveSystem;
 using Scripts.Camera;
 using UnityEngine;
@@ -5,9 +6,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour{
     [SerializeField] private PauseMenu _pauseMenu;
     [SerializeField] private GameCamera _gameCamera;
+    [SerializeField] private GameData _gameData;
     public static GameManager Instance{ get; private set; }
     public static PauseMenu PauseMenu{ get; private set; }
     public static GameCamera GameCamera{ get; private set; }
+    public static GameData GameData{ get; private set; }
 
     private static bool GamePaused;
 
@@ -35,5 +38,6 @@ public class GameManager : MonoBehaviour{
     private void SetupStaticFields(){
         PauseMenu = _pauseMenu;
         GameCamera = _gameCamera;
+        GameData = _gameData;
     }
 }

@@ -5,7 +5,6 @@ ibpaifbpsdijfnd;sfnsd'lf
 {pegouItemTal} -> Pegou_o_item
 -> Nao_pegou_o_item
 
-
 = Pegou_o_item
 Pegou.
 -> DONE

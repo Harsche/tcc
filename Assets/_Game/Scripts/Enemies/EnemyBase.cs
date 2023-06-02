@@ -56,6 +56,7 @@ public abstract class EnemyBase : MonoBehaviour{
     public void ChangeHp(float value){
         if (invulnerable){ return; }
         Hp = Mathf.Clamp(Hp + value, 0f, MaxHp);
+        enemyAnimation.DoHitEffect();
         if (Hp != 0){ return; }
         OnDeath?.Invoke(this);
         Destroy(gameObject);

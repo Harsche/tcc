@@ -30,6 +30,6 @@ public class ElementMagic : MonoBehaviour{
                 throw new ArgumentOutOfRangeException();
         }
         hasAbsorbedElement = false;
-        PlayerHUD.Instance.ToggleAbsorbedElement(false);
+        PlayerHUD.Instance.SetAbsorbedElement(Element.None);
     }
 }

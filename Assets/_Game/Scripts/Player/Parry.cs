@@ -31,7 +31,7 @@ public class Parry : MonoBehaviour{
 
     private void Start(){
         Player.Instance.PlayerAnimation.OnParry += () => ToggleShield(true);
-        ChangeParryColor(Element.None);
+        ChangeParryColor(Element.Nature);
     }
 
     private void Update(){
@@ -95,7 +95,7 @@ public class Parry : MonoBehaviour{
 
     private void ReflectProjectile(ProjectileBase projectile){
         Player.Instance.ElementMagic.hasAbsorbedElement = true;
-        PlayerHUD.Instance.ToggleAbsorbedElement(true);
+        PlayerHUD.Instance.SetAbsorbedElement(Element.None);
         Player.Instance.ElementMagic.absorbedElement = projectile.Element;
         PlayerHUD.Instance.SetAbsorbedElement(projectile.Element);
 

@@ -9,6 +9,7 @@ namespace Scripts.Enemies{
         [SerializeField] private bool orientByVelocity = true;
         private static readonly int Velocity = Animator.StringToHash("Velocity");
         private static readonly int Attack = Animator.StringToHash("Attack");
+        private static readonly int HitTime = Shader.PropertyToID("_Hit_Time");
 
         private void OnEnable(){
             enemyBase.OnAttack += TriggerAttackAnimation;
@@ -22,6 +23,10 @@ namespace Scripts.Enemies{
             Vector2 direction = Utils.GameUtils.GetPlayerDistance(transform.position);
             bool flipX = direction.x < 0;
             transform.localScale = new Vector3(flipX ? -1f : 1, 1f, 1f);
+        }
+
+        public void DoHitEffect(){
+            spriteRenderer.material.SetFloat(HitTime, Time.time);
         }
 
         private void TriggerAttackAnimation(){

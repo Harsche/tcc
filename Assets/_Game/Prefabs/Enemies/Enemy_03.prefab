@@ -55,6 +55,7 @@ MonoBehaviour:
   maxSpeed: {x: 0, y: 0}
   invulnerable: 0
   checkPlayerInRange: 1
+  playerRaycastOffset: {x: 0, y: 0.5}
   maxPlayerDistance: 10
   checkPlayerInSight: 1
   floorCheckOrigin: {fileID: 0}
@@ -104,7 +105,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 46c2cd99c4927af4a816e4ca22a1676d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

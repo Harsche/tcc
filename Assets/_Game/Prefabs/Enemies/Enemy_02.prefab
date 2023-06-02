@@ -119,10 +119,12 @@ MonoBehaviour:
   maxSpeed: {x: 3, y: 0}
   invulnerable: 0
   checkPlayerInRange: 1
+  playerRaycastOffset: {x: 0, y: 0}
   maxPlayerDistance: 10
   checkPlayerInSight: 0
   floorCheckOrigin: {fileID: 829045303}
   myRigidbody2D: {fileID: 1469602049}
+  enemyAnimation: {fileID: 1469602051}
   <Hp>k__BackingField: 0
   <MaxHp>k__BackingField: 3
   checkFloorAhead: 1
@@ -145,8 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBase: {fileID: 1469602048}
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 7864820412291249869}
   animator: {fileID: 1469602044}
+  orientByVelocity: 1
 --- !u!212 &7864820412291249869
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -42,10 +42,6 @@ public class ProjectileBase : MonoBehaviour{
         tag = "Projectile";
     }
 
-    protected virtual void Update(){
-        // transform.Translate(Vector2.right * (speed * Time.deltaTime), Space.Self);
-    }
-
     protected virtual void OnTriggerEnter2D(Collider2D col){
         if(destroyOnHitAnything && !col.CompareTag("PlayerShield") && !col.CompareTag("Enemy")){Destroy(gameObject);}
         if (col.CompareTag("Player") && !hitPlayer){

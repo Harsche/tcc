@@ -6,7 +6,7 @@ using UnityEngine;
             ChangeColor(Element);
         }
 
-        protected override void Update(){
+        protected void Update(){
             Rigidbody.rotation = Vector2.Angle(Vector2.right, Rigidbody.velocity);
         }
         

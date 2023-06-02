@@ -54,18 +54,7 @@ public class PlayerHUD : MonoBehaviour{
     /// <param name="element"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void SetAbsorbedElement(Element element){
-        Color color = element switch{
-            Element.Water => Color.blue,
-            Element.Fire => Color.red,
-            Element.Nature => Color.green,
-            _ => throw new ArgumentOutOfRangeException(nameof(element), element, null)
-        };
+        Color color = GameManager.GameData.elementsData[element].SpriteColor;
         absorbedColor.color = color;
-    }
-    
-    // TODO: Delete and substitute with no element (White)
-    public void ToggleAbsorbedElement(bool value){
-        if(!value){absorbedColor.color = Color.white;}
-        
     }
 }

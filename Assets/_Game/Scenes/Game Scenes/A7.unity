@@ -4374,6 +4374,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
     - target: {fileID: 6199989238391232905, guid: 0f845d3b3e5c3644b8b7efcdd1075796, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199989238391232905, guid: 0f845d3b3e5c3644b8b7efcdd1075796, type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.size
       value: 5
       objectReference: {fileID: 0}

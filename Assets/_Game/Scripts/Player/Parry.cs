@@ -89,7 +89,6 @@ public class Parry : MonoBehaviour{
 
     private void ToggleShield(bool value){
         shieldCollider.enabled = value;
-        spriteRenderer.enabled = value;
         light2D.enabled = false;
     }
 
@@ -98,12 +97,13 @@ public class Parry : MonoBehaviour{
         PlayerHUD.Instance.SetAbsorbedElement(Element.None);
         Player.Instance.ElementMagic.absorbedElement = projectile.Element;
         PlayerHUD.Instance.SetAbsorbedElement(projectile.Element);
+        GameData.ElementData elementData = GameManager.GameData.elementsData[projectile.Element];
+        Player.Instance.PlayerAnimation.ChangeEyesColor(elementData.SpriteColor);
 
         // Rotates projectile around player to adjust reflect direction
         Vector2 myPosition = transform.position;
         Vector2 projectileDirection = projectile.Rigidbody.position - myPosition;
         Vector2 lookAngle = PlayerInput.LookDirection;
-        float angle = Vector2.SignedAngle(projectileDirection, lookAngle);
         // projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
         Vector2 reflectedPosition = myPosition + lookAngle * projectileDirection.magnitude;
         projectile.Rigidbody.MovePosition(reflectedPosition);

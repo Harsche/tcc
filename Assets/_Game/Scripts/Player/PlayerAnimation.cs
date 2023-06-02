@@ -10,7 +10,8 @@ public class PlayerAnimation : MonoBehaviour{
     private static readonly int ParryDirectionY = Animator.StringToHash("ParryDirectionY");
     private static readonly int Jump = Animator.StringToHash("Jump");
 
-    private static readonly int ParryColor = Shader.PropertyToID("_ParryColor");
+    private static readonly int ParryColor = Shader.PropertyToID("_Parry_Color");
+    private static readonly int EyesColor = Shader.PropertyToID("_Eyes_Color");
     
     [SerializeField] private Rigidbody2D playerRigidbody2D;
     [SerializeField] private PlayerMovement playerMovement;
@@ -52,5 +53,9 @@ public class PlayerAnimation : MonoBehaviour{
 
     public void ChangeParryColor(Color color){
         spriteRenderer.material.SetColor(ParryColor, color);
+    }
+    
+    public void ChangeEyesColor(Color color){
+        spriteRenderer.material.SetColor(EyesColor, color);
     }
 }

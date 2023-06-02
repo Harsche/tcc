@@ -31,5 +31,7 @@ public class ElementMagic : MonoBehaviour{
         }
         hasAbsorbedElement = false;
         PlayerHUD.Instance.SetAbsorbedElement(Element.None);
+        Color eyesColor = GameManager.GameData.elementsData[Element.None].SpriteColor;
+        Player.Instance.PlayerAnimation.ChangeEyesColor(eyesColor);
     }
 }

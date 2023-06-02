@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410ba69a127e413ea06ab051de3f0d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHp>k__BackingField: 10
+  <MaxHp>k__BackingField: 3
   <Hp>k__BackingField: 0
   <PlayerCamera>k__BackingField: {fileID: 0}
   <PlayerVirtualCamera>k__BackingField: {fileID: 0}

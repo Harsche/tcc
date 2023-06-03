@@ -8134,6 +8134,10 @@ PrefabInstance:
       value: Enemy Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 6887888018874231098, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
+      propertyPath: enemyPrefab
+      value: 
+      objectReference: {fileID: 7882003245599948101, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
+    - target: {fileID: 6887888018874231098, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 255991289493433611, guid: 1731a8e2cc62bf442832327e8a141336, type: 3}
@@ -8147,7 +8151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6887888018874231099, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -18.47
+      value: -18.961
       objectReference: {fileID: 0}
     - target: {fileID: 6887888018874231099, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
       propertyPath: m_LocalPosition.z

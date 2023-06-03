@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scripts.Editor{
+namespace Utils.Editor{
     public static class LevelDesignUtilities{
         private const string OrganizeProps = "Game Utilities/Level/Organize Props";
         private const string SnapCharactersToGroundPath = "Game Utilities/Level/Snap Characters To Ground";
@@ -19,9 +19,9 @@ namespace Scripts.Editor{
                     props.Add(rootGameObject.transform);
                     continue;
                 }
-                if (rootGameObject.name == "Props"){ propsParent = rootGameObject.transform; }
+                if (rootGameObject.name == "=====Props====="){ propsParent = rootGameObject.transform; }
             }
-            if (!propsParent){ propsParent = new GameObject("Props").transform; }
+            if (!propsParent){ propsParent = new GameObject("=====Props=====").transform; }
             foreach (Transform prop in props){ prop.SetParent(propsParent); }
         }
 

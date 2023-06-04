@@ -299,6 +299,7 @@ MonoBehaviour:
   <ElementMagic>k__BackingField: {fileID: 8793311155753760254}
   <PlayerParry>k__BackingField: {fileID: 1687233670367898722}
   <PlayerShield>k__BackingField: {fileID: 7037147795366089713}
+  invulnerable: 0
 --- !u!114 &1687233669814571219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +397,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2.5
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 6f80ca4aec13db041a4f11c4d0e22734, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -811,6 +812,7 @@ MonoBehaviour:
   <CurrentHp>k__BackingField: 0
   spriteRenderer: {fileID: 814424759344201774}
   shieldCollider2D: {fileID: 3215132506672455596}
+  unlocked: 0
 --- !u!212 &814424759344201774
 SpriteRenderer:
   m_ObjectHideFlags: 0

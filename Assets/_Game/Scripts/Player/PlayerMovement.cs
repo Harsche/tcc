@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float speed = 5f;
     [SerializeField] private float maxSpeedTime = 1f;
     [SerializeField] private float maxFallSpeed = -10f;
+    [SerializeField] private float _gravityScale = 2.5f;
     [FormerlySerializedAs("jumpForce"), SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour{
         myTransform = transform;
         myRigidbody2D = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
-        gravityScale = myRigidbody2D.gravityScale;
+        gravityScale = _gravityScale;
         dashDuration = dashDistance / dashSpeed;
 
         OnJump += () => {
@@ -109,9 +110,9 @@ public class PlayerMovement : MonoBehaviour{
             }
 
             if (!Grounded && enableDoubleJump && checkWall == WallCheck.None){ airJumped = true; }
-            myRigidbody2D.gravityScale = gravityScale;
+            gravityScale = _gravityScale;
             float desiredHeight = forceJump ? forcedJumpHeight : jumpHeight;
-            float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * myRigidbody2D.gravityScale * desiredHeight);
+            float jumpVelocity = Mathf.Sqrt(-2f * Physics2D.gravity.y * gravityScale * desiredHeight);
             velocity.y = jumpVelocity;
             myRigidbody2D.velocity = velocity;
             OnJump?.Invoke();
@@ -143,6 +144,7 @@ public class PlayerMovement : MonoBehaviour{
                         : 0f;
 
                     // Limits falling speed
+                    velocity.y += Physics2D.gravity.y * gravityScale * Time.deltaTime;
                     if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
                 }
             }
@@ -153,7 +155,7 @@ public class PlayerMovement : MonoBehaviour{
 
         // Movement if Player is holding on to a wall
         if (enableWallJump && !Grounded && checkWall != WallCheck.None){
-            myRigidbody2D.gravityScale = 0;
+            gravityScale = 0;
             velocity = myRigidbody2D.velocity;
             velocity.x = 0;
             velocity.y = wallFallSpeed;
@@ -191,7 +193,7 @@ public class PlayerMovement : MonoBehaviour{
         if (Grounded && Vector2.Angle(dashDirection, Vector2.down) < 180f - dashCancelCollisionAngleThreshold){
             dashDirection.x = spriteRenderer.flipX ? -1 : 1;
         }
-        myRigidbody2D.gravityScale = 0f;
+        gravityScale = 0f;
         myRigidbody2D.velocity = dashDirection * dashSpeed;
         yield return new WaitForSeconds(dashDuration);
         CancelDash();
@@ -215,7 +217,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void OnWallJump(){
-        myRigidbody2D.gravityScale = gravityScale;
+        gravityScale = _gravityScale;
         StartCoroutine(WallJumpCoroutine());
     }
 
@@ -245,7 +247,7 @@ public class PlayerMovement : MonoBehaviour{
             if (isDashing){ CancelDash(); }
             return WallCheck.Right;
         }
-        if (!isDashing){ myRigidbody2D.gravityScale = gravityScale; }
+        if (!isDashing){ gravityScale = _gravityScale; }
         return WallCheck.None;
     }
 
@@ -257,7 +259,7 @@ public class PlayerMovement : MonoBehaviour{
 
 
     private void CancelDash(){
-        myRigidbody2D.gravityScale = gravityScale;
+        gravityScale = _gravityScale;
         Vector2 currentVelocity = myRigidbody2D.velocity;
         myRigidbody2D.velocity = new Vector2(0f, currentVelocity.y * 0.5f);
         isDashing = false;

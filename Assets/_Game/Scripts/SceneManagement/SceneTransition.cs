@@ -16,6 +16,7 @@ public class SceneTransition : MonoBehaviour{
     private void Awake(){
         if (DestinationGate == $"{SceneManager.GetActiveScene().name}.{thisGateNumber}"){
             Player.Instance.transform.position = thisGatePosition;
+            DestinationGate = "";
         }
     }
 

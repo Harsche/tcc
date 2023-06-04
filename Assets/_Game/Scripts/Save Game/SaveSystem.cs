@@ -14,6 +14,8 @@ namespace Game.SaveSystem{
         [SerializeField] private float rotateSpeed = 5f;
         public static SaveData SaveData{ get; private set; } = new();
 
+        private static bool isSetup;
+
 
         private void Update(){
             transform.Rotate(transform.forward, rotateSpeed * Time.deltaTime);
@@ -42,6 +44,10 @@ namespace Game.SaveSystem{
         public static void LoadFromFile(int slotIndex){
             SaveSlot = slotIndex;
             if (!SaveGame.Exists($"data{SaveSlot}")){ return; }
+            if (!isSetup){
+                SetupSaveSystem();
+                isSetup = true;
+            }
             SaveData = SaveGame.Load<SaveData>($"data{SaveSlot}");
         }
 

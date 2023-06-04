@@ -27,6 +27,7 @@ public class DialogCanvas : MonoBehaviour{
     }
 
     public void ToggleDialogCanvas(bool value){
+        GameManager.GameCamera.ToggleFocus();
         IsToggling = true;
         PlayerMovement.canMove = !value;
         toggleAnimation = DOTween.Sequence();

@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 1687233669814571219}
   - component: {fileID: 1687233669814571218}
   - component: {fileID: 7015313421390244436}
+  - component: {fileID: 1448048319913407391}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -236,6 +237,7 @@ MonoBehaviour:
   speed: 5
   maxSpeedTime: 0.15
   maxFallSpeed: -15
+  _gravityScale: 2.5
   jumpHeight: 4
   dashDistance: 4
   dashSpeed: 15
@@ -429,6 +431,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.35680008, y: 1.5948653}
   m_EdgeRadius: 0
+--- !u!81 &1448048319913407391
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687233669814571223}
+  m_Enabled: 1
 --- !u!1 &1687233670367898721
 GameObject:
   m_ObjectHideFlags: 0

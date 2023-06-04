@@ -10,8 +10,11 @@ namespace Scripts.Camera{
         [SerializeField] private Volume volume;
         [SerializeField] private float backgroundBlurAmount = 5f;
         [SerializeField] private float fadeTime = 0.25f;
+        [SerializeField] private float normalCameraDistance = 18.5f;
+        [SerializeField] private float dialogCameraDistance = 7f;
 
         private float startBlurAmount;
+        private bool isFocusing;
 
         private void Awake(){
             if (volume.profile.TryGet(out DepthOfField depthOfField)){ startBlurAmount = depthOfField.aperture.value; }
@@ -22,6 +25,13 @@ namespace Scripts.Camera{
             if (volume.profile.TryGet(out DepthOfField depthOfField)){
                 StartCoroutine(FadeBlurCoroutine(blurValue, fadeTime, depthOfField));
             }
+        }
+
+        public void ToggleFocus(){
+            CinemachineVirtualCamera virtualCamera = Player.Instance.PlayerVirtualCamera;
+            var framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+            isFocusing = !isFocusing;
+            framingTransposer.m_CameraDistance = isFocusing ? dialogCameraDistance : normalCameraDistance;
         }
 
         private IEnumerator FadeBlurCoroutine(float value, float time, DepthOfField depthOfField){

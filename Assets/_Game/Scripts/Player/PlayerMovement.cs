@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float maxSpeedTime = 1f;
     [SerializeField] private float maxFallSpeed = -10f;
     [SerializeField] private float _gravityScale = 2.5f;
-    [FormerlySerializedAs("jumpForce"), SerializeField] private float jumpHeight = 3f;
+    [FormerlySerializedAs("jumpForce")] [SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashCancelCollisionAngleThreshold = 30f;
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float wallJumpAngle = 30f;
     [SerializeField] private float wallJumpForce = 5f;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [FormerlySerializedAs("magicShield"), SerializeField] private Parry parry;
+    [FormerlySerializedAs("magicShield")] [SerializeField] private Parry parry;
     [SerializeField] private Camera gameCamera;
     [SerializeField] private ContactFilter2D groundContactFilter;
     [SerializeField] private ContactFilter2D wallContactFilter;
@@ -125,6 +125,8 @@ public class PlayerMovement : MonoBehaviour{
 
         // Normal movement
         if (Grounded || onPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
+            // Adding gravity
+            velocity.y += Physics2D.gravity.y * gravityScale * Time.deltaTime;
             // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;
@@ -144,7 +146,6 @@ public class PlayerMovement : MonoBehaviour{
                         : 0f;
 
                     // Limits falling speed
-                    velocity.y += Physics2D.gravity.y * gravityScale * Time.deltaTime;
                     if (velocity.y < 0f){ velocity.y = Mathf.Clamp(velocity.y, maxFallSpeed, 0f); }
                 }
             }
@@ -168,7 +169,7 @@ public class PlayerMovement : MonoBehaviour{
         PlayerInput.OnJumpInput += Jump;
         PlayerInput.OnDashInput += OnDash;
     }
-    
+
     private void OnDisable(){
         // Unsubscribe to input events
         PlayerInput.OnJumpInput -= Jump;
@@ -185,6 +186,56 @@ public class PlayerMovement : MonoBehaviour{
                 Vector2.Angle(contact.normal, dashDirection) > 180f - dashCancelCollisionAngleThreshold)){
             CancelDash();
         }
+    }
+
+
+    public void CancelDash(){
+        gravityScale = _gravityScale;
+        Vector2 currentVelocity = myRigidbody2D.velocity;
+        myRigidbody2D.velocity = new Vector2(0f, currentVelocity.y * 0.5f);
+        isDashing = false;
+        if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
+    }
+
+    public void ForceDash(Vector2 direction){
+        CancelDash();
+        dashDirection = direction;
+        executeDash = true;
+    }
+
+    public void ForceJump(float height){
+        forceJump = true;
+        forcedJumpHeight = height;
+    }
+
+    public void OnDash(){
+        if (isDashing || !enableDash){ return; }
+        executeDash = true;
+        dashDirection = PlayerInput.MoveInput;
+    }
+
+    private bool CheckGround(){
+        if (myRigidbody2D.GetContacts(groundContactFilter, groundContacts) <= 0){ return false; }
+        myRigidbody2D.GetContacts(groundContactFilter, groundContactPoint);
+        groundNormal = groundContactPoint[0].normal;
+        return true;
+    }
+
+    private WallCheck CheckWall(){
+        if (isWallJumping){ return WallCheck.None; }
+        if (PlayerInput.MoveInput.x < 0 && myRigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
+            if (isDashing){ CancelDash(); }
+            return WallCheck.Left;
+        }
+        ContactFilter2D leftSideFilter = wallContactFilter;
+        leftSideFilter.minNormalAngle = 180f + wallContactFilter.minNormalAngle;
+        leftSideFilter.maxNormalAngle = 180f + wallContactFilter.maxNormalAngle;
+        if (PlayerInput.MoveInput.x > 0 && myRigidbody2D.GetContacts(leftSideFilter, wallContacts) > 0){
+            if (isDashing){ CancelDash(); }
+            return WallCheck.Right;
+        }
+        if (!isDashing){ gravityScale = _gravityScale; }
+        return WallCheck.None;
     }
 
     private IEnumerator DashCoroutine(){
@@ -221,51 +272,6 @@ public class PlayerMovement : MonoBehaviour{
         StartCoroutine(WallJumpCoroutine());
     }
 
-    public void OnDash(){
-        if (isDashing || !enableDash){ return; }
-        executeDash = true;
-        dashDirection = PlayerInput.MoveInput;
-    }
-
-    private bool CheckGround(){
-        if (myRigidbody2D.GetContacts(groundContactFilter, groundContacts) <= 0){ return false; }
-        myRigidbody2D.GetContacts(groundContactFilter, groundContactPoint);
-        groundNormal = groundContactPoint[0].normal;
-        return true;
-    }
-
-    private WallCheck CheckWall(){
-        if (isWallJumping){ return WallCheck.None; }
-        if (PlayerInput.MoveInput.x < 0 && myRigidbody2D.GetContacts(wallContactFilter, wallContacts) > 0){
-            if (isDashing){ CancelDash(); }
-            return WallCheck.Left;
-        }
-        ContactFilter2D leftSideFilter = wallContactFilter;
-        leftSideFilter.minNormalAngle = 180f + wallContactFilter.minNormalAngle;
-        leftSideFilter.maxNormalAngle = 180f + wallContactFilter.maxNormalAngle;
-        if (PlayerInput.MoveInput.x > 0 && myRigidbody2D.GetContacts(leftSideFilter, wallContacts) > 0){
-            if (isDashing){ CancelDash(); }
-            return WallCheck.Right;
-        }
-        if (!isDashing){ gravityScale = _gravityScale; }
-        return WallCheck.None;
-    }
-
-    private IEnumerator WallJumpCoroutine(){
-        isWallJumping = true;
-        yield return new WaitForSeconds(wallJumpTime);
-        isWallJumping = false;
-    }
-
-
-    private void CancelDash(){
-        gravityScale = _gravityScale;
-        Vector2 currentVelocity = myRigidbody2D.velocity;
-        myRigidbody2D.velocity = new Vector2(0f, currentVelocity.y * 0.5f);
-        isDashing = false;
-        if (dashCoroutine != null){ StopCoroutine(dashCoroutine); }
-    }
-
     private bool SnapToGround(){
         if (Grounded || !wasGrounded){ return false; }
         int groundLayerMask = LayerMask.GetMask("Ground");
@@ -278,14 +284,9 @@ public class PlayerMovement : MonoBehaviour{
         return true;
     }
 
-    public void ForceDash(Vector2 direction){
-        CancelDash();
-        dashDirection = direction;
-        executeDash = true;
-    }
-
-    public void ForceJump(float height){
-        forceJump = true;
-        forcedJumpHeight = height;
+    private IEnumerator WallJumpCoroutine(){
+        isWallJumping = true;
+        yield return new WaitForSeconds(wallJumpTime);
+        isWallJumping = false;
     }
 }

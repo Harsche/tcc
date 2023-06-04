@@ -27,6 +27,7 @@ public class SceneTransition : MonoBehaviour{
         DestinationGate = $"{destinationSceneName}.{destinationGateNumber}";
         SceneLoader.Instance.LoadScene(destinationSceneName);
         Player.Instance.gameObject.SetActive(false);
+        Player.Instance.PlayerMovement.CancelDash();
         Player.Instance.transform.position = thisGatePosition;
     }
 

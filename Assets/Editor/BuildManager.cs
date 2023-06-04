@@ -30,7 +30,7 @@ public static class BuildManager{
             string projectPath = Application.dataPath.Replace("Assets", "");
             string scenesPath = Application.dataPath;
             scenesPath += "/_Game/Scenes/Game Scenes";
-            List<string> files = Directory.GetFiles(scenesPath).ToList();
+            List<string> files = GetAllFiles(scenesPath).ToList();
             List<string> scenesList = new();
             files.ForEach(file => {
                 string relativePath = file.Replace(projectPath, "");
@@ -40,6 +40,24 @@ public static class BuildManager{
             scenesList.Remove(firstScene);
             scenesList.Insert(0, firstScene);
             return scenesList.ToArray();
+        }
+        
+        string[] GetAllFiles(string directory)
+        {
+            // Get files in the current directory
+            string[] files = Directory.GetFiles(directory);
+
+            // Get subdirectories
+            string[] subdirectories = Directory.GetDirectories(directory);
+
+            // Recursive call for each subdirectory
+            foreach (string subdirectory in subdirectories)
+            {
+                string[] subdirectoryFiles = GetAllFiles(subdirectory);
+                files = files.Concat(subdirectoryFiles).ToArray();
+            }
+
+            return files;
         }
     }
 

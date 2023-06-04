@@ -7,12 +7,13 @@ public static class BuildManager{
     [MenuItem("Build/Build Windows")]
     public static void PerformWindowsBuild(){
         string[] scenes = GetScenePaths();
-        Directory.CreateDirectory(Application.dataPath.Replace("Assets", "Builds/OquiraGame"));
+        string buildPath = Application.dataPath.Replace("Assets", "Builds/OquiraGame");
+        Directory.CreateDirectory(buildPath);
 
         // Configure the build options
         var buildOptions = new BuildPlayerOptions{
             scenes = scenes,
-            locationPathName = "Builds/OquiraGame",
+            locationPathName = buildPath,
             target = BuildTarget.StandaloneWindows
         };
 
@@ -35,5 +36,12 @@ public static class BuildManager{
             }
             return scenes;
         }
+    }
+
+    [MenuItem("Build/Debug")]
+    public static void DebugPath(){
+        string path = Application.dataPath.Replace("Assets", "Builds/OquiraGame");
+        Debug.Log(path);
+        Directory.CreateDirectory(path);
     }
 }

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -26,15 +28,16 @@ public static class BuildManager{
         else{ Debug.LogError("Build failed! Error message: " + summary); }
 
         string[] GetScenePaths(){
+            string projectPath = Application.dataPath.Replace("Assets", "");
             string scenesPath = Application.dataPath;
             scenesPath += "/_Game/Scenes/Game Scenes";
-            Debug.Log(scenesPath);
-            string[] scenes = Directory.GetFiles(scenesPath);
-            for (int index = 0; index < scenes.Length; index++){
-                string scene = scenes[index];
-                scenes[index] = scene.Replace(scenesPath, "");
-            }
-            return scenes;
+            List<string> files = Directory.GetFiles(scenesPath).ToList();
+            List<string> scenesList = new();
+            files.ForEach(file => {
+                string relativePath = file.Replace(projectPath, "");
+                if (file.Contains(".unity") && !file.Contains(".meta")){ scenesList.Add(relativePath); }
+            });
+            return scenesList.ToArray();
         }
     }
 

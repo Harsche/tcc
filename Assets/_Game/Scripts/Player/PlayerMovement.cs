@@ -79,7 +79,6 @@ public class PlayerMovement : MonoBehaviour{
 
         if (Grounded){
             airJumped = wasJumpForced = false;
-            // myRigidbody2D.gravityScale = 0f;
             int groundLayerMask = LayerMask.GetMask("Ground");
             Vector2 origin = (Vector2) myTransform.position + boxCollider2D.offset;
             origin.y -= boxCollider2D.size.y * 0.5f;
@@ -133,7 +132,6 @@ public class PlayerMovement : MonoBehaviour{
                 float maxDeltaSpeed = maxSpeedTime != 0f ? speed / maxSpeedTime * Time.fixedDeltaTime : speed;
                 if (Grounded || SnapToGround()){
                     Vector2 orientedVelocity = new(PlayerInput.MoveInput.x * speed, 0f);
-                    // orientedVelocity = Vector2.Reflect(orientedVelocity, groundContactPoint[0].normal);
                     orientedVelocity = Vector3.ProjectOnPlane(orientedVelocity, -groundNormal);
                     velocity = canMove
                         ? Vector2.MoveTowards(velocity, orientedVelocity, maxDeltaSpeed)
@@ -167,6 +165,12 @@ public class PlayerMovement : MonoBehaviour{
         // Subscribe to input events
         PlayerInput.OnJumpInput += Jump;
         PlayerInput.OnDashInput += OnDash;
+    }
+    
+    private void OnDisable(){
+        // Unsubscribe to input events
+        PlayerInput.OnJumpInput -= Jump;
+        PlayerInput.OnDashInput -= OnDash;
     }
 
     private void OnCollisionEnter2D(Collision2D col){

@@ -29,9 +29,8 @@ namespace Game.SaveSystem{
             SaveGame.Serializer = new GameSerializer();
         }
 
-        public static void DeleteSaveFile(){
-            for (int i = 0; i < 3; i++)
-                if (SaveGame.Exists($"data{i}")){ SaveGame.Delete($"data{i}"); }
+        public static void DeleteSaveFile(int slot){
+            if (SaveGame.Exists($"data{slot}")){ SaveGame.Delete($"data{slot}"); }
         }
 
         public static SaveData GetSaveData(int slotIndex){

@@ -26280,6 +26280,8 @@ GameObject:
   - component: {fileID: 6351781916166242072}
   - component: {fileID: 6351781916166242074}
   - component: {fileID: 6351781916166242080}
+  - component: {fileID: 6351781916166242082}
+  - component: {fileID: 6351781916166242081}
   m_Layer: 0
   m_Name: Button Plant Head
   m_TagString: Button
@@ -26308,3 +26310,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6351781916166242081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6351781916166242079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b5dc48e7df4732bcb832c2763fc489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveKey: 34fd38bc-96ef-4e35-93a9-9a3c355418a5
+  saveActive: 1
+  savePosition: 0
+--- !u!114 &6351781916166242082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6351781916166242079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: bc38fd34ef96354e93a99a3c355418a5

@@ -24,6 +24,14 @@ namespace Data.ScriptableObjects{
         public void ChangeScene(string sceneName){
             SceneManager.LoadScene(sceneName);
         }
+
+        public void GoToStartScreen(){
+            ChangeScene("_StartScreen");
+            TogglePause();
+            foreach (GameObject persistantObject in DontDestroy.PersistantObjects){
+                Destroy(persistantObject);
+            }
+        }
         
         public void LoadScene(string sceneName){
             SceneLoader.Instance.LoadScene(sceneName);

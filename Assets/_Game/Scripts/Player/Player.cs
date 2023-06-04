@@ -17,6 +17,8 @@ public class Player : MonoBehaviour{
 
     private Interactable currentInteraction;
 
+    public bool invulnerable;
+
     private void Awake(){
         if (Instance != null){
             Destroy(gameObject);
@@ -53,6 +55,7 @@ public class Player : MonoBehaviour{
     }
 
     public void ChangeHp(int value){
+        if (invulnerable){ return; }
         Hp = Mathf.Clamp(Hp + value, 0, MaxHp);
         PlayerHUD.Instance.UpdateHp(Hp);
     }

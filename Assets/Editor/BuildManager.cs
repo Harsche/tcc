@@ -7,6 +7,7 @@ public static class BuildManager{
     [MenuItem("Build/Build Windows")]
     public static void PerformWindowsBuild(){
         string[] scenes = GetScenePaths();
+        Directory.CreateDirectory(Application.dataPath.Replace("Assets", "Builds/OquiraGame"));
 
         // Configure the build options
         var buildOptions = new BuildPlayerOptions{

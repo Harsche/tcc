@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class SaveSlot : MonoBehaviour{
     [SerializeField] private GameObject newSave;
     [SerializeField] private TextMeshProUGUI playTimeText;
     [SerializeField] private TextMeshProUGUI locationText;
+    [SerializeField] private TextMeshProUGUI panelSlotText;
 
     private Button button;
     private bool hasSave;
@@ -32,4 +34,10 @@ public class SaveSlot : MonoBehaviour{
         playTimeText.text = slotSaveData.playTime.ToString(@"hh\:mm\:ss");
         locationText.text = slotSaveData.loadScene;
     }
+
+#if UNITY_EDITOR
+    private void OnValidate(){
+        panelSlotText.text = $"Save {saveIndex + 1}";
+    }
+#endif
 }

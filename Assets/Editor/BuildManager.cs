@@ -9,8 +9,7 @@ public static class BuildManager{
     [MenuItem("Build/Build Windows")]
     public static void PerformWindowsBuild(){
         string[] scenes = GetScenePaths();
-        string buildPath = Application.dataPath.Replace("Assets", "Builds/OquiraGame");
-        Directory.CreateDirectory(buildPath);
+        string buildPath = Application.dataPath.Replace("Assets", "Builds/OquiraGame/Oquira.exe");
 
         // Configure the build options
         var buildOptions = new BuildPlayerOptions{
@@ -37,6 +36,9 @@ public static class BuildManager{
                 string relativePath = file.Replace(projectPath, "");
                 if (file.Contains(".unity") && !file.Contains(".meta")){ scenesList.Add(relativePath); }
             });
+            string firstScene =  scenesList.First(s => s.Contains("_StartScreen"));
+            scenesList.Remove(firstScene);
+            scenesList.Insert(0, firstScene);
             return scenesList.ToArray();
         }
     }
@@ -45,6 +47,5 @@ public static class BuildManager{
     public static void DebugPath(){
         string path = Application.dataPath.Replace("Assets", "Builds/OquiraGame");
         Debug.Log(path);
-        Directory.CreateDirectory(path);
     }
 }

@@ -211,6 +211,11 @@ MonoBehaviour:
   fadeEase: 1
   progressBar: {fileID: 3602008086757486176}
   setupSceneName: SetupScene
+  newGameScene:
+    sceneReference: {fileID: 102900000, guid: 69364fea22f07274cb939e2c5a37d7e2, type: 3}
+    sceneName: Cutscene_01
+    scenePath: Assets/_Game/Scenes/Game Scenes/Cutscenes/Cutscene_01.unity
+    buildIndex: 16
 --- !u!223 &3602008086406952550
 Canvas:
   m_ObjectHideFlags: 0

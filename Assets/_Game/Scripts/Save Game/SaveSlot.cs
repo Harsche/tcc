@@ -49,10 +49,10 @@ public class SaveSlot : MonoBehaviour{
 
     private void DisplaySlotInfo(){
         hasSave = SaveSystem.SaveFileExists(saveIndex);
+        deleteButton.SetActive(hasSave);
         saveInfo.SetActive(hasSave);
         newSave.SetActive(!hasSave);
         if (!hasSave){ return; }
-        deleteButton.SetActive(true);
         SaveData slotSaveData = SaveSystem.GetSaveData(saveIndex);
         playTimeText.text = slotSaveData.playTime.ToString(@"hh\:mm\:ss");
         locationText.text = slotSaveData.loadScene;

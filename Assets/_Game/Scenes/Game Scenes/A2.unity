@@ -17549,6 +17549,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGateNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGatePosition.x
+      value: -63.70964
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: thisGatePosition.y
+      value: -25.950514
+      objectReference: {fileID: 0}
+    - target: {fileID: 241770234063851552, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
+      propertyPath: destinationGateNumber
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8722540234957572048, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -17595,7 +17611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8722540234957572052, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}
       propertyPath: m_Name
-      value: Next Scene (1)
+      value: Scene Transition 1 -> .0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a43524b44eafac409e9c5e25511c2af, type: 3}

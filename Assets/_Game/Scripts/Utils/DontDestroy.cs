@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DontDestroy : MonoBehaviour{
+    [ReorderableList]
     [SerializeField] private GameObject[] dontDestroy;
     public static List<GameObject> PersistantObjects{ get; } = new();
 

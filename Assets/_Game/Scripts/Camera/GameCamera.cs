@@ -38,12 +38,12 @@ namespace Scripts.Camera{
 
         public void AddTarget(Transform target){
             // surroundingEnemies.Add(target);
-            targetGroup.AddMember(target, enemyTargetWeight, 0f);
+            targetGroup.AddMember(target, 0f, 1f);
             int index = Array.FindIndex(targetGroup.m_Targets, t => t.target == target);
             DOTween.To(
                 () => targetGroup.m_Targets[index].weight,
                 x => targetGroup.m_Targets[index].weight = x,
-                1f,
+                enemyTargetWeight,
                 addTargetSmooth
             );
         }

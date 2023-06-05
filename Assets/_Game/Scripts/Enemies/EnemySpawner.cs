@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour{
 
     private Coroutine spawnCoroutine;
 
+    public EnemyBase EnemyPrefab => enemyPrefab;
+
     private void Awake(){
         if (spawnOnStart){ SpawnNewEnemy(); }
         spawnCoroutine = StartCoroutine(SpawnCoroutine());

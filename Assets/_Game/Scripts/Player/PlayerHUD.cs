@@ -1,4 +1,5 @@
 using System;
+using Game.SaveSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class PlayerHUD : MonoBehaviour{
     [SerializeField] private Image[] shieldCounts;
     [SerializeField] private Image absorbedColor;
     [SerializeField] private Image parryColor;
+    [SerializeField] private GameObject staffHudElement;
     public static PlayerHUD Instance{ get; private set; }
 
     private void Awake(){
@@ -16,6 +18,7 @@ public class PlayerHUD : MonoBehaviour{
             return;
         }
         Instance = this;
+        LoadHUDData();
     }
 
     /// <summary>
@@ -56,5 +59,13 @@ public class PlayerHUD : MonoBehaviour{
     public void SetAbsorbedElement(Element element){
         Color color = GameManager.GameData.elementsData[element].SpriteColor;
         absorbedColor.color = color;
+    }
+
+    public void ToggleStaffHUDElement(bool value){
+        staffHudElement.SetActive(value);
+    }
+
+    private void LoadHUDData(){
+        ToggleStaffHUDElement(SaveSystem.SaveData.unlockParry);
     }
 }

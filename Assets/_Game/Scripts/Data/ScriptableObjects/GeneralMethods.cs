@@ -9,6 +9,7 @@ namespace Data.ScriptableObjects{
         public void UnlockParry(){
             Player.Instance.PlayerParry.enableParry = true;
             SaveSystem.SaveData.unlockParry = true;
+            PlayerHUD.Instance.ToggleStaffHUDElement(true);
         }
         
         public void UnlockShield(){

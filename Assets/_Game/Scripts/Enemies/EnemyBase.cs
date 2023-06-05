@@ -33,6 +33,7 @@ public abstract class EnemyBase : MonoBehaviour{
 
     protected EnemyDriver StateMachineDriver => stateMachine.Driver;
     public Rigidbody2D Rigidbody2D => myRigidbody2D;
+    public float MaxPlayerDistance => maxPlayerDistance;
     protected int FacingDirection => (int) Mathf.Sign(transform.localScale.x);
 
     protected virtual void Awake(){

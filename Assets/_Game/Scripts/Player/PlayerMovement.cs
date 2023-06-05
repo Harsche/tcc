@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour{
     public static bool Grounded{ get; private set; }
     public Vector2 FootPosition => (Vector2) transform.position - boxCollider2D.size * 0.5f;
     public Vector2 Velocity => myRigidbody2D.velocity;
+    public float JumpHeight => jumpHeight;
 
     private void Awake(){
         myTransform = transform;

@@ -93,49 +93,31 @@ public class Parry : MonoBehaviour{
     }
 
     private void ReflectProjectile(ProjectileBase projectile){
+        // Update other features with the element of the refleted projectile
         Player.Instance.ElementMagic.hasAbsorbedElement = true;
         PlayerHUD.Instance.SetAbsorbedElement(Element.None);
         Player.Instance.ElementMagic.absorbedElement = projectile.Element;
         PlayerHUD.Instance.SetAbsorbedElement(projectile.Element);
         GameData.ElementData elementData = GameManager.GameData.elementsData[projectile.Element];
         Player.Instance.PlayerAnimation.ChangeEyesColor(elementData.SpriteColor);
-
-        // Rotates projectile around player to adjust reflect direction
+        
+        // Reflecting the projectile
         Vector2 myPosition = transform.position;
         Vector2 projectileDirection = projectile.Rigidbody.position - myPosition;
         Vector2 lookAngle = PlayerInput.LookDirection;
-        // projectile.transform.RotateAround(myPosition, Vector3.forward, angle);
         Vector2 reflectedPosition = myPosition + lookAngle * projectileDirection.magnitude;
         projectile.Rigidbody.MovePosition(reflectedPosition);
         projectile.Rigidbody.velocity = lookAngle * projectile.Rigidbody.velocity.magnitude * reflectImpulse;
-        // projectile.transform.rotation = Quaternion.Euler(Vector3.forward * PlayerInput.LookAngle);
-        
+
+        // Apply upward jump if reflected from below
         if (!projectile.enteredMagicShield){
             if (Vector2.Angle(Vector2.down, projectileDirection) <= redirectImpulseAngle){
                 PlayerMovement playerMovement = Player.Instance.PlayerMovement;
-                playerMovement.ForceDash(Vector2.up);
+                float height = Player.Instance.PlayerMovement.JumpHeight;
+                playerMovement.ForceJump(height);
             }
         }
         projectile.enteredMagicShield = true;
-
-
-        // switch (projectile.ProjectileType){
-        //     case ProjectileType.Circle:
-        //         // if (!pressedOnTime){ projectile.transform.Rotate(Vector3.forward, 180f); }
-        //         break;
-        //     case ProjectileType.Slash:
-        //         if (!projectile.enteredMagicShield){
-        //             if (Vector2.Angle(Vector2.down, projectileDirection) <= redirectImpulseAngle){
-        //                 PlayerMovement playerMovement = Player.Instance.PlayerMovement;
-        //                 playerMovement.ForceDash(Vector2.up);
-        //             }
-        //         }
-        //         projectile.enteredMagicShield = true;
-        //         break;
-        //     default:
-        //         throw new ArgumentOutOfRangeException();
-        // }
-
         projectile.reflected = true;
     }
 

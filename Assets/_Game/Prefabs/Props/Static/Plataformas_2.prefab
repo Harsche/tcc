@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4405306965052779909}
   - component: {fileID: 2098961952003474486}
   - component: {fileID: 2567251235137370311}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataformas_2
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.048130035, y: 0.55499566}
+  m_Offset: {x: 0.048130035, y: 0.6507266}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -109,5 +109,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 18.933598, y: 4.6247444}
+  m_Size: {x: 18.933598, y: 4.4332824}
   m_EdgeRadius: 0

@@ -1,6 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
@@ -19,11 +18,13 @@ namespace Scripts.Camera{
         [SerializeField] private float dialogCameraDistance = 7f;
         [SerializeField] private float tweenCameraDistanceDuration = 1f;
         [SerializeField] private float enemyTargetWeight = 0.5f;
+        [SerializeField] private float addTargetSmooth = 1f;
+        [SerializeField] private float removeTargetSmooth = 1f;
         private bool isFocusing;
         private float startBlurAmount;
 
         // private readonly HashSet<Transform> surroundingEnemies = new();
-        
+
         public static GameCamera Instance{ get; private set; }
 
         private void Awake(){
@@ -37,12 +38,26 @@ namespace Scripts.Camera{
 
         public void AddTarget(Transform target){
             // surroundingEnemies.Add(target);
-            targetGroup.AddMember(target, enemyTargetWeight, 1.0f);
+            targetGroup.AddMember(target, enemyTargetWeight, 0f);
+            int index = Array.FindIndex(targetGroup.m_Targets, t => t.target == target);
+            DOTween.To(
+                () => targetGroup.m_Targets[index].weight,
+                x => targetGroup.m_Targets[index].weight = x,
+                1f,
+                addTargetSmooth
+            );
         }
 
         public void RemoveTarget(Transform target){
             // surroundingEnemies.Remove(target);
-            targetGroup.RemoveMember(target);
+            int index = Array.FindIndex(targetGroup.m_Targets, t => t.target == target);
+            DOTween.To(
+                    () => targetGroup.m_Targets[index].weight,
+                    x => targetGroup.m_Targets[index].weight = x,
+                    0f,
+                    removeTargetSmooth
+                )
+                .OnComplete(() => targetGroup.RemoveMember(target));
         }
 
         public void ToggleBackgroundBlur(bool value){

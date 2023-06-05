@@ -49,12 +49,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineBrain: {fileID: 6457753465655734383}
+  virtualCamera: {fileID: 0}
+  targetGroup: {fileID: 0}
   volume: {fileID: 6457753465655734380}
   backgroundBlurAmount: 3.2
   fadeTime: 0.25
   normalCameraDistance: 18.5
   dialogCameraDistance: 7
   tweenCameraDistanceDuration: 1
+  enemyTargetWeight: 1
+  addTargetSmooth: 1
+  removeTargetSmooth: 1
 --- !u!20 &6457753465655734417
 Camera:
   m_ObjectHideFlags: 0

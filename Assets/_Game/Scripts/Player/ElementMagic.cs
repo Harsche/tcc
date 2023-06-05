@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class ElementMagic : MonoBehaviour{
     [SerializeField] private Transform greenMushroomPrefab;
@@ -14,15 +15,7 @@ public class ElementMagic : MonoBehaviour{
             case Element.Fire:
                 break;
             case Element.Nature:
-                // Fires a raycast down and spawns mushroom if hits ground
-                if (!PlayerMovement.Grounded){ return; }
-                int groundLayerMask = LayerMask.GetMask("Ground");
-                Vector2 origin = transform.position;
-                RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 5f, groundLayerMask);
-                if (!hit.collider){ break; }
-                if (greenMushroom){ Destroy(greenMushroom.gameObject); }
-                greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity);
-                greenMushroom.SetParent(hit.transform);
+                DoNatureMagic();
                 break;
             case Element.Water:
                 break;
@@ -33,5 +26,24 @@ public class ElementMagic : MonoBehaviour{
         PlayerHUD.Instance.SetAbsorbedElement(Element.None);
         Color eyesColor = GameManager.GameData.elementsData[Element.None].SpriteColor;
         Player.Instance.PlayerAnimation.ChangeEyesColor(eyesColor);
+    }
+
+    private void DoNatureMagic(){
+        // Fires a raycast down and spawns mushroom if hits ground
+        if (!PlayerMovement.Grounded){ return; }
+        int groundLayerMask = LayerMask.GetMask("Ground");
+        Vector2 origin = transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 5f, groundLayerMask);
+        if (!hit.collider){ return; }
+        if (greenMushroom){ Destroy(greenMushroom.gameObject); }
+        greenMushroom = Instantiate(greenMushroomPrefab, hit.point, Quaternion.identity);
+        Transform hitObject = hit.collider.transform;
+        var constraintSource = new ConstraintSource(){
+            sourceTransform = hitObject,
+            weight = 1f
+        };
+        var positionConstraint = greenMushroom.GetComponent<PositionConstraint>();
+        positionConstraint.translationOffset = hit.point - (Vector2) hit.transform.position;
+        positionConstraint.AddSource(constraintSource);
     }
 }

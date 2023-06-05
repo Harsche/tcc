@@ -2050,6 +2050,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 654251722}
     m_Modifications:
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].x
+      value: -5.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].y
+      value: -5.35
+      objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -2221,6 +2229,10 @@ PrefabInstance:
     - target: {fileID: 6887888018874231097, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
       propertyPath: m_Name
       value: Enemy Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887888018874231097, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6887888018874231098, guid: 411f1b35feedd7042846b03900fe0799, type: 3}
       propertyPath: enemyPrefab
@@ -2431,6 +2443,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 654251722}
     m_Modifications:
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].x
+      value: 1.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].y
+      value: 14.9
+      objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -6665,6 +6685,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 654251722}
     m_Modifications:
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].x
+      value: 18.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].y
+      value: -1.66
+      objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -9922,6 +9950,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 654251722}
     m_Modifications:
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].x
+      value: -20.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].y
+      value: -5.35
+      objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -11735,6 +11771,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 654251722}
     m_Modifications:
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].x
+      value: 5.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069360760896487887, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
+      propertyPath: waypoints.Array.data[0].y
+      value: -15.68
+      objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_RootOrder
       value: 15

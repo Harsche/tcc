@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
@@ -8,18 +10,39 @@ using UnityEngine.Rendering.Universal;
 namespace Scripts.Camera{
     public class GameCamera : MonoBehaviour{
         [SerializeField] private CinemachineBrain cinemachineBrain;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private CinemachineTargetGroup targetGroup;
         [SerializeField] private Volume volume;
         [SerializeField] private float backgroundBlurAmount = 5f;
         [SerializeField] private float fadeTime = 0.25f;
         [SerializeField] private float normalCameraDistance = 18.5f;
         [SerializeField] private float dialogCameraDistance = 7f;
         [SerializeField] private float tweenCameraDistanceDuration = 1f;
-
-        private float startBlurAmount;
+        [SerializeField] private float enemyTargetWeight = 0.5f;
         private bool isFocusing;
+        private float startBlurAmount;
+
+        // private readonly HashSet<Transform> surroundingEnemies = new();
+        
+        public static GameCamera Instance{ get; private set; }
 
         private void Awake(){
+            if (Instance != null){
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
             if (volume.profile.TryGet(out DepthOfField depthOfField)){ startBlurAmount = depthOfField.aperture.value; }
+        }
+
+        public void AddTarget(Transform target){
+            // surroundingEnemies.Add(target);
+            targetGroup.AddMember(target, enemyTargetWeight, 1.0f);
+        }
+
+        public void RemoveTarget(Transform target){
+            // surroundingEnemies.Remove(target);
+            targetGroup.RemoveMember(target);
         }
 
         public void ToggleBackgroundBlur(bool value){
@@ -30,7 +53,6 @@ namespace Scripts.Camera{
         }
 
         public void ToggleFocus(){
-            CinemachineVirtualCamera virtualCamera = Player.Instance.PlayerVirtualCamera;
             var framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
             isFocusing = !isFocusing;
             DOTween.To(
@@ -51,5 +73,15 @@ namespace Scripts.Camera{
             }
             depthOfField.aperture.value = value;
         }
+
+        // private void UpdateTargetGroup(){
+        //     HashSet<CinemachineTargetGroup.Target> targets = targetGroup.m_Targets.ToHashSet();
+        //     Stack<CinemachineTargetGroup.Target> targetsToRemove = 
+        //     foreach (Transform enemy in surroundingEnemies){
+        //         if()
+        //     }
+        //     
+        //     targeting.IntersectWith(surroundingEnemies);
+        // }
     }
 }

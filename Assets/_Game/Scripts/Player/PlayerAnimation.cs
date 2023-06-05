@@ -39,7 +39,7 @@ public class PlayerAnimation : MonoBehaviour{
         animator.SetFloat(SpeedX, Mathf.Abs(playerRigidbody2D.velocity.x));
         animator.SetFloat(SpeedY, playerRigidbody2D.velocity.y);
         animator.SetFloat(ParryDirectionY, PlayerInput.LookDirection.y);
-        animator.SetBool(Grounded, PlayerMovement.Grounded || PlayerMovement.onPlatform);
+        animator.SetBool(Grounded, PlayerMovement.Grounded || PlayerMovement.isOnPlatform);
     }
 
     public void OnStepEvent(){

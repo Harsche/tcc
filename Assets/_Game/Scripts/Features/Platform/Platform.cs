@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 public class Platform : MonoBehaviour{
     [SerializeField] private bool move;
     [SerializeField] private bool stopBetweenPoints;
-    [SerializeField] private bool stopAtEdges;
     [SerializeField] private float stopTime = 1f;
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private Ease ease = Ease.Linear;
@@ -20,8 +19,6 @@ public class Platform : MonoBehaviour{
     public bool showHandles = true;
 #endif
     private readonly Collider2D[] colliders = new Collider2D[1];
-    private Vector2 currentPosition;
-    private Vector2 lastPosition;
     private Coroutine moveCoroutine;
     private bool reverse;
 
@@ -32,37 +29,27 @@ public class Platform : MonoBehaviour{
             if (move){ moveCoroutine = StartCoroutine(MoveCoroutine()); }
         }
     }
-
-    [field: SerializeField] public int Number{ get; private set; }
+    
 
     public PlatformType PlatformType => platformType;
     public List<Vector3> Waypoints => waypoints;
 
     private void Awake(){
         myRigidbody2D = GetComponent<Rigidbody2D>();
-        lastPosition = transform.position;
         if (move){ moveCoroutine = StartCoroutine(MoveCoroutine()); }
-    }
-
-    private void FixedUpdate(){
-        currentPosition = transform.position;
-        if (CheckPlayer()){
-            Vector2 direction = (currentPosition - lastPosition) / Time.fixedDeltaTime;
-        }
-        lastPosition = currentPosition;
     }
 
     private void OnCollisionEnter2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player") || !CheckPlayer()){ return; }
         col.transform.SetParent(transform);
-        PlayerMovement.onPlatform = true;
+        PlayerMovement.isOnPlatform = true;
     }
 
     private void OnCollisionExit2D(Collision2D col){
         if (!col.gameObject.CompareTag("Player")){ return; }
         col.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
-        PlayerMovement.onPlatform = false;
+        PlayerMovement.isOnPlatform = false;
     }
 
     private void OnValidate(){

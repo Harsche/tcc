@@ -9,6 +9,7 @@ public class GreenMushroom : MonoBehaviour{
     [SerializeField] private float impulsedJumpHeight = 5f;
     [SerializeField] private float impulseVerticalOffset = 0.2f;
     [SerializeField] private float getImpulseDuration = 0.5f;
+    [SerializeField, Range(0, 1)] private float impulseNormalizedTime = 0.5f;
     [SerializeField] private Ease getImpulseEase = Ease.Linear;
     [SerializeField] private float pushDuration = 0.2f;
     [SerializeField] private Ease pushEase = Ease.OutBack;
@@ -35,6 +36,7 @@ public class GreenMushroom : MonoBehaviour{
 
     private void OnDestroy(){
         if (!isPlayerOn){ return; }
+        PlayerMovement.isOnPlatform = false;
         Player.Instance.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
     }
@@ -44,7 +46,7 @@ public class GreenMushroom : MonoBehaviour{
         if (Player.Instance.PlayerMovement.Velocity.y > 0f){ return; }
         if (Mathf.Abs(other.GetContact(0).normal.y) <= 0.95f){ return; }
         // PlayerMovement.canMove = false;
-        PlayerMovement.onPlatform = true;
+        PlayerMovement.isOnPlatform = true;
         isPlayerOn = true;
         Player.Instance.transform.SetParent(transform);
         if (jumpCoroutine != null){
@@ -57,7 +59,8 @@ public class GreenMushroom : MonoBehaviour{
     private void OnCollisionExit2D(Collision2D other){
         if (!other.gameObject.CompareTag("Player")){ return; }
         PlayerMovement.canMove = true;
-        PlayerMovement.onPlatform = false;
+        PlayerMovement.canJump = true;
+        PlayerMovement.isOnPlatform = false;
         isPlayerOn = false;
         Player.Instance.transform.SetParent(null);
         DontDestroyOnLoad(Player.Instance.gameObject);
@@ -113,7 +116,7 @@ public class GreenMushroom : MonoBehaviour{
     }
 
     private IEnumerator GetJumpInput(){
-        float startInputDelay = getImpulseDuration - jumpInputTimeWindow * 0.5f;
+        float startInputDelay = getImpulseDuration - jumpInputTimeWindow * (1f - impulseNormalizedTime);
         yield return new WaitForSeconds(startInputDelay);
         PlayerMovement.canJump = false;
         PlayerInput.OnJumpInput += GetJumpInput;

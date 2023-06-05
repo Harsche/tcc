@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Scripts.Camera;
 using UnityEngine;
 
 public class Enemy03 : EnemyBase{
@@ -40,6 +41,10 @@ public class Enemy03 : EnemyBase{
         if (isWithinSight && canAttack){ ChangeState(State.Attack); }
     }
 
+    private void Attack_Enter(){
+        GameCamera.Instance.AddTarget(transform);
+    }
+
     private void Attack_OnCheckPlayer(bool isWithinSight){
         if (!isWithinSight){
             ChangeState(State.Patrol);
@@ -50,6 +55,10 @@ public class Enemy03 : EnemyBase{
         if (!(Time.time >= lastAttackTime + attackCooldown)){ return; }
         OnAttack?.Invoke();
         lastAttackTime = Time.time;
+    }
+    
+    private void Attack_Exit(){
+        GameCamera.Instance.RemoveTarget(transform);
     }
 
     // ReSharper restore UnusedMember.Local

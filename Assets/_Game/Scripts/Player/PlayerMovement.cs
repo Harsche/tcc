@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class PlayerMovement : MonoBehaviour{
     public static bool canMove = true;
     public static bool canJump = true;
-    public static bool onPlatform;
+    public static bool isOnPlatform;
 
     [SerializeField] private float speed = 5f;
     [SerializeField] private float maxSpeedTime = 1f;
@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour{
         dashDuration = dashDistance / dashSpeed;
 
         OnJump += () => {
-            onPlatform = false;
+            isOnPlatform = false;
             Grounded = false;
         };
     }
@@ -120,14 +120,15 @@ public class PlayerMovement : MonoBehaviour{
             executeJump = false;
             wasJumpForced = forceJump;
             forceJump = false;
+            isOnPlatform = false;
             return;
         }
 
 
         // Normal movement
-        if (Grounded || onPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
+        if (Grounded || isOnPlatform || !enableWallJump || (checkWall == WallCheck.None && !isWallJumping)){
             // Adding gravity
-            velocity.y += Physics2D.gravity.y * gravityScale * Time.deltaTime;
+            if (!isOnPlatform){ velocity.y += Physics2D.gravity.y * gravityScale * Time.deltaTime; }
             // Stops if Player bumps on a wall
             if ((checkWall == WallCheck.Right && velocity.x > 1f) || (checkWall == WallCheck.Left && velocity.x > -1f)){
                 velocity.x = 0f;
@@ -163,6 +164,10 @@ public class PlayerMovement : MonoBehaviour{
             velocity.y = wallFallSpeed;
             myRigidbody2D.velocity = velocity;
         }
+
+        // Internat methods
+
+        void AddGravity(){ }
     }
 
     private void OnEnable(){
@@ -254,13 +259,13 @@ public class PlayerMovement : MonoBehaviour{
     private void Jump(bool value){
         if (!canMove || !canJump){ return; }
         if (value){
-            if (Grounded || (enableDoubleJump && !airJumped) || onPlatform ||
+            if (Grounded || (enableDoubleJump && !airJumped) || isOnPlatform ||
                 (checkWall != WallCheck.None && enableWallJump)){ executeJump = true; }
             return;
         }
 
         // Cancel jump
-        if (!wasJumpForced && !Grounded && !onPlatform && (!enableWallJump || checkWall != WallCheck.None)){
+        if (!wasJumpForced && !Grounded && !isOnPlatform && (!enableWallJump || checkWall != WallCheck.None)){
             velocity = myRigidbody2D.velocity;
             if (!(velocity.y > 0f)){ return; }
             velocity.y *= 0.5f;

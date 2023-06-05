@@ -23,7 +23,6 @@ public class SceneLoader : MonoBehaviour{
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(this);
         canvasGroup = GetComponent<CanvasGroup>();
     }
 

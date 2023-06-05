@@ -13,7 +13,7 @@ GameObject:
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1496728857888038653, guid: 8d75cba566cd85847a3bb013b7c6fd54, type: 3}
+  projectilePrefab: {fileID: 0}
   spawnDelay: 5
   maxEnemies: 1
   limitedSpawns: 0

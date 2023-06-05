@@ -66,7 +66,7 @@ MonoBehaviour:
   checkFloorAhead: 0
   enemyType: 0
   attackCooldown: 3
-  attackDistance: 8
+  attackDistance: 10
   attackSpawn: {fileID: 2500496126186827797}
   projectilePrefab: {fileID: 255991289493433611, guid: 1731a8e2cc62bf442832327e8a141336, type: 3}
 --- !u!114 &3482691736149903196

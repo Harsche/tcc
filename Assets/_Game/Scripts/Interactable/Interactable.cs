@@ -1,9 +1,11 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public abstract class Interactable : MonoBehaviour, IInteractable{
+    [SerializeField] private UnityEvent onInteract;
     [SerializeField] private CanvasGroup interactionIndication;
     [SerializeField] private float fadeTime = 0.25f;
     [SerializeField] private Ease ease = Ease.Linear;
@@ -32,7 +34,9 @@ public abstract class Interactable : MonoBehaviour, IInteractable{
         ToggleIndication(false);
     }
 
-    public abstract void Interact();
+    public virtual void Interact(){
+        onInteract?.Invoke();
+    }
 
     public void ToggleIndication(bool value){
         float endValue = value ? 1f : 0f;

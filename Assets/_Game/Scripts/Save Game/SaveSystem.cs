@@ -6,25 +6,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Game.SaveSystem{
-    public class SaveSystem : MonoBehaviour{
+    public class SaveSystem : Interactable{
         private static int SaveSlot;
 
         private static float LastSaveTime;
-
-        [SerializeField] private float rotateSpeed = 5f;
         public static SaveData SaveData{ get; private set; } = new();
 
         private static bool isSetup;
-
-
-        private void Update(){
-            transform.Rotate(transform.forward, rotateSpeed * Time.deltaTime);
-        }
-
-        private void OnTriggerEnter2D(Collider2D col){
-            if (!col.gameObject.CompareTag("Player")){ return; }
-            SaveGameState(col.gameObject);
-        }
 
         public static void SetupSaveSystem(){
             // SG.SaveGame.Encode = true;
@@ -59,8 +47,8 @@ namespace Game.SaveSystem{
             LastSaveTime = Time.unscaledTime;
         }
 
-        private void SaveGameState(GameObject player){
-            SaveData.playerPosition = player.transform.position;
+        public void SaveGameState(){
+            SaveData.playerPosition = Player.Instance.transform.position;
             SaveData.loadScene = SceneManager.GetActiveScene().name;
             SaveData.playTime += TimeSpan.FromSeconds(Time.unscaledTime - LastSaveTime);
             SetLastSaveTime();

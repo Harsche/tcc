@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DialogCanvas : MonoBehaviour{
     [SerializeField] private RectTransform dialogBox;
+    [SerializeField] private TextMeshProUGUI dialogName;
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private float scaleTime = 0.25f;
     [SerializeField] private float fadeTime = 0.25f;
@@ -24,6 +25,10 @@ public class DialogCanvas : MonoBehaviour{
 
     public void ShowDialog(string text){
         dialogText.text = text;
+    }
+    
+    public void SetDialogName(string text){
+        dialogName.text = text;
     }
 
     public void ToggleDialogCanvas(bool value){

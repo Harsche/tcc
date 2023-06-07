@@ -19,9 +19,9 @@ namespace Utils.Editor{
                     props.Add(rootGameObject.transform);
                     continue;
                 }
-                if (rootGameObject.name == "=====Props====="){ propsParent = rootGameObject.transform; }
+                if (rootGameObject.name == "Props"){ propsParent = rootGameObject.transform; }
             }
-            if (!propsParent){ propsParent = new GameObject("=====Props=====").transform; }
+            if (!propsParent){ propsParent = new GameObject("Props").transform; }
             foreach (Transform prop in props){ prop.SetParent(propsParent); }
         }
 

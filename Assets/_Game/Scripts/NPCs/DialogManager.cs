@@ -24,9 +24,24 @@ public class DialogManager : MonoBehaviour{
 
     public void GetCharacterDialog(string characterName){
         if(DialogCanvas.IsToggling){return;}
+        dialogCanvas.SetDialogName(characterName);
         if (!DialogCanvas.Active){
             dialogCanvas.ToggleDialogCanvas(true);
             story.ChoosePathString(characterName);
+        }
+        if (story.canContinue){
+            dialogCanvas.ShowDialog(story.Continue());
+            return;
+        }
+        dialogCanvas.ToggleDialogCanvas(false);
+    }
+    
+    public void GetCharacterDialog(string characterName, string dialog){
+        if(DialogCanvas.IsToggling){return;}
+        dialogCanvas.SetDialogName(characterName);
+        if (!DialogCanvas.Active){
+            dialogCanvas.ToggleDialogCanvas(true);
+            story.ChoosePathString($"{characterName}.{dialog}");
         }
         if (story.canContinue){
             dialogCanvas.ShowDialog(story.Continue());

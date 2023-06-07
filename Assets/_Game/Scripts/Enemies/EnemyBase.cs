@@ -112,7 +112,7 @@ public abstract class EnemyBase : MonoBehaviour{
             maxPlayerDistance,
             LayerMask.GetMask("Player", "Ground")
             );
-        playerInSight = hit2D.collider && hit2D.collider.CompareTag("Player");
+        playerInSight = hit2D.collider && (hit2D.collider.CompareTag("Player") || hit2D.collider.CompareTag("Shield"));
         return playerInSight;
     }
 

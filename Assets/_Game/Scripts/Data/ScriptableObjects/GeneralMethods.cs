@@ -7,7 +7,7 @@ namespace Data.ScriptableObjects{
     [CreateAssetMenu(fileName = "General Methods", menuName = "Game/General Methods", order = 1)]
     public class GeneralMethods : ScriptableObject{
         public void UnlockParry(){
-            Player.Instance.PlayerParry.enableParry = true;
+            Player.Instance.PlayerParry.EnableParry = true;
             SaveSystem.SaveData.unlockParry = true;
             PlayerHUD.Instance.ToggleStaffHUDElement(true);
         }

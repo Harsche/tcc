@@ -9,6 +9,7 @@ public class Chest : Interactable{
         base.Interact();
         OpenChest();
         IsInteractable = false;
+        Player.Instance.ResetInteraction();
     }
 
     private void OpenChest(){

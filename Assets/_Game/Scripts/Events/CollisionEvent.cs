@@ -10,7 +10,7 @@ public class CollisionEvent : MonoBehaviour{
     public void OnTriggerEnter2D(Collider2D other){
         if (!other.CompareTag("Player")){ return; }
         onEnterEvent?.Invoke();
-        if (unlockParry) Player.Instance.PlayerParry.enableParry = true;
+        if (unlockParry) Player.Instance.PlayerParry.EnableParry = true;
         if (unlockDash) Player.Instance.PlayerMovement.enableDash = true;
     }
 

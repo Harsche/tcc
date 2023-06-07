@@ -67,11 +67,15 @@ public class Player : MonoBehaviour{
         // Interaction = null;
     }
 
+    public void ResetInteraction(){
+        Interaction = null;
+    }
+
     private void LoadPlayerData(){
         SaveData saveData = SaveSystem.SaveData;
         if (saveData.isNewGame){ return; }
         transform.position = saveData.playerPosition;
-        PlayerParry.enableParry = saveData.unlockParry;
+        PlayerParry.EnableParry = saveData.unlockParry;
         PlayerShield.unlocked = saveData.unlockShield;
         PlayerMovement.enableDash = saveData.unlockDash;
     }

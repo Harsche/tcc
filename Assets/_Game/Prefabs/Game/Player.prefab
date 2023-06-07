@@ -545,7 +545,6 @@ MonoBehaviour:
   light2D: {fileID: 1687233668777679885}
   shieldElement: 0
   shieldCollider: {fileID: 4611664000818553206}
-  enableParry: 0
   enableGreen: 1
   enableRed: 0
   enableBlue: 0
@@ -786,7 +785,7 @@ GameObject:
   - component: {fileID: 3215132506672455596}
   m_Layer: 3
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: PlayerShield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -819,10 +818,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHits: 3
-  <CurrentHp>k__BackingField: 0
+  timeToRestoreHp: 3
+  recoverTime: 1
   spriteRenderer: {fileID: 814424759344201774}
   shieldCollider2D: {fileID: 3215132506672455596}
   unlocked: 0
+  <CurrentHp>k__BackingField: 0
 --- !u!212 &814424759344201774
 SpriteRenderer:
   m_ObjectHideFlags: 0

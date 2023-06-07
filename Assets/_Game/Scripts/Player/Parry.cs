@@ -13,10 +13,10 @@ public class Parry : MonoBehaviour{
     [SerializeField] private Light2D light2D;
     [FormerlySerializedAs("shieldMagicType")] [SerializeField] private Element shieldElement;
     [SerializeField] private Collider2D shieldCollider;
-    public bool enableParry;
     public bool enableGreen = true;
     public bool enableRed;
     public bool enableBlue;
+    private bool enableParry;
     private bool isParrying;
     private Coroutine parryCoroutine;
 
@@ -24,6 +24,14 @@ public class Parry : MonoBehaviour{
     private float shieldActivateTime;
 
     public event Action OnParry;
+
+    public bool EnableParry{
+        get => enableParry;
+        set{
+            PlayerHUD.Instance.ToggleStaffHUDElement(value);
+            enableParry = value;
+        }
+    }
 
     private void Awake(){
         ToggleParry(false);
@@ -56,20 +64,16 @@ public class Parry : MonoBehaviour{
         ToggleParry(false);
     }
 
-    private void RotateShield(float lookAngle){
-        transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
-    }
-
     private void ChangeParryColor(Element element){
         switch (element){
             case (Element) 1:
-                if(!enableGreen){return;}
+                if (!enableGreen){ return; }
                 break;
             case (Element) 2:
-                if(!enableRed){return;}
+                if (!enableRed){ return; }
                 break;
             case (Element) 3:
-                if(!enableBlue){return;}
+                if (!enableBlue){ return; }
                 break;
         }
         GameData.ElementData elementData = GameManager.GameData.elementsData[element];
@@ -81,17 +85,6 @@ public class Parry : MonoBehaviour{
         PlayerHUD.Instance.SetParryColor(elementData.SpriteColor);
     }
 
-    private void StartParry(){
-        if (!enableParry || isParrying){ return; }
-        isParrying = true;
-        OnParry?.Invoke();
-    }
-
-    private void ToggleParry(bool value){
-        shieldCollider.enabled = value;
-        light2D.enabled = false;
-    }
-
     private void ReflectProjectile(ProjectileBase projectile){
         // Update other features with the element of the refleted projectile
         Player.Instance.ElementMagic.hasAbsorbedElement = true;
@@ -100,7 +93,7 @@ public class Parry : MonoBehaviour{
         PlayerHUD.Instance.SetAbsorbedElement(projectile.Element);
         GameData.ElementData elementData = GameManager.GameData.elementsData[projectile.Element];
         Player.Instance.PlayerAnimation.ChangeEyesColor(elementData.SpriteColor);
-        
+
         // Reflecting the projectile
         Vector2 myPosition = transform.position;
         Vector2 projectileDirection = projectile.Rigidbody.position - myPosition;
@@ -121,12 +114,27 @@ public class Parry : MonoBehaviour{
         projectile.reflected = true;
     }
 
+    private void RotateShield(float lookAngle){
+        transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+    }
+
+    private void StartParry(){
+        if (!EnableParry || isParrying){ return; }
+        isParrying = true;
+        OnParry?.Invoke();
+    }
+
+    private void ToggleParry(bool value){
+        shieldCollider.enabled = value;
+        light2D.enabled = false;
+    }
+
 
     [Serializable]
     public class ShieldColor{
         [field: SerializeField] public Element Element{ get; private set; }
         [field: SerializeField] public Color SpriteColor{ get; private set; }
         [field: SerializeField] public Color LightColor{ get; private set; }
-        [field: SerializeField, ColorUsage(false, true)] public Color EmissionColor{ get; private set; }
+        [field: SerializeField] [field: ColorUsage(false, true)] public Color EmissionColor{ get; private set; }
     }
 }

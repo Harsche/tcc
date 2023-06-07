@@ -1,6 +1,6 @@
 using System;
-using UnityEngine;
 using JSAM;
+using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour{
     private static readonly int SpeedX = Animator.StringToHash("SpeedX");
@@ -9,18 +9,19 @@ public class PlayerAnimation : MonoBehaviour{
     private static readonly int Parry = Animator.StringToHash("Parry");
     private static readonly int ParryDirectionY = Animator.StringToHash("ParryDirectionY");
     private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int GetHit = Animator.StringToHash("GetHit");
 
     private static readonly int ParryColor = Shader.PropertyToID("_Parry_Color");
     private static readonly int EyesColor = Shader.PropertyToID("_Eyes_Color");
-    
+
     [SerializeField] private Rigidbody2D playerRigidbody2D;
     [SerializeField] private PlayerMovement playerMovement;
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    public event Action OnParry;
 
     public event Action OnStep;
-    public event Action OnParry;
 
     private void Awake(){
         animator = GetComponent<Animator>();
@@ -42,20 +43,24 @@ public class PlayerAnimation : MonoBehaviour{
         animator.SetBool(Grounded, PlayerMovement.Grounded || PlayerMovement.isOnPlatform);
     }
 
-    public void OnStepEvent(){
-        OnStep?.Invoke();
-        AudioManager.PlaySound(Enemy02Sounds.Oquira_Walk);
-    }
-    
-    public void OnParryEvent(){
-        OnParry?.Invoke();
+    public void ChangeEyesColor(Color color){
+        spriteRenderer.material.SetColor(EyesColor, color);
     }
 
     public void ChangeParryColor(Color color){
         spriteRenderer.material.SetColor(ParryColor, color);
     }
-    
-    public void ChangeEyesColor(Color color){
-        spriteRenderer.material.SetColor(EyesColor, color);
+
+    public void OnParryEvent(){
+        OnParry?.Invoke();
+    }
+
+    public void OnStepEvent(){
+        OnStep?.Invoke();
+        AudioManager.PlaySound(Enemy02Sounds.Oquira_Walk);
+    }
+
+    public void DoHitAnimation(){
+        animator.SetTrigger(GetHit);
     }
 }

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class MenuOptions : MonoBehaviour{
     [SerializeField] private float fadeTime = 1f;
     [SerializeField] private Ease ease = Ease.Linear;

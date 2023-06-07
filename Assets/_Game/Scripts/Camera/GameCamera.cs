@@ -38,7 +38,7 @@ namespace Scripts.Camera{
 
         public void AddTarget(Transform target){
             // surroundingEnemies.Add(target);
-            targetGroup.AddMember(target, 0f, 1f);
+            targetGroup.AddMember(target, 0f, 0f);
             int index = Array.FindIndex(targetGroup.m_Targets, t => t.target == target);
             DOTween.To(
                 () => targetGroup.m_Targets[index].weight,

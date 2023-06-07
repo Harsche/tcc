@@ -43,7 +43,8 @@ public class SaveSlot : MonoBehaviour{
     }
 
     public void SelectSaveSlot(){
-        SaveSystem.LoadFromFile(saveIndex);
+        if (hasSave){ SaveSystem.LoadFromFile(saveIndex); }
+        else{ SaveSystem.StartNewGame(); }
         SceneLoader.Instance.LoadSetupScene();
     }
 

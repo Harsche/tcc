@@ -1,7 +1,6 @@
 using System;
 using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Encoders;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,14 +9,9 @@ namespace Game.SaveSystem{
         private static int SaveSlot;
 
         private static float LastSaveTime;
-        public static SaveData SaveData{ get; private set; } = new();
 
         private static bool isSetup;
-
-        public static void SetupSaveSystem(){
-            // SG.SaveGame.Encode = true;
-            SaveGame.Serializer = new GameSerializer();
-        }
+        public static SaveData SaveData{ get; private set; } = new();
 
         public static void DeleteSaveFile(int slot){
             if (SaveGame.Exists($"data{slot}")){ SaveGame.Delete($"data{slot}"); }
@@ -31,7 +25,9 @@ namespace Game.SaveSystem{
 
         public static void LoadFromFile(int slotIndex){
             SaveSlot = slotIndex;
-            if (!SaveGame.Exists($"data{SaveSlot}")){ return; }
+            if (!SaveGame.Exists($"data{SaveSlot}")){
+                return;
+            }
             if (!isSetup){
                 SetupSaveSystem();
                 isSetup = true;
@@ -43,10 +39,6 @@ namespace Game.SaveSystem{
             return SaveGame.Exists($"data{slotIndex}");
         }
 
-        public static void SetLastSaveTime(){
-            LastSaveTime = Time.unscaledTime;
-        }
-
         public void SaveGameState(){
             SaveData.playerPosition = Player.Instance.transform.position;
             SaveData.loadScene = SceneManager.GetActiveScene().name;
@@ -55,9 +47,23 @@ namespace Game.SaveSystem{
             SaveToFile();
         }
 
+        public static void SetLastSaveTime(){
+            LastSaveTime = Time.unscaledTime;
+        }
+        
+        public static void StartNewGame(){
+            SaveData = new SaveData();
+        }
+
+        public static void SetupSaveSystem(){
+            if (!Application.isEditor){ SaveGame.Encode = true; }
+            SaveGame.Serializer = new GameSerializer();
+        }
+
         private void SaveToFile(){
             SaveData.isNewGame = false;
             SaveGame.Save($"data{SaveSlot}", SaveData, new SaveGameSimpleEncoder());
+            // SaveGame.Save();
         }
     }
 }

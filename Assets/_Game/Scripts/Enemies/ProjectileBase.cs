@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -10,6 +11,7 @@ public class ProjectileBase : MonoBehaviour{
     [SerializeField] private int damage = 1;
     [SerializeField] protected float speed = 3f;
     [SerializeField] private float destroyTime = 10f;
+    [SerializeField] private float reactivateTime = 0.6666667f;
     [SerializeField] private bool random;
     [SerializeField] private bool fixedDirection;
     [SerializeField] private EnemyAttackDirection enemyAttackDirection;
@@ -41,10 +43,13 @@ public class ProjectileBase : MonoBehaviour{
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D col){
-        if (destroyOnHitAnything && !col.CompareTag("PlayerShield") && !col.CompareTag("Enemy")){ TryDestroy(gameObject); }
+        if (destroyOnHitAnything && !col.CompareTag("PlayerShield") && !col.CompareTag("Enemy")){
+            TryDestroy(gameObject);
+        }
         if (col.CompareTag("Player") && !hitPlayer){
             col.GetComponent<Player>().ChangeHp(-damage);
             hitPlayer = true;
+            if (!destroyable){ StartCoroutine(ResetHit()); }
             TryDestroy(gameObject);
             return;
         }
@@ -68,9 +73,14 @@ public class ProjectileBase : MonoBehaviour{
     private void TryDestroy(Object obj){
         if (destroyable){ Destroy(obj); }
     }
-    
+
     private void TryDestroy(Object obj, float time){
         if (destroyable){ Destroy(obj, time); }
+    }
+
+    private IEnumerator ResetHit(){
+        yield return new WaitForSeconds(reactivateTime);
+        hitPlayer = false;
     }
 
 #if UNITY_EDITOR

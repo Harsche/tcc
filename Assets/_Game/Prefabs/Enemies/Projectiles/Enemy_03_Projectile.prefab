@@ -54,6 +54,7 @@ MonoBehaviour:
   damage: 1
   speed: 5
   destroyTime: 10
+  reactivateTime: 1
   random: 0
   fixedDirection: 0
   enemyAttackDirection: 0

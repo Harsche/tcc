@@ -58,7 +58,7 @@ public class Player : MonoBehaviour{
         if (invulnerable){ return; }
         Hp = Mathf.Clamp(Hp + value, 0, MaxHp);
         PlayerHUD.Instance.UpdateHp(Hp);
-        // if(value < 0)
+        if(value < 0){PlayerAnimation.DoHitAnimation();}
     }
 
     private void Interact(){

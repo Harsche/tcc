@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogBox: {fileID: 279426826529787551}
+  dialogName: {fileID: 683401670138125867}
   dialogText: {fileID: 279426826804099599}
   scaleTime: 0.25
   fadeTime: 0.25

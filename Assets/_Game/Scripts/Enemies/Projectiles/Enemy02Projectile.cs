@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
     public class Enemy02Projectile : ProjectileBase{
-        protected override void Awake(){
+        protected override void Start(){
             ChangeColor(Element);
         }
 

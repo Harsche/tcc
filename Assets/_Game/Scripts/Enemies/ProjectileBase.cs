@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(TrailRenderer), typeof(Rigidbody2D))]
 public class ProjectileBase : MonoBehaviour{
     [SerializeField] private bool destroyOnHitAnything = true;
+    [SerializeField] private bool destroyable = true;
     [SerializeField] private int damage = 1;
     [SerializeField] protected float speed = 3f;
     [SerializeField] private float destroyTime = 10f;
@@ -20,7 +22,7 @@ public class ProjectileBase : MonoBehaviour{
 
     public Rigidbody2D Rigidbody => myRigidbody;
 
-    protected virtual void Awake(){
+    protected virtual void Start(){
         Vector2 targetDirection;
         if (fixedDirection){
             float fixedAngle = 90f * (int) enemyAttackDirection;
@@ -35,29 +37,25 @@ public class ProjectileBase : MonoBehaviour{
             return;
         }
         ChangeColor(Element);
-        Destroy(gameObject, destroyTime);
-    }
-
-    protected virtual void Start(){
-        tag = "Projectile";
+        TryDestroy(gameObject, destroyTime);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D col){
-        if(destroyOnHitAnything && !col.CompareTag("PlayerShield") && !col.CompareTag("Enemy")){Destroy(gameObject);}
+        if (destroyOnHitAnything && !col.CompareTag("PlayerShield") && !col.CompareTag("Enemy")){ TryDestroy(gameObject); }
         if (col.CompareTag("Player") && !hitPlayer){
             col.GetComponent<Player>().ChangeHp(-damage);
             hitPlayer = true;
-            Destroy(gameObject);
+            TryDestroy(gameObject);
             return;
         }
         switch (reflected){
             case true when col.CompareTag("Enemy"):
                 col.GetComponent<EnemyBase>().ChangeHp(-damage);
-                Destroy(gameObject);
+                TryDestroy(gameObject);
                 return;
             case true when col.CompareTag("Button"):
                 col.GetComponent<GameButton>().Interact(Element);
-                Destroy(gameObject);
+                TryDestroy(gameObject);
                 return;
         }
     }
@@ -67,10 +65,19 @@ public class ProjectileBase : MonoBehaviour{
         trailRenderer.material.color = projectileColor;
     }
 
+    private void TryDestroy(Object obj){
+        if (destroyable){ Destroy(obj); }
+    }
+    
+    private void TryDestroy(Object obj, float time){
+        if (destroyable){ Destroy(obj, time); }
+    }
+
 #if UNITY_EDITOR
     private void OnValidate(){
         if (!trailRenderer){ trailRenderer = GetComponent<TrailRenderer>(); }
         if (!myRigidbody){ myRigidbody = GetComponent<Rigidbody2D>(); }
+        tag = "Projectile";
     }
 #endif
 }

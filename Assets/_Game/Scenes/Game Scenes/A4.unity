@@ -8801,15 +8801,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.92092997
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -31.38
+      value: -30.9045
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608577, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8853,7 +8849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608578, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: waypoints.Array.data[0].x
-      value: -31.38
+      value: -30.9045
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608578, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: waypoints.Array.data[0].y
@@ -8877,11 +8873,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608583, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1
+      value: 4.1117845
       objectReference: {fileID: 0}
     - target: {fileID: 3211656066789608583, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1
+      value: 1.042
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96f6d209d441e3f4e88a7cc66355db9a, type: 3}

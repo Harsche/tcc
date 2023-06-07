@@ -51,6 +51,10 @@ public class PlayerAnimation : MonoBehaviour{
         spriteRenderer.material.SetColor(ParryColor, color);
     }
 
+    public void DoHitAnimation(){
+        animator.SetTrigger(GetHit);
+    }
+
     public void OnParryEvent(){
         OnParry?.Invoke();
     }
@@ -60,7 +64,7 @@ public class PlayerAnimation : MonoBehaviour{
         AudioManager.PlaySound(Enemy02Sounds.Oquira_Walk);
     }
 
-    public void DoHitAnimation(){
-        animator.SetTrigger(GetHit);
+    public void TriggerAnimation(string triggerName){
+        animator.SetTrigger(triggerName);
     }
 }

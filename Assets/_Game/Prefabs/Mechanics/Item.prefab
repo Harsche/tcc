@@ -197,6 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f250c66a884c1aaadf03697dd24233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
   interactionIndication: {fileID: 0}
   fadeTime: 0.25
   ease: 1

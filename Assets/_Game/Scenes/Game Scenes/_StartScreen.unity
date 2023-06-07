@@ -5697,13 +5697,13 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3602008086406951323, guid: e8c8eecb5a0bfa946a9a2957aab300a6, type: 3}
-      propertyPath: newGameScene.sceneReference
-      value: 
-      objectReference: {fileID: 102900000, guid: 69364fea22f07274cb939e2c5a37d7e2, type: 3}
     - target: {fileID: 3602008086406952545, guid: e8c8eecb5a0bfa946a9a2957aab300a6, type: 3}
       propertyPath: m_Name
       value: Canvas_Load
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602008086406952548, guid: e8c8eecb5a0bfa946a9a2957aab300a6, type: 3}
+      propertyPath: m_Alpha
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3602008086406952549, guid: e8c8eecb5a0bfa946a9a2957aab300a6, type: 3}
       propertyPath: m_Pivot.x

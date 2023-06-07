@@ -45,5 +45,13 @@ namespace Data.ScriptableObjects{
         public void QuitGame(){
             Application.Quit();
         }
+
+        public void ChangePlayerHp(int value){
+            Player.Instance.ChangeHp(value);
+        }
+
+        public void TriggerPlayerAnimation(string triggerName){
+            Player.Instance.PlayerAnimation.TriggerAnimation(triggerName);
+        }
     }
 }

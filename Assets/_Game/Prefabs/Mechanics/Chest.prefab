@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 3254595315501671828}
   - component: {fileID: 3254595315501671835}
   - component: {fileID: 3254595315501671834}
+  - component: {fileID: 8165384768837191545}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -236,6 +237,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8165384768837191545
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254595315501671832}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3254595315905285855
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,7 +274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3254595315905285855}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0072, y: 0.3, z: 0}
+  m_LocalPosition: {x: -0.0072, y: 0.3, z: -0.002}
   m_LocalScale: {x: 1.1441644, y: 0.7954556, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -309,7 +322,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.18752226, g: 0.9245283, b: 0.1963084, a: 1}
   m_FlipX: 0
@@ -346,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3254595316041824576}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.13, y: -0.178, z: 0}
+  m_LocalPosition: {x: -0.13, y: -0.178, z: -0.004}
   m_LocalScale: {x: 0.17925888, y: 0.2900265, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -393,7 +406,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.2830189, g: 0.2261941, b: 0.22561412, a: 1}
   m_FlipX: 0
@@ -432,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3254595316936516638}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.532, y: -0.4035, z: 0}
+  m_LocalPosition: {x: -18.532, y: -0.4035, z: 0.005}
   m_LocalScale: {x: 1.856, y: 0.893, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -481,7 +494,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.2830189, g: 0.2261941, b: 0.22561412, a: 1}
   m_FlipX: 0
@@ -531,7 +544,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038eec57f4b2400782327031b2e52046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textIndication: {fileID: 3254595314905473111}
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 1ed4b0dfd66ce7744b2e916f512363bd, type: 2}
+        m_TargetAssemblyTypeName: Data.ScriptableObjects.GeneralMethods, Assembly-CSharp
+        m_MethodName: TriggerPlayerAnimation
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Interact
+          m_BoolArgument: 0
+        m_CallState: 2
+  interactionIndication: {fileID: 8165384768837191545}
   fadeTime: 0.25
   ease: 1
   isInteractable: 1

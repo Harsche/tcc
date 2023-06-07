@@ -182,10 +182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4123164b665438b8ce4fb6abf705310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 6
+  duration: 10
   jumpInputTimeWindow: 0.2
   normalJumpHeight: 2
-  impulsedJumpHeight: 5
+  impulsedJumpHeight: 7
   impulseVerticalOffset: 0.2
   getImpulseDuration: 0.3
   impulseNormalizedTime: 0.208

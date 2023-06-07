@@ -1,8 +1,7 @@
+using System;
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public abstract class Interactable : MonoBehaviour, IInteractable{
     [SerializeField] private UnityEvent onInteract;
@@ -44,4 +43,10 @@ public abstract class Interactable : MonoBehaviour, IInteractable{
         indicationFade = interactionIndication.DOFade(endValue, fadeTime)
             .SetEase(ease);
     }
+
+#if UNITY_EDITOR
+    private void OnValidate(){
+        tag = "Interactable";
+    }
+#endif
 }

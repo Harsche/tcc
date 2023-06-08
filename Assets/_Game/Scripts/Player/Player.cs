@@ -25,10 +25,10 @@ public class Player : MonoBehaviour{
             return;
         }
         Instance = this;
-        LoadPlayerData();
     }
 
     private void Start(){
+        LoadPlayerData();
         ChangeHp(MaxHp);
     }
 

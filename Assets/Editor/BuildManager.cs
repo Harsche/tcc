@@ -61,7 +61,7 @@ public static class BuildManager{
         }
     }
 
-    [MenuItem("Build/Debug")]
+    [MenuItem("Build/Debug Scenes")]
     public static void DebugPath(){
         string path = Application.dataPath.Replace("Assets", "Builds/OquiraGame");
         Debug.Log(path);

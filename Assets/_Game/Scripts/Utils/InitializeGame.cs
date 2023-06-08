@@ -7,6 +7,6 @@ public class InitializeGame : MonoBehaviour{
     
     private void Awake(){
         SaveSystem.SetupSaveSystem();
-        SceneManager.LoadScene(startScreenScene.BuildIndex);
+        SceneManager.LoadScene(startScreenScene.SceneName);
     }
 }

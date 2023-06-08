@@ -10,7 +10,7 @@ namespace Game.SaveSystem{
 
         private static float LastSaveTime;
 
-        private static bool isSetup;
+        private static bool IsSetup;
         public static SaveData SaveData{ get; private set; } = new();
 
         public static void DeleteSaveFile(int slot){
@@ -28,9 +28,9 @@ namespace Game.SaveSystem{
             if (!SaveGame.Exists($"data{SaveSlot}")){
                 return;
             }
-            if (!isSetup){
+            if (!IsSetup){
                 SetupSaveSystem();
-                isSetup = true;
+                IsSetup = true;
             }
             SaveData = SaveGame.Load<SaveData>($"data{SaveSlot}");
         }
@@ -51,7 +51,8 @@ namespace Game.SaveSystem{
             LastSaveTime = Time.unscaledTime;
         }
         
-        public static void StartNewGame(){
+        public static void StartNewGame(int slotIndex){
+            SaveSlot = slotIndex;
             SaveData = new SaveData();
         }
 
@@ -63,7 +64,6 @@ namespace Game.SaveSystem{
         private void SaveToFile(){
             SaveData.isNewGame = false;
             SaveGame.Save($"data{SaveSlot}", SaveData, new SaveGameSimpleEncoder());
-            // SaveGame.Save();
         }
     }
 }

@@ -36,7 +36,7 @@ public static class BuildManager{
                 string relativePath = file.Replace(projectPath, "");
                 if (file.Contains(".unity") && !file.Contains(".meta")){ scenesList.Add(relativePath); }
             });
-            string firstScene =  scenesList.First(s => s.Contains("_StartScreen"));
+            string firstScene =  scenesList.First(s => s.Contains("__Init"));
             scenesList.Remove(firstScene);
             scenesList.Insert(0, firstScene);
             return scenesList.ToArray();
